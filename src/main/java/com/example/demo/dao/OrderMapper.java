@@ -31,7 +31,7 @@ public interface OrderMapper {
     void deleteOrderByCustomer(int tripId, int userId);
     @Results({
             @Result(property = "trip", column = "trip_id",
-                    one = @One(select = "com.example.demo.dao.TripDao.selectTripById"))
+                    one = @One(select = "com.example.demo.dao.TripMapper.selectTripById"))
     })
     @Select("select * from orders where user_id = #{userId}")
     List<Order> selectOrdersByUser(@Param("userId") int userId);
@@ -48,13 +48,13 @@ public interface OrderMapper {
     List<Order> selectByLocation(String from, String to);
     @Results({
             @Result(property = "trip", column = "trip_id",
-                    one = @One(select = "com.example.demo.dao.TripDao.selectTripById"))
+                    one = @One(select = "com.example.demo.dao.TripMapper.selectTripById"))
     })
     @Select("select * from orders where user_id = #{userId} and state='notpayed'")
     List<Order> selectUnfinishedOrdersByUser(@Param("userId") int userId);
     @Results({
             @Result(property = "trip", column = "trip_id",
-                one = @One(select = "com.example.demo.dao.TripDao.selectTripById")
+                one = @One(select = "com.example.demo.dao.TripMapper.selectTripById")
             )
     })
     @Select("select * from orders join trips t on t.trip_id = orders.trip_id where user_id = #{userId} " +
@@ -62,7 +62,7 @@ public interface OrderMapper {
     List<Order> selectNotDepartureOrdersByUser(@Param("userId") int userId);
     @Results({
             @Result(property = "trip", column = "trip_id",
-                    one = @One(select = "com.example.demo.dao.TripDao.selectTripById")
+                    one = @One(select = "com.example.demo.dao.TripMapper.selectTripById")
             )
     })
     @Select("select * from orders join trips t on t.trip_id = orders.trip_id where user_id = #{userId} " +
@@ -70,7 +70,7 @@ public interface OrderMapper {
     List<Order> selectNotDepartureOrdersWithStartTime(@Param("userId") int userId, Timestamp startTime);
     @Results({
             @Result(property = "trip", column = "trip_id",
-                    one = @One(select = "com.example.demo.dao.TripDao.selectTripById")
+                    one = @One(select = "com.example.demo.dao.TripMapper.selectTripById")
             )
     })
     @Select("select * from orders join trips t on t.trip_id = orders.trip_id where user_id = #{userId} " +
