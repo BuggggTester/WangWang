@@ -1,0 +1,16 @@
+package com.example.demo.dao;
+
+import com.example.demo.entity.User;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
+
+@Mapper
+public interface UserMapper {
+    @Insert("insert into users (age, password, user_name, identity) values (#{age}, #{password},#{userName},'customer')")
+    void createCustomer(int age, String password, String userName);
+    @Select("select * from users where user_name = #{userName}")
+    List<User> selectUserByName(String userName);
+}
