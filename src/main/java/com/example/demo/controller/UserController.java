@@ -37,6 +37,10 @@ public class UserController {
         }
 
     }
+    @GetMapping(value="/select/admin")
+    public User selectAdmin(@RequestParam("userName") String userName) {
+        return userService.selectAdmin(userName);
+    }
     @GetMapping(value="/select")
     public List<User> selectUserByName(@RequestParam("userName") String userName) {
         List<User> users = userService.selectUserByName(userName);

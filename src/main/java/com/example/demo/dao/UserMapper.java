@@ -13,4 +13,7 @@ public interface UserMapper {
     void createCustomer(int age, String password, String userName);
     @Select("select * from users where user_name = #{userName}")
     List<User> selectUserByName(String userName);
+    @Select("select * from users where user_name = #{userName} and identity = 'administrator'")
+    User selectAdmin(String userName);
+
 }

@@ -9,4 +9,6 @@ import java.util.List;
 public interface UserService {
     void createCustomer(int age, String password, String userName);
     List<User> selectUserByName(String name);
+
+    User selectAdmin(String userName);
 }

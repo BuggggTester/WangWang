@@ -32,7 +32,7 @@ public class OrderController {
 
     @ResponseBody
     @RequestMapping(value = "/create")
-    public String createOrder(@RequestBody Map<String, String> orderMap) {
+    public R createOrder(@RequestBody Map<String, String> orderMap) {
         try {
             String orderId = getUUID();
             SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
@@ -50,14 +50,14 @@ public class OrderController {
 
             orderService.createOrder(orderId, orderTime, userId, type, state, payment, tripId, carriage, row, seat, payTime, payway);
 
-            return "success";
+            return R.ok("订单创建成功！");
         } catch (ParseException | NumberFormatException e) {
-            return "failed: " + e.getMessage();
+            return R.error("failed: " + e.getMessage());
         } catch (Exception e) {
-            return "failed: " + e.toString();
+            return R.error("failed: " + e.toString());
         }
     }
-    @GetMapping(value="/select/history/{userId}")
+    @RequestMapping(value="/select/history/{userId}")
     public List<Order> selectOrdersByUser(@PathVariable int userId){
         List<Order> orders = orderService.selectOrdersByUser(userId);
         return orders;
@@ -85,7 +85,7 @@ public class OrderController {
     public R cancelOrderByCustomer(@PathVariable int tripId, @PathVariable int userId){
         try{
             orderService.deleteOrderByCustomer(tripId, userId);
-            return R.ok();
+            return R.ok("删除成功！");
         }catch(Exception e){
             return R.error(e.toString());
         }
