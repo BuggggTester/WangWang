@@ -11,38 +11,38 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
-
-public class MessageServiceImpl {
+@Service("messageService")
+public class MessageServiceImpl implements MessageService{
     private MessageMapper messageMapper;
-    void createMessage(String send, int receive, String title, String body, LocalDate send_date, LocalTime send_time){
+    public void createMessage(String send, int receive, String title, String body, LocalDate send_date, LocalTime send_time){
         messageMapper.createMessage(send, receive, title, body, send_date, send_time);
     }
 
-    List<Message> selectMessage(int receive){
+    public List<Message> selectMessage(int receive){
         return messageMapper.selectMessage(receive);
     }
 
-    int selectNumberOfMessage(int receive){
+    public int selectNumberOfMessage(int receive){
         return messageMapper.selectNumberOfMessage(receive);
     }
 
-    int selectNumberOfUnreadMessage(int receive){
+    public int selectNumberOfUnreadMessage(int receive){
         return messageMapper.selectNumberOfUnreadMessage(receive);
     }
 
-    List<Message> selectUnreadMessage(int receive){
+    public List<Message> selectUnreadMessage(int receive){
         return messageMapper.selectUnreadMessage(receive);
     }
 
-    List<Message> selectMessageByDate(int receive, LocalDate send_date){
+    public List<Message> selectMessageByDate(int receive, LocalDate send_date){
         return messageMapper.selectMessageByDate(receive, send_date);
     }
 
-    List<Message> selectUnreadMessageByDate(int receive, LocalDate send_date){
+    public List<Message> selectUnreadMessageByDate(int receive, LocalDate send_date){
         return messageMapper.selectUnreadMessageByDate(receive, send_date);
     }
 
-    void setRead(int message_id){
+    public void setRead(int message_id){
         messageMapper.setRead(message_id);
     }
 }

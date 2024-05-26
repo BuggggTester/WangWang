@@ -30,12 +30,12 @@ public class UserController {
         String password = userMap.get("password");
         int age = Integer.parseInt(userMap.get("age"));
         try {
-            List<User> users = userService.selectUserByName(userName);
-            for(User user : users) {
-                if(user.getUser_name().equals(userName)){
-                    return R.error("customer already exists!");
-                }
-            }
+//            List<User> users = userService.selectUserByName(userName);
+//            for(User user : users) {
+//                if(user.getUser_name().equals(userName)){
+//                    return R.error("customer already exists!");
+//                }
+//            }
             userService.createCustomer(age, password, userName);
             return R.ok("创建成功！");
         }catch (Exception e){
@@ -48,12 +48,17 @@ public class UserController {
         return userService.selectAdmin(userName);
     }
     @GetMapping(value="/select")
-    public User selectUserByName(@RequestParam("userName") String userName) {
+    public R selectUserByName(@RequestParam("userName") String userName) {
         List<User> users = userService.selectUserByName(userName);
+        Map<String, Object> userMap = new HashMap<>();
         if(users.isEmpty()){
-            return new User();
+            userMap.put("user_name", "");
+            userMap.put("password","");
+            return R.ok(userMap);
         }
-        return users.get(0);
+        userMap.put("user_name", userName);
+        userMap.put("password", users.get(0).getPassword());
+        return R.ok(userMap);
     }
     @GetMapping(value="/setcookie")
     public R setCookie(HttpServletResponse response, @RequestParam("userName") String userName) {
