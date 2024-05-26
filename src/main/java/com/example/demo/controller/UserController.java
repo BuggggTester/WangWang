@@ -30,6 +30,12 @@ public class UserController {
         String password = userMap.get("password");
         int age = Integer.parseInt(userMap.get("age"));
         try {
+            List<User> users = userService.selectUserByName(userName);
+            for(User user: users) {
+                if(user.getUser_name().equals(userName)){
+                    return R.error("customer already exists;");
+                }
+            }
             userService.createCustomer(age, password, userName);
             return R.ok("创建成功！");
         }catch (Exception e){
