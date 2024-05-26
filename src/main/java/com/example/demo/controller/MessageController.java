@@ -22,8 +22,6 @@ import java.util.List;
 public class MessageController {
     @Autowired
     MessageService messageService;
-    private static final String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";
-    private static final String DEFAULT_TIME_PATTERN = "HH:mm:ss";
     @PostMapping(value = "/create")
     public R createMessage(@RequestBody HashMap<String, String> messageMap){
         String send = messageMap.get("send");
