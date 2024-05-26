@@ -44,6 +44,10 @@ public class UserController {
     @GetMapping(value="/select")
     public List<User> selectUserByName(@RequestParam("userName") String userName) {
         List<User> users = userService.selectUserByName(userName);
+        if(users.isEmpty()) {
+            User user = new User();
+            users.add(user);
+        }
         return users;
     }
     @GetMapping(value="/setcookie")
