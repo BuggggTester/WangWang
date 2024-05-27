@@ -52,7 +52,12 @@ public class UserController {
         try {
             User user = userService.selectUserByName(userName);
             if (userName.equals(user.getUser_name()) && password.equals(user.getPassword())) {
-                return R.ok("login success");
+                Map<String, Object> res = new HashMap<>();
+                res.put("userId", user.getUser_id());
+                res.put("password", user.getPassword());
+                res.put("avatar", user.getAvatar());
+                res.put("msg", "login success");
+                return R.ok(res);
             }else{
                 return R.ok("login failed");
             }
