@@ -6,9 +6,23 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   application:
     name: demo
+  mvc:
+    static-path-pattern: /**
+  mail:
+    # 配置SMTP服务器地址
+    host: smtp.163.com
+    # 配置端口号465或者25
+    port: 25
+    # 发送者邮箱（根据自己邮箱填写）
+    username: 18811329671@163.com
+    #  配置密码，注意是开启POP3/SMTP的授权密码(根据自己的授权密码填写)
+    password: GVHHZHWTXVDVPNTR
+    default-encoding: UTF-8
+    protocol: smtp
 mybatis:
   mapper-locations: classpath:dao/*.xml
   type-aliases-package: com.example.demo.entity
 server:
   port: 1145
+  address: 127.0.0.1
 

@@ -18,12 +18,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> selectUserByName(String name) {
+    public User selectUserByName(String name) {
         return userMapper.selectUserByName(name);
     }
 
     @Override
     public User selectAdmin(String userName) {
         return userMapper.selectAdmin(userName);
+    }
+
+    @Override
+    public void updateAvatarByName(String avatar, String userName) {
+        userMapper.updateAvatarByName(avatar,userName);
     }
 }

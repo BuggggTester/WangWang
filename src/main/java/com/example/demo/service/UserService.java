@@ -8,7 +8,7 @@ import java.util.List;
 @Component
 public interface UserService {
     void createCustomer(int age, String password, String userName);
-    List<User> selectUserByName(String name);
-
+    User selectUserByName(String name);
     User selectAdmin(String userName);
+    void updateAvatarByName(String avatar, String userName);
 }
