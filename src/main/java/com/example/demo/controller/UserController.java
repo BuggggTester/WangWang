@@ -26,10 +26,10 @@ public class UserController {
     private UserService userService;
     @PostMapping(value = "/create")
     public R createCustomer(@RequestBody HashMap<String, String> userMap){
-        String userName = userMap.get("userName");
-        String password = userMap.get("password");
-        int age = Integer.parseInt(userMap.get("age"));
-        try {
+//        String userName = userMap.get("userName");
+//        String password = userMap.get("password");
+//        int age = Integer.parseInt(userMap.get("age"));
+//        try {
             List<User> users = userService.selectUserByName(userName);
             for(User user : users) {
                 if(user.getUser_name().equals(userName)){
