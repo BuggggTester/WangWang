@@ -54,6 +54,7 @@ public class UserController {
             if (userName.equals(user.getUser_name()) && password.equals(user.getPassword())) {
                 Map<String, Object> res = new HashMap<>();
                 res.put("userId", user.getUser_id());
+                res.put("userName", user.getUser_name());
                 res.put("password", user.getPassword());
                 res.put("avatar", user.getAvatar());
                 res.put("msg", "login success");
