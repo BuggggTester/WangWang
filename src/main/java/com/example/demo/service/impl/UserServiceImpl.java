@@ -31,4 +31,9 @@ public class UserServiceImpl implements UserService {
     public void updateAvatarByName(String avatar, String userName) {
         userMapper.updateAvatarByName(avatar,userName);
     }
+
+    @Override
+    public User selectUserById(int userId) {
+        return userMapper.selectUserById(userId);
+    }
 }

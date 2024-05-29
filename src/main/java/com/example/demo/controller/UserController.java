@@ -56,7 +56,12 @@ public class UserController {
                 res.put("userId", user.getUser_id());
                 res.put("userName", user.getUser_name());
                 res.put("password", user.getPassword());
-                res.put("avatar", user.getAvatar());
+                //判断用户头像是否存在，不存在返回默认头像images/avatars/default.png
+                if(user.getAvatar().isEmpty()|| user.getAvatar() == null) {
+                    res.put("avatar", "images/avatars/default.png");
+                }else {
+                    res.put("avatar", user.getAvatar());
+                }
                 res.put("msg", "login success");
                 return R.ok(res);
             }else{
@@ -64,6 +69,15 @@ public class UserController {
             }
         }catch(Exception e) {
             return R.error(e.toString());
+        }
+    }
+    @RequestMapping(value = "/select/userId")
+    public User selectUserById(@RequestParam("userId") int userId) {
+        User user = userService.selectUserById(userId);
+        if(user.getUser_name().isEmpty()) {
+            return new User();
+        }else{
+            return user;
         }
     }
     @GetMapping(value="/select/admin")

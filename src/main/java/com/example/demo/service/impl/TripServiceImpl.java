@@ -31,4 +31,9 @@ public class TripServiceImpl implements TripService {
     public List<Trip> selectTripByPlaceAndTime(String fromPlace, String toPlace, Timestamp startTime) {
         return tripMapper.selectTripByPlaceAndTime(fromPlace, toPlace, startTime);
     }
+
+    @Override
+    public int countSoldSeats(int tripId) {
+        return tripMapper.countSoldSeats(tripId);
+    }
 }

@@ -11,4 +11,5 @@ public interface UserService {
     User selectUserByName(String name);
     User selectAdmin(String userName);
     void updateAvatarByName(String avatar, String userName);
+    User selectUserById(int userId);
 }
