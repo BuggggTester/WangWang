@@ -12,4 +12,5 @@ public class User {
     private String user_name;
     private int user_id;
     private String identity;
+    private String avatar;
 }

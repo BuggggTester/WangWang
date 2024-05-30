@@ -11,10 +11,14 @@ import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @CrossOrigin
 @Slf4j
@@ -30,13 +34,10 @@ public class UserController {
         String password = userMap.get("password");
         int age = Integer.parseInt(userMap.get("age"));
         try {
-            List<User> users = userService.selectUserByName(userName);
-            for(User user : users) {
-                if(user.getUser_name().equals(userName)){
-                    return R.error("customer already exists!");
-                }
+            User user = userService.selectUserByName(userName);
+            if(user.getUser_name().equals(userName)){
+                return R.error("customer already exists!");
             }
-
             userService.createCustomer(age, password, userName);
             return R.ok("创建成功！");
         }catch (Exception e){
@@ -44,22 +45,65 @@ public class UserController {
         }
 
     }
+    @RequestMapping(value="/login")
+    public R loginValidate(@RequestBody HashMap<String, String> userMap) {
+        String userName = userMap.get("userName");
+        String password = userMap.get("password");
+        try {
+            User user = userService.selectUserByName(userName);
+            if (userName.equals(user.getUser_name()) && password.equals(user.getPassword())) {
+                Map<String, Object> res = new HashMap<>();
+                res.put("userId", user.getUser_id());
+                res.put("password", user.getPassword());
+                res.put("avatar", user.getAvatar());
+                res.put("msg", "login success");
+                return R.ok(res);
+            }else{
+                return R.ok("login failed");
+            }
+        }catch(Exception e) {
+            return R.error(e.toString());
+        }
+    }
     @GetMapping(value="/select/admin")
     public User selectAdmin(@RequestParam("userName") String userName) {
         return userService.selectAdmin(userName);
     }
     @GetMapping(value="/select")
     public R selectUserByName(@RequestParam("userName") String userName) {
-        List<User> users = userService.selectUserByName(userName);
+        User user = userService.selectUserByName(userName);
         Map<String, Object> userMap = new HashMap<>();
-        if(users.isEmpty()){
+        if(user.getUser_name().isEmpty()){
             userMap.put("user_name", "");
             userMap.put("password","");
             return R.ok(userMap);
         }
         userMap.put("user_name", userName);
-        userMap.put("password", users.get(0).getPassword());
+        userMap.put("password", user.getPassword());
         return R.ok(userMap);
+    }
+    @RequestMapping(value = "/update/avatar")
+    public R updateAvatar(@RequestParam("avatar") MultipartFile file, @RequestParam("userName") String userName) {
+        String filePath = "./src/main/resources/images/avatars/";
+        String fileName = file.getOriginalFilename();
+        String fileType = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+        String fileNewName = UUID.randomUUID() + fileType;
+        String finalName = filePath + fileNewName;
+        userService.updateAvatarByName(finalName, userName);
+        File targetFile = new File(filePath);
+        if (!targetFile.exists()) {
+            targetFile.mkdirs();
+        }
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(finalName);
+            out.write(file.getBytes());
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            return R.error(e.toString());
+        }
+        return R.ok("上传成功！");
     }
     @GetMapping(value="/setcookie")
     public R setCookie(HttpServletResponse response, @RequestParam("userName") String userName) {
