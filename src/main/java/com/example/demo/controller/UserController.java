@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.Console;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.HashMap;
@@ -98,20 +99,27 @@ public class UserController {
         return R.ok(userMap);
     }
     @RequestMapping(value = "/update/avatar")
-    public R updateAvatar(@RequestParam("avatar") MultipartFile file, @RequestParam("userName") String userName) {
-        String filePath = "./src/main/resources/images/avatars/";
+    public R updateAvatar(@RequestParam("avatar") MultipartFile file, @RequestParam("userId") int userId) {
+        User user = userService.selectUserById(userId);
+        String origin = user.getAvatar();
+        if(!origin.isEmpty()||origin == null ){
+            File file1 = new File("./src/main/resources/static/"+origin);
+            file1.delete();//如果原来有头像，则删除
+        }
+        String filePath = "./src/main/resources/static/images/avatars/";
         String fileName = file.getOriginalFilename();
         String fileType = fileName.substring(fileName.lastIndexOf("."), fileName.length());
         String fileNewName = UUID.randomUUID() + fileType;
-        String finalName = filePath + fileNewName;
-        userService.updateAvatarByName(finalName, userName);
+        String filePath2 = "images/avatars/";
+        String finalName = filePath2 + fileNewName;
+        userService.updateAvatarById(finalName, userId);
         File targetFile = new File(filePath);
         if (!targetFile.exists()) {
             targetFile.mkdirs();
         }
         FileOutputStream out = null;
         try {
-            out = new FileOutputStream(finalName);
+            out = new FileOutputStream(filePath+ fileNewName);
             out.write(file.getBytes());
             out.flush();
             out.close();

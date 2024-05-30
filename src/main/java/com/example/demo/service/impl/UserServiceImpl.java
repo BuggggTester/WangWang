@@ -6,7 +6,6 @@ import com.example.demo.service.UserService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -28,8 +27,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateAvatarByName(String avatar, String userName) {
-        userMapper.updateAvatarByName(avatar,userName);
+    public void updateAvatarById(String avatar, int userId) {
+        userMapper.updateAvatarById(avatar,userId);
     }
 
     @Override
