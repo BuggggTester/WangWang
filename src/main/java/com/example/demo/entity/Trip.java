@@ -18,5 +18,7 @@ public class Trip {
     private Timestamp end_time;
     private String from_place;
     private String to_place;
+    private int num_car;
+    private int num_row;
 
 }

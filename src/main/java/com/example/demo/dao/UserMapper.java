@@ -14,8 +14,10 @@ public interface UserMapper {
     void createCustomer(int age, String password, String userName);
     @Select("select * from users where user_name = #{userName} limit 1")
     User selectUserByName(String userName);
-    @Select("select * from users where user_name = #{userName} and identity = 'administrator'")
+    @Select("select * from users where user_name = #{userName} and identity = 'administrator' limit 1")
     User selectAdmin(String userName);
-    @Update("update users set avatar = #{avatar} where user_name = #{userName}")
-    void updateAvatarByName(String avatar, String userName);
+    @Update("update users set avatar = #{avatar} where user_id = #{userId}")
+    void updateAvatarById(String avatar, int userId);
+    @Select("select * from users where user_id = #{userId} limit 1")
+    User selectUserById(int userId);
 }

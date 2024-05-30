@@ -18,7 +18,7 @@ import java.util.List;
 @Slf4j
 @Controller
 @RestController
-@RequestMapping(value = "/user/message")
+@RequestMapping(value = "/message")
 public class MessageController {
     @Autowired
     MessageService messageService;

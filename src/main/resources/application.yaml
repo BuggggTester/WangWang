@@ -10,19 +10,39 @@ spring:
     static-path-pattern: /**
   mail:
     # 配置SMTP服务器地址
-    host: smtp.163.com
+    host: smtp.qq.com
     # 配置端口号465或者25
-    port: 25
+    port: 465
     # 发送者邮箱（根据自己邮箱填写）
-    username: 18811329671@163.com
+    username: 912948333@qq.com
     #  配置密码，注意是开启POP3/SMTP的授权密码(根据自己的授权密码填写)
-    password: GVHHZHWTXVDVPNTR
+    password: RVFAZTNKRFGCBFJE
     default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          ssl:
+            enable: true
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
+        #表示开启 DEBUG 模式，这样，邮件发送过程的日志会在控制台打印出来，方便排查错误
+        debug: true
     protocol: smtp
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
 mybatis:
   mapper-locations: classpath:dao/*.xml
   type-aliases-package: com.example.demo.entity
 server:
   port: 1145
   address: 127.0.0.1
+  tomcat:
+    max-swallow-size: 100MB
 
