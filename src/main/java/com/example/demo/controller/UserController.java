@@ -58,7 +58,7 @@ public class UserController {
                 res.put("userName", user.getUser_name());
                 res.put("password", user.getPassword());
                 //判断用户头像是否存在，不存在返回默认头像images/avatars/default.png
-                if(user.getAvatar().isEmpty()|| user.getAvatar() == null) {
+                if(user.getAvatar() == null || user.getAvatar().isEmpty()) {
                     res.put("avatar", "images/avatars/default.png");
                 }else {
                     res.put("avatar", user.getAvatar());
@@ -100,9 +100,11 @@ public class UserController {
     }
     @RequestMapping(value = "/update/avatar")
     public R updateAvatar(@RequestParam("avatar") MultipartFile file, @RequestParam("userId") int userId) {
+
         User user = userService.selectUserById(userId);
+
         String origin = user.getAvatar();
-        if(!origin.isEmpty()||origin == null ){
+        if(!origin.equals("images/avatars/default.png")){
             File file1 = new File("./src/main/resources/static/"+origin);
             file1.delete();//如果原来有头像，则删除
         }
