@@ -1,0 +1,57 @@
+package com.example.demo.dao;
+
+
+import com.example.demo.common.constant.RoomType;
+import com.example.demo.entity.hotel.Hotel;
+import com.example.demo.entity.hotel.Room;
+import org.apache.ibatis.annotations.*;
+
+import java.util.Date;
+import java.util.List;
+
+
+@Mapper
+public interface HotelMapper {
+    @Insert("insert into Hotel (name, address) values (#{name}, #{address}")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    void createHotel(String name, String address);
+
+    @Insert("INSERT INTO Room (hotel_id, room_type, price, quantity) VALUES (#{hotel.id}, #{roomType}, #{price}, #{quantity})")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    void setRoom(Room room);
+
+    @Select("select * from Hotel where address = #{address}")
+    List<Hotel> findHotelByAddress(String address);
+
+    @Select("select * from Hotel where id = #{id}")
+    Hotel findHotelById(int id);
+
+    @Select("SELECT COUNT(*) FROM Room r " +
+            "LEFT JOIN Reservation res ON r.id = res.room_id " +
+            "AND NOT ((res.check_in_date >= #{endDate} OR res.check_out_date <= #{startDate}))" +
+            "WHERE r.hotel_id = #{hotelId} AND r.room_type = #{roomType} AND r.available = true " +
+            "GROUP BY r.id, r.room_type, r.quantity " +
+            "HAVING r.quantity - COALESCE(COUNT(res.id), 0) > 0")
+    int countAvailableRooms(@Param("hotelId") int hotelId,
+                            @Param("roomType") RoomType roomType,
+                            @Param("startDate") Date startDate,
+                            @Param("endDate") Date endDate);
+
+    @Select("SELECT r.id FROM Room r " +
+            "LEFT JOIN Reservation res ON r.id = res.room_id " +
+            "AND NOT ((res.check_in_date >= #{endDate} OR res.check_out_date <= #{startDate})) " +
+            "WHERE r.hotel_id = #{hotelId} AND r.room_type = #{roomType} AND r.available = true " +
+            "GROUP BY r.id, r.room_type, r.quantity " +
+            "HAVING r.quantity - COALESCE(COUNT(res.id), 0) > 0 " +
+            "ORDER BY r.id LIMIT 1")
+    int getAvailableRoomId(@Param("hotelId") int hotelId,
+                                @Param("roomType") RoomType roomType,
+                                @Param("startDate") Date startDate,
+                                @Param("endDate") Date endDate);
+
+    @Insert("INSERT INTO Reservation (room_id, check_in_date, check_out_date) " +
+            "VALUES (#{roomId}, #{checkInDate}, #{checkOutDate})")
+    void insertReservation(@Param("roomId") int roomId,
+                          @Param("checkInDate") Date checkInDate,
+                          @Param("checkOutDate") Date checkOutDate);
+}

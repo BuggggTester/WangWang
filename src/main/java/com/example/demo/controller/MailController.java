@@ -15,6 +15,7 @@ import org.thymeleaf.context.Context;
 @Slf4j
 @Controller
 @RestController
+
 public class MailController {
 
     @Autowired
