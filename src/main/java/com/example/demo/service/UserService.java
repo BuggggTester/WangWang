@@ -10,5 +10,6 @@ public interface UserService {
     void createCustomer(int age, String password, String userName);
     User selectUserByName(String name);
     User selectAdmin(String userName);
-    void updateAvatarByName(String avatar, String userName);
+    void updateAvatarById(String avatar, int userId);
+    User selectUserById(int userId);
 }

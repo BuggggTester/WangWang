@@ -20,4 +20,6 @@ public interface TripMapper {
     void createTrip(String trainId, Timestamp startTime, Timestamp endTime, String fromPlace, String toPlace, int numCar, int numRow);
     @Select("select * from trips where from_place = #{fromPlace} and to_place = #{toPlace} and start_time = #{startTime}")
     List<Trip> selectTripByPlaceAndTime(String fromPlace, String toPlace, Timestamp startTime);
+    @Select("select count(*) from orders join trips t on t.trip_id = orders.trip_id where orders.trip_id = #{trip_id}")
+    int countSoldSeats(int tripId);
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.Console;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.HashMap;
@@ -54,8 +55,14 @@ public class UserController {
             if (userName.equals(user.getUser_name()) && password.equals(user.getPassword())) {
                 Map<String, Object> res = new HashMap<>();
                 res.put("userId", user.getUser_id());
+                res.put("userName", user.getUser_name());
                 res.put("password", user.getPassword());
-                res.put("avatar", user.getAvatar());
+                //判断用户头像是否存在，不存在返回默认头像images/avatars/default.png
+                if(user.getAvatar() == null || user.getAvatar().isEmpty()) {
+                    res.put("avatar", "images/avatars/default.png");
+                }else {
+                    res.put("avatar", user.getAvatar());
+                }
                 res.put("msg", "login success");
                 return R.ok(res);
             }else{
@@ -63,6 +70,15 @@ public class UserController {
             }
         }catch(Exception e) {
             return R.error(e.toString());
+        }
+    }
+    @RequestMapping(value = "/select/userId")
+    public User selectUserById(@RequestParam("userId") int userId) {
+        User user = userService.selectUserById(userId);
+        if(user.getUser_name().isEmpty()) {
+            return new User();
+        }else{
+            return user;
         }
     }
     @GetMapping(value="/select/admin")
@@ -83,20 +99,29 @@ public class UserController {
         return R.ok(userMap);
     }
     @RequestMapping(value = "/update/avatar")
-    public R updateAvatar(@RequestParam("avatar") MultipartFile file, @RequestParam("userName") String userName) {
-        String filePath = "./src/main/resources/images/avatars/";
+    public R updateAvatar(@RequestParam("avatar") MultipartFile file, @RequestParam("userId") int userId) {
+
+        User user = userService.selectUserById(userId);
+
+        String origin = user.getAvatar();
+        if(!origin.equals("images/avatars/default.png")){
+            File file1 = new File("./src/main/resources/static/"+origin);
+            file1.delete();//如果原来有头像，则删除
+        }
+        String filePath = "./src/main/resources/static/images/avatars/";
         String fileName = file.getOriginalFilename();
         String fileType = fileName.substring(fileName.lastIndexOf("."), fileName.length());
         String fileNewName = UUID.randomUUID() + fileType;
-        String finalName = filePath + fileNewName;
-        userService.updateAvatarByName(finalName, userName);
+        String filePath2 = "images/avatars/";
+        String finalName = filePath2 + fileNewName;
+        userService.updateAvatarById(finalName, userId);
         File targetFile = new File(filePath);
         if (!targetFile.exists()) {
             targetFile.mkdirs();
         }
         FileOutputStream out = null;
         try {
-            out = new FileOutputStream(finalName);
+            out = new FileOutputStream(filePath+ fileNewName);
             out.write(file.getBytes());
             out.flush();
             out.close();

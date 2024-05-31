@@ -41,6 +41,18 @@ public class TripController {
         String toPlace = tripMap.get("toPlace");
         Timestamp startTime = Timestamp.valueOf(tripMap.get("startTime"));
         return tripService.selectTripByPlaceAndTime(fromPlace,toPlace,startTime);
-
     }
+    @RequestMapping(value = "/sum")
+    public R countRestSeats(@RequestParam("tripId") int tripId) {
+        Trip trip =  tripService.selectTripById(tripId);
+        int sum = trip.getNum_car() * trip.getNum_row() * 5;//每一趟列车的座位总数
+        int now = tripService.countSoldSeats(tripId);
+        if(sum < now) {
+            return R.error("get failed!");
+        }
+        else{
+            return R.ok().put("restSeats", sum-now);
+        }
+    }
+
 }
