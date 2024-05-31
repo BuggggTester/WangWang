@@ -26,10 +26,10 @@ public interface MessageMapper {
     @Select("select * from messages where receive = #{receive} and ifread = false order by send_date DESC, send_time DESC;")
     List<Message> selectUnreadMessage(int receive);
 
-    @Select("select * from messages where receive = #{receive} and send_date < #{send_date} order by send_date DESC, send_time DESC;")
+    @Select("select * from messages where receive = #{receive} and send_date <= #{send_date} order by send_date DESC, send_time DESC;")
     List<Message> selectMessageByDate(int receive, LocalDate send_date);
 
-    @Select("select * from messages where receive = #{receive} and send_date < #{send_date} and ifread = false order by send_date DESC, send_time DESC;")
+    @Select("select * from messages where receive = #{receive} and send_date <= #{send_date} and ifread = false order by send_date DESC, send_time DESC;")
     List<Message> selectUnreadMessageByDate(int receive, LocalDate send_date);
 
     @Update("update messages set ifread = true where message_id = #{message_id};")
