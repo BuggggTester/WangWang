@@ -54,4 +54,7 @@ public interface HotelMapper {
     void insertReservation(@Param("roomId") int roomId,
                           @Param("checkInDate") Date checkInDate,
                           @Param("checkOutDate") Date checkOutDate);
+
+    @Delete("DELETE FROM Reservation WHERE id = #{reservationId}")
+    void cancelRoom(@Param("reservationId") int reservationId);
 }

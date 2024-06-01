@@ -27,11 +27,14 @@ public class Room {
     private RoomType roomType;
 
     private Double price;
-    private Integer quantity;
+    private int quantity;
+    private String description;
+    private String picturePath;
+
     @Column(name = "available", nullable = false, columnDefinition = "boolean default true")
     private boolean available = true;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Reservation> reservations = new HashSet<>();
+    private Set<HotelReservation> hotelReservations = new HashSet<>();
 
 }

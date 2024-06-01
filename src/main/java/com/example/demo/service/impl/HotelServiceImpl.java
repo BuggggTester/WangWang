@@ -24,7 +24,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public void setRoom(int hotelID, RoomType roomType, Double price, int quantity) {
-        Hotel hotel = findHotelById(hotelID);
+        Hotel hotel = selectHotelById(hotelID);
 
         Room room = new Room();
         room.setHotel(hotel);
@@ -35,12 +35,12 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<Hotel> findHotelByAddress(String address) {
+    public List<Hotel> selectHotelByAddress(String address) {
         return hotelMapper.findHotelByAddress(address);
     }
 
     @Override
-    public Hotel findHotelById(int id) {
+    public Hotel selectHotelById(int id) {
         return hotelMapper.findHotelById(id);
     }
 
@@ -57,7 +57,7 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public void cancelRoom(int hotelID, RoomType roomType, Date startdate, Date enddate) {
-
+    public void cancelRoom(int reservationID) {
+        hotelMapper.cancelRoom(reservationID);
     }
 }

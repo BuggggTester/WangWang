@@ -19,6 +19,9 @@ public class Hotel {
 
     private String name;
     private String address;
+    private String picturePath;
+    private String description;
+    private String score;
 
     //一个酒店对应多个房间，
     //cascade = CascadeType.ALL: 表示对该关联关系的操作会被级联到关联的实体。

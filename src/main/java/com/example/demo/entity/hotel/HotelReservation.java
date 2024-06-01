@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 @Slf4j
 @Component
-public class Reservation {
+public class HotelReservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -19,6 +19,9 @@ public class Reservation {
     @ManyToOne
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
+
+    @Column(name = "user_id", nullable = false)
+    private int userID;
 
     @Column(nullable = false)
     private Date checkInDate;
