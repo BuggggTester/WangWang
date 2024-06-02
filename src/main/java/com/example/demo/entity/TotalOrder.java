@@ -19,8 +19,8 @@ public class TotalOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int userID;
-    private int reservationID;
+    private int userId;
+    private int reservationId;
 
     //EnumType.STRING 是 @Enumerated 注解的一个枚举类型，
     // 表示枚举类型的值会被映射成数据库中的字符串类型。

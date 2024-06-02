@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface TotalOrderMapper {
     @Insert("INSERT INTO total_order (user_id, reservation_id, order_type, payment, order_create_time) " +
-            "VALUES (#{userID}, #{reservationID}, #{orderType}, #{payment}, #{orderCreateTime})")
+            "VALUES (#{userId}, #{reservationId}, #{orderType}, #{payment}, #{orderCreateTime})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void createOrder(TotalOrder totalOrder);
 
@@ -35,7 +35,7 @@ public interface TotalOrderMapper {
     @Select("SELECT * FROM total_order WHERE user_id = #{userId} AND order_type = #{orderType} AND order_create_time BETWEEN #{startDate} AND #{endDate}")
     List<TotalOrder> getOrdersByDateAndType(@Param("userId") int userId, @Param("orderType") OrderType orderType, @Param("startDate") Timestamp startDate, @Param("endDate") Timestamp endDate);
 
-    @Update("UPDATE total_order SET user_id = #{userID}, reservation_id = #{reservationID}, order_type = #{orderType}, state = #{state}, payment = #{payment}, payment_method = #{paymentMethod}, pay_time = #{payTime}, finish_time = #{finishTime}, order_create_time = #{orderCreateTime} WHERE id = #{id}")
+    @Update("UPDATE total_order SET user_id = #{userId}, reservation_id = #{reservationId}, order_type = #{orderType}, state = #{state}, payment = #{payment}, payment_method = #{paymentMethod}, pay_time = #{payTime}, finish_time = #{finishTime}, order_create_time = #{orderCreateTime} WHERE id = #{id}")
     void updateOrder(TotalOrder order);
 
     @Delete("DELETE FROM total_order WHERE id = #{id}")

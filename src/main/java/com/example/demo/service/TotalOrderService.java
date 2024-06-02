@@ -2,12 +2,10 @@ package com.example.demo.service;
 
 
 import com.example.demo.common.constant.OrderType;
-import com.example.demo.entity.Order;
 import com.example.demo.entity.TotalOrder;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 @Component

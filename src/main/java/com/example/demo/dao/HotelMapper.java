@@ -12,12 +12,11 @@ import java.util.List;
 
 @Mapper
 public interface HotelMapper {
-    @Insert("insert into Hotel (name, address) values (#{name}, #{address}")
-    @Options(useGeneratedKeys = true, keyProperty = "id")
-    void createHotel(String name, String address);
+    @Insert("INSERT INTO Hotel (name, address) VALUES (#{name}, #{address})")
+    void createHotel(@Param("name") String name,
+                     @Param("address") String address);
 
     @Insert("INSERT INTO Room (hotel_id, room_type, price, quantity) VALUES (#{hotel.id}, #{roomType}, #{price}, #{quantity})")
-    @Options(useGeneratedKeys = true, keyProperty = "id")
     void setRoom(Room room);
 
     @Select("select * from Hotel where address = #{address}")
@@ -27,7 +26,7 @@ public interface HotelMapper {
     Hotel findHotelById(int id);
 
     @Select("SELECT COUNT(*) FROM Room r " +
-            "LEFT JOIN Reservation res ON r.id = res.room_id " +
+            "LEFT JOIN hotel_reservation res ON r.id = res.room_id " +
             "AND NOT ((res.check_in_date >= #{endDate} OR res.check_out_date <= #{startDate}))" +
             "WHERE r.hotel_id = #{hotelId} AND r.room_type = #{roomType} AND r.available = true " +
             "GROUP BY r.id, r.room_type, r.quantity " +
@@ -38,7 +37,7 @@ public interface HotelMapper {
                             @Param("endDate") Date endDate);
 
     @Select("SELECT r.id FROM Room r " +
-            "LEFT JOIN Reservation res ON r.id = res.room_id " +
+            "LEFT JOIN hotel_reservation res ON r.id = res.room_id " +
             "AND NOT ((res.check_in_date >= #{endDate} OR res.check_out_date <= #{startDate})) " +
             "WHERE r.hotel_id = #{hotelId} AND r.room_type = #{roomType} AND r.available = true " +
             "GROUP BY r.id, r.room_type, r.quantity " +
@@ -49,12 +48,12 @@ public interface HotelMapper {
                                 @Param("startDate") Date startDate,
                                 @Param("endDate") Date endDate);
 
-    @Insert("INSERT INTO Reservation (room_id, check_in_date, check_out_date) " +
+    @Insert("INSERT INTO hotel_reservation (room_id, check_in_date, check_out_date) " +
             "VALUES (#{roomId}, #{checkInDate}, #{checkOutDate})")
     void insertReservation(@Param("roomId") int roomId,
                           @Param("checkInDate") Date checkInDate,
                           @Param("checkOutDate") Date checkOutDate);
 
-    @Delete("DELETE FROM Reservation WHERE id = #{reservationId}")
+    @Delete("DELETE FROM hotel_reservation WHERE id = #{reservationId}")
     void cancelRoom(@Param("reservationId") int reservationId);
 }

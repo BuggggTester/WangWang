@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -111,7 +109,7 @@ public class OrderController {
         return list;
     }
     @GetMapping(value = "/select/notdeparture/{userId}/orderTime")
-    public List<Order> selectNotDepartureByOrderTime(@PathVariable int userId,@RequestParam("orderTime") String orderTime) {
+    public List<Order> selectNotDepartureByOrderTime(@PathVariable int userId, @RequestParam("orderTime") String orderTime) {
         List<Order> list = null;
         Timestamp time = Timestamp.valueOf(orderTime);
         try {

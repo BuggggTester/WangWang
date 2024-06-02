@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Food;
+import com.example.demo.entity.food.Food;
 import com.example.demo.entity.R;
 import com.example.demo.service.FoodService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,9 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @CrossOrigin

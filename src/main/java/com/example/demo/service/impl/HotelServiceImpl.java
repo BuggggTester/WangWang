@@ -5,17 +5,22 @@ import com.example.demo.dao.HotelMapper;
 import com.example.demo.entity.hotel.Hotel;
 import com.example.demo.entity.hotel.Room;
 import com.example.demo.service.HotelService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 
-@Service("HotelService")
+@Service
 public class HotelServiceImpl implements HotelService {
+    private final HotelMapper hotelMapper;
 
     @Autowired
-    private HotelMapper hotelMapper;
+    public HotelServiceImpl(HotelMapper hotelMapper) {
+        this.hotelMapper = hotelMapper;
+    }
 
     @Override
     public void createHotel(String name, String address) {

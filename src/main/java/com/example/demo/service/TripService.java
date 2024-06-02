@@ -1,9 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.Order;
-import com.example.demo.entity.R;
 import com.example.demo.entity.Trip;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
