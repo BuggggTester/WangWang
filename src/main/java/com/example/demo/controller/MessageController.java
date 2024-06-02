@@ -13,6 +13,7 @@ import java.time.LocalTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @Slf4j
@@ -23,7 +24,7 @@ public class MessageController {
     @Autowired
     MessageService messageService;
     @PostMapping(value = "/create")
-    public R createMessage(@RequestBody HashMap<String, String> messageMap){
+    public R createMessage(@RequestBody Map<String, String> messageMap){
         String send = messageMap.get("send");
         int receive = Integer.parseInt(messageMap.get("receive"));
         String title = messageMap.get("title");

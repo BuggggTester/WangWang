@@ -20,5 +20,5 @@ public class Trip {
     private String to_place;
     private int num_car;
     private int num_row;
-
+    private String trip_chain;
 }

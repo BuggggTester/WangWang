@@ -17,9 +17,9 @@ public class WebAppConfigurer implements WebMvcConfigurer {
                 .allowCredentials(false)
                 .maxAge(3600);
     }
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/image/avatar/**").addResourceLocations("C:\\Users\\test\\");
+        registry.addResourceHandler("/file/avatar/**").addResourceLocations("file:" + System.getProperty("user.dir")+"/images/avatars/");
+        registry.addResourceHandler("/api/avatar/**").addResourceLocations("");
     }
 }
