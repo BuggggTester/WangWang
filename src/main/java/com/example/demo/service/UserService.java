@@ -12,4 +12,7 @@ public interface UserService {
     User selectAdmin(String userName);
     void updateAvatarById(String avatar, int userId);
     User selectUserById(int userId);
+    void setEmailById(int userId, String email);
+    int validateIdentity(int userId, String userName, String password);
+    void updatePassword(String password, int userId);
 }

@@ -49,6 +49,29 @@ public class UserController {
         }
 
     }
+    @RequestMapping(value="/set/email")
+    public R setEmailById(@RequestBody HashMap<String, String> userMap) {
+        //验证身份
+        int userId = Integer.parseInt(userMap.get("userId"));
+        String pwd = userMap.get("password");
+        String userName = userMap.get("userName");
+        String email = userMap.get("email");
+        if(userService.validateIdentity(userId,userName,pwd)<=0) {
+            return R.error("validate identity failed");
+        }
+        //验证邮箱与已有是否相同
+        User user = userService.selectUserById(userId);
+        if(user.getEmail()!=null && user.getEmail().equals(email)) {
+            return R.error("same email");
+        }
+        //调用service层
+        try {
+            userService.setEmailById(userId, email);
+            return R.ok("set email success!");
+        }catch(Exception e) {
+            return R.error(e.toString());
+        }
+    }
     @RequestMapping(value="/login")
     public R loginValidate(@RequestBody HashMap<String, String> userMap) {
         String userName = userMap.get("userName");
@@ -116,8 +139,7 @@ public class UserController {
         String fileName = file.getOriginalFilename();
         String fileType = fileName.substring(fileName.lastIndexOf("."), fileName.length());
         String fileNewName = UUID.randomUUID() + fileType;
-        String finalName = fileNewName;
-        userService.updateAvatarById(finalName, userId);
+        userService.updateAvatarById(fileNewName, userId);
         File targetFile = new File(filePath);
         if (!targetFile.exists()) {
             targetFile.mkdirs();
@@ -132,6 +154,16 @@ public class UserController {
             return R.error(e.toString());
         }
         return R.ok("上传成功！");
+    }
+    @RequestMapping(value="/modify/password")
+    public R updatePwd(@RequestParam("userId")int userId, @RequestParam("password") String password) {
+
+        try{
+            userService.updatePassword(password, userId);
+            return R.ok("modify success");
+        }catch (Exception e){
+            return R.error(e.toString());
+        }
     }
     @GetMapping(value="/setcookie")
     public R setCookie(HttpServletResponse response, @RequestParam("userName") String userName) {

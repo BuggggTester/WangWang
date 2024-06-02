@@ -20,4 +20,10 @@ public interface UserMapper {
     void updateAvatarById(String avatar, int userId);
     @Select("select * from users where user_id = #{userId} limit 1")
     User selectUserById(int userId);
+    @Update("update users set email = #{email} where user_id = #{userId}")
+    void setEmailById(int userId, String email);
+    @Select("select count(*) from users where user_id = #{userId} and user_name = #{userName} and password = #{password}")
+    int validateIdentity(int userId, String userName, String password);
+    @Update("update users set password = #{password} where user_id = #{userId}")
+    void updatePassword(String password, int userId);
 }

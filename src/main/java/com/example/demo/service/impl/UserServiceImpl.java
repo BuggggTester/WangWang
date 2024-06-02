@@ -35,4 +35,19 @@ public class UserServiceImpl implements UserService {
     public User selectUserById(int userId) {
         return userMapper.selectUserById(userId);
     }
+
+    @Override
+    public void setEmailById(int userId, String email) {
+        userMapper.setEmailById(userId, email);
+    }
+
+    @Override
+    public int validateIdentity(int userId, String userName, String password) {
+        return userMapper.validateIdentity(userId, userName, password);
+    }
+
+    @Override
+    public void updatePassword(String password, int userId) {
+        userMapper.updatePassword(password, userId);
+    }
 }
