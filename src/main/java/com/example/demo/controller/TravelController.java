@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import static com.example.demo.config.PathConfig.travelUrl;
+
 @CrossOrigin
 @Slf4j
 @Controller
@@ -51,7 +53,7 @@ public class TravelController {
     }
     @RequestMapping(value = "/update/photo")
     public R updatePhoto(@RequestParam("File") MultipartFile file) {
-        String filePath = "./src/main/resources/images/suggestTrips/";
+        String filePath = travelUrl;
         String fileName = file.getOriginalFilename();
         String fileType = fileName.substring(fileName.lastIndexOf("."), fileName.length());
         String fileNewName = UUID.randomUUID() + fileType;

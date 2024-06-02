@@ -21,6 +21,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import static com.example.demo.config.PathConfig.avatar;
+import static com.example.demo.config.PathConfig.avatarUrl;
+
 @CrossOrigin
 @Slf4j
 @Controller
@@ -57,11 +60,11 @@ public class UserController {
                 res.put("userId", user.getUser_id());
                 res.put("userName", user.getUser_name());
                 res.put("password", user.getPassword());
-                //判断用户头像是否存在，不存在返回默认头像images/avatars/default.png
+                //判断用户头像是否存在，不存在返回默认头像default.png
                 if(user.getAvatar() == null || user.getAvatar().isEmpty()) {
-                    res.put("avatar", "images/avatars/default.png");
+                    res.put("avatar", avatar + "default.png");
                 }else {
-                    res.put("avatar", user.getAvatar());
+                    res.put("avatar",avatar + user.getAvatar());
                 }
                 res.put("msg", "login success");
                 return R.ok(res);
@@ -75,6 +78,7 @@ public class UserController {
     @RequestMapping(value = "/select/userId")
     public User selectUserById(@RequestParam("userId") int userId) {
         User user = userService.selectUserById(userId);
+        user.setAvatar(avatar + user.getAvatar());
         if(user.getUser_name().isEmpty()) {
             return new User();
         }else{
@@ -104,16 +108,15 @@ public class UserController {
         User user = userService.selectUserById(userId);
 
         String origin = user.getAvatar();
-        if(!origin.equals("images/avatars/default.png")){
-            File file1 = new File("./src/main/resources/static/"+origin);
+        if(!origin.equals("default.png")){
+            File file1 = new File(avatarUrl + origin);
             file1.delete();//如果原来有头像，则删除
         }
-        String filePath = "./src/main/resources/static/images/avatars/";
+        String filePath = avatarUrl;
         String fileName = file.getOriginalFilename();
         String fileType = fileName.substring(fileName.lastIndexOf("."), fileName.length());
         String fileNewName = UUID.randomUUID() + fileType;
-        String filePath2 = "images/avatars/";
-        String finalName = filePath2 + fileNewName;
+        String finalName = fileNewName;
         userService.updateAvatarById(finalName, userId);
         File targetFile = new File(filePath);
         if (!targetFile.exists()) {
