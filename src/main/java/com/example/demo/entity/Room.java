@@ -13,7 +13,7 @@ public class Room {
     private int r_id;
     private String type;
     private int h_id;
-    private String roomNum;
+    private int cnt;
     private String picPath;
 
     @ManyToOne
