@@ -13,4 +13,5 @@ public class User {
     private int user_id;
     private String identity;
     private String avatar;
+    private String email;
 }

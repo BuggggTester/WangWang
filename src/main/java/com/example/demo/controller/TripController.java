@@ -40,7 +40,13 @@ public class TripController {
         String fromPlace = tripMap.get("fromPlace");
         String toPlace = tripMap.get("toPlace");
         Timestamp startTime = Timestamp.valueOf(tripMap.get("startTime"));
-        return tripService.selectTripByPlaceAndTime(fromPlace,toPlace,startTime);
+        List<Trip> trips = tripService.selectTripByPlaceAndTime(fromPlace,toPlace,startTime);
+        for(Trip trip: trips) {
+            if((trip.getStart_time().getTime()-startTime.getTime())> (1000 * 60 * 60 * 24)) {
+                trips.remove(trip);
+            }//如果trip不是查询本日的，移除这个trip
+        }
+        return trips;
     }
     @RequestMapping(value = "/sum")
     public R countRestSeats(@RequestParam("tripId") int tripId) {
