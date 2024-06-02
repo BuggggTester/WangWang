@@ -39,7 +39,7 @@ public class UserController {
         int age = Integer.parseInt(userMap.get("age"));
         try {
             User user = userService.selectUserByName(userName);
-            if(user.getUser_name().equals(userName)){
+            if(user != null && user.getUser_name().equals(userName)){
                 return R.error("customer already exists!");
             }
             userService.createCustomer(age, password, userName);

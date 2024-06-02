@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 import java.util.Random;
 
 @RestController
-@RequestMapping("email")
+@RequestMapping("/email")
 public class MailController {
 
     @Resource
@@ -22,7 +22,7 @@ public class MailController {
     @Value("${spring.mail.username}")
     private String from;
 
-    @RequestMapping("sendEmail")
+    @RequestMapping("/sendEmail")
     public String sendSimpleMail(@RequestParam(value = "emailReceiver") String emailReceiver) {
         // 构建一个邮件对象
         SimpleMailMessage message = new SimpleMailMessage();
