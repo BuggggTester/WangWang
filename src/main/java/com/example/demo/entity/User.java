@@ -14,4 +14,5 @@ public class User {
     private String identity;
     private String avatar;
     private String email;
+    private double money;
 }
