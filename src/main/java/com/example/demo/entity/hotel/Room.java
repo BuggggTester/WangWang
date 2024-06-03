@@ -27,7 +27,6 @@ public class Room {
     private RoomType roomType;
 
     private Double price;
-    private int quantity;
     private String description;
     private String picturePath;
 

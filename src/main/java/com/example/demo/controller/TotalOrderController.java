@@ -49,12 +49,20 @@ public class TotalOrderController {
 
     @GetMapping("/get/{id}")
     public TotalOrder getOrder(@PathVariable int id) {
-        return totalOrderService.getOrder(id);
+        try {
+            return totalOrderService.getOrder(id);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @GetMapping("/getAll/{userId}")
     public List<TotalOrder> getAllOrders(@PathVariable int userId) {
-        return totalOrderService.getAllOrders(userId);
+        try {
+            return totalOrderService.getAllOrders(userId);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @GetMapping("/getAllTrainTickets/{userId}")

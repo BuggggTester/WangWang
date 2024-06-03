@@ -24,7 +24,7 @@ public class TotalOrderServiceImpl implements TotalOrderService {
         totalOrder.setPayment(payment);
         totalOrder.setOrderType(orderType);
         totalOrder.setReservationId(reservationId);
-        totalOrder.setId(userId);
+        totalOrder.setUserId(userId);
 
         totalOrderMapper.createOrder(totalOrder);
     }

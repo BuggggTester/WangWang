@@ -15,7 +15,7 @@ public interface HotelService {
     List<Hotel> selectHotelByAddress(String address);
     Hotel selectHotelById(int id);
     boolean hasAvailableRoom(int hotelID, RoomType roomType, Date startdate, Date enddate);
-    void bookRoom(int hotelID, RoomType roomType, Date startdate, Date enddate);
+    int bookRoom(int userId, int hotelID, RoomType roomType, Date startdate, Date enddate);
     void cancelRoom(int reservationID);
 }
 

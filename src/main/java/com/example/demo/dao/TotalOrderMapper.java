@@ -11,7 +11,6 @@ import java.util.List;
 public interface TotalOrderMapper {
     @Insert("INSERT INTO total_order (user_id, reservation_id, order_type, payment, order_create_time) " +
             "VALUES (#{userId}, #{reservationId}, #{orderType}, #{payment}, #{orderCreateTime})")
-    @Options(useGeneratedKeys = true, keyProperty = "id")
     void createOrder(TotalOrder totalOrder);
 
     @Select("SELECT * FROM total_order WHERE id = #{id}")

@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.common.constant.RoomType;
 import com.example.demo.dao.HotelMapper;
 import com.example.demo.entity.hotel.Hotel;
+import com.example.demo.entity.hotel.HotelReservation;
 import com.example.demo.entity.hotel.Room;
 import com.example.demo.service.HotelService;
 import jakarta.annotation.Resource;
@@ -35,7 +36,6 @@ public class HotelServiceImpl implements HotelService {
         room.setHotel(hotel);
         room.setRoomType(roomType);
         room.setPrice(price);
-        room.setQuantity(quantity);
         hotelMapper.setRoom(room);
     }
 
@@ -56,9 +56,9 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public void bookRoom(int hotelID, RoomType roomType, Date startdate, Date enddate) {
+    public int bookRoom(int userId, int hotelID, RoomType roomType, Date startdate, Date enddate) {
         int roomID = hotelMapper.getAvailableRoomId(hotelID, roomType, startdate, enddate);
-        hotelMapper.insertReservation(roomID, startdate, enddate);
+        return hotelMapper.insertReservation(userId, roomID, startdate, enddate);
     }
 
     @Override
