@@ -9,10 +9,9 @@ import java.util.List;
 
 @Mapper
 public interface OrderMapper {
-    @Insert("INSERT INTO orders (order_id, order_time, user_id, type, state, payment, trip_id, carriage, `row`, seat, payTime, payway) " +
-            "VALUES (#{orderId}, #{orderTime}, #{userId}, #{type}, #{state}, #{payment}, #{tripId}, #{carriage}, #{row}, #{seat}, #{payTime}, #{payway})")
+    @Insert("INSERT INTO orders (order_time, user_id, type, state, payment, trip_id, carriage, `row`, seat, payTime, payway, from_place, to_place) " +
+            "VALUES (#{orderTime}, #{userId}, #{type}, #{state}, #{payment}, #{tripId}, #{carriage}, #{row}, #{seat}, #{payTime}, #{payway}, #{fromPlace}, #{toPlace})")
     void createOrder(
-            @Param("orderId") String orderId,
             @Param("orderTime") Date orderTime,
             @Param("userId") int userId,
             @Param("type") String type,
@@ -23,12 +22,14 @@ public interface OrderMapper {
             @Param("row") Integer row,
             @Param("seat") Character seat,
             @Param("payTime") Timestamp payTime,
-            @Param("payway") String payway
+            @Param("payway") String payway,
+            @Param("fromPlace") String fromPlace,
+            @Param("toPlace") String toPlace
     );
     //    @Select("select * from orders where user_id = #{userId}")
     //    List<Order> selectOrdersByUser(int userId);
-    @Update("update orders set state = 'canceled' where trip_id = #{tripId} and user_id = #{userId}")
-    void deleteOrderByCustomer(int tripId, int userId);
+    @Update("update orders set state = 'canceled' where order_id = #{orderId} and user_id = #{userId}")
+    void deleteOrderByCustomer(int orderId, int userId);
     @Results({
             @Result(property = "trip", column = "trip_id",
                     one = @One(select = "com.example.demo.dao.TripMapper.selectTripById"))
@@ -39,7 +40,7 @@ public interface OrderMapper {
     @Select("select * from orders")
     List<Order> selectAllOrders();
 
-    @Select("select * from orders where date between #{date1} and #{date2}")
+    @Select("select * from orders where order_time between #{date1} and #{date2}")
     List<Order> selectByDate(String date1, String date2);
 
     @Select("select * from orders\n" +
@@ -77,4 +78,6 @@ public interface OrderMapper {
             "and state='payed' and t.start_time > now() and order_time = #{orderTime}")
     List<Order> selectNotDepartureOrdersWithOrderTime(@Param("userId") int userId, Timestamp orderTime);
 
+    @Select("select * from orders where trip_id = #{tripId}")
+    List<Order> selectOrdersByTripId(int tripId);
 }

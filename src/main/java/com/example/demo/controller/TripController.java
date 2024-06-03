@@ -41,11 +41,8 @@ public class TripController {
         String toPlace = tripMap.get("toPlace");
         Timestamp startTime = Timestamp.valueOf(tripMap.get("startTime"));
         List<Trip> trips = tripService.selectTripByPlaceAndTime(fromPlace,toPlace,startTime);
-        for(Trip trip: trips) {
-            if((trip.getStart_time().getTime()-startTime.getTime())> (1000 * 60 * 60 * 24)) {
-                trips.remove(trip);
-            }//如果trip不是查询本日的，移除这个trip
-        }
+        //如果trip不是查询本日的，移除这个trip
+        trips.removeIf(trip -> (trip.getStart_time().getTime() - startTime.getTime()) > (1000 * 60 * 60 * 24));
         return trips;
     }
     @RequestMapping(value = "/sum")

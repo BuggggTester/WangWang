@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 @Component
 @Slf4j
 public class Order {
-    private String order_id;
+    private int order_id;
     private Date order_time;
     private int user_id;
     private String type;
@@ -29,6 +29,8 @@ public class Order {
     private char seat;
     private Timestamp payTime;
     private String payway;
+    private String from_place;
+    private String to_place;
     @ManyToOne
     @JoinColumn(name = "trip_id", referencedColumnName = "trip_id")
     private Trip trip;
