@@ -15,8 +15,8 @@ public class OrderServiceImpl implements OrderService {
     @Resource
     private OrderMapper orderMapper;
     @Override
-    public void createOrder(String orderId, Date orderTime, int userId, String type, String state, double payment, Integer tripId, int carriage, Integer row, Character seat, Timestamp payTime, String payway) {
-        orderMapper.createOrder(orderId, orderTime, userId, type, state, payment, tripId, carriage, row, seat, payTime, payway);
+    public void createOrder(String orderId, Date orderTime, int userId, String type, String state, double payment, Integer tripId, int carriage, Integer row, Character seat, Timestamp payTime, String payway,String fromPlace, String toPlace) {
+        orderMapper.createOrder(orderId, orderTime, userId, type, state, payment, tripId, carriage, row, seat, payTime, payway, fromPlace,toPlace);
     }
 
     @Override
@@ -62,6 +62,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> selectNotDepartureOrdersWithOrderTime(int userId, Timestamp orderTime) {
         return orderMapper.selectNotDepartureOrdersWithOrderTime(userId, orderTime);
+    }
+
+    @Override
+    public List<Order> selectOrdersByTripId(int tripId) {
+        return orderMapper.selectOrdersByTripId(tripId);
     }
 
 }
