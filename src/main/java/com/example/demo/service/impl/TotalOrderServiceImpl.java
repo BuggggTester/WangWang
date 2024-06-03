@@ -1,8 +1,10 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.common.constant.OrderType;
+import com.example.demo.common.constant.PaymentMethod;
 import com.example.demo.dao.TotalOrderMapper;
 import com.example.demo.entity.TotalOrder;
+import com.example.demo.entity.User;
 import com.example.demo.service.TotalOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,31 +46,58 @@ public class TotalOrderServiceImpl implements TotalOrderService {
         return totalOrderMapper.getAllTrainTicketOrders(userId);
     }
 
+    @Override
     public List<TotalOrder> getAllHotelOrders(int userId) {
         return totalOrderMapper.getAllHotelOrders(userId);
     }
 
+    @Override
     public List<TotalOrder> getAllTrainMealOrders(int userId) {
         return totalOrderMapper.getAllTrainMealOrders(userId);
     }
 
+    @Override
     public List<TotalOrder> getLast10DaysOrders(int userId) {
         return totalOrderMapper.getLast10DaysOrders(userId);
     }
 
+    @Override
     public List<TotalOrder> getOrdersByDateAndType(int userId, OrderType orderType, Timestamp startDate, Timestamp endDate) {
         return totalOrderMapper.getOrdersByDateAndType(userId, orderType, startDate, endDate);
     }
 
+    @Override
+    public List<TotalOrder> getOrdersByType(int userId, OrderType orderType) {
+        return totalOrderMapper.getOrdersByType(userId, orderType);
+    }
+
+    @Override
     public void updateOrder(TotalOrder order) {
         totalOrderMapper.updateOrder(order);
     }
 
-    public void deleteOrder(int id) {
-        totalOrderMapper.deleteOrder(id);
+    @Override
+    public boolean deleteOrder(int id) {
+        return totalOrderMapper.deleteOrder(id) == 1;
     }
 
-    public void cancelOrder(int reservationId) {
-        totalOrderMapper.cancelOrder(reservationId);
+    @Override
+    public boolean cancelOrder(int Id) {
+        return totalOrderMapper.cancelOrder(Id) == 1;
+    }
+
+    @Override
+    public boolean finishOrder(int Id) {
+        return totalOrderMapper.finishOrder(Id) == 1;
+    }
+
+    @Override
+    public boolean setOrderPaymentMethod(int Id, PaymentMethod paymentMethod) {
+        return totalOrderMapper.setOrderPaymentMethod(Id, paymentMethod) == 1;
+    }
+
+    @Override
+    public boolean payOrder(int id) {
+        return totalOrderMapper.payOrder(id) == 1;
     }
 }

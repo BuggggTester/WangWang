@@ -21,8 +21,11 @@ public class Hotel {
     private String name;
     @Column(nullable = false)
     private String address;
+    // 图片路径
     private String picturePath;
+
     private String description;
+
     private String score;
 
     //一个酒店对应多个房间，

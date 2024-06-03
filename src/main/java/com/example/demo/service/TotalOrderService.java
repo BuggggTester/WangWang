@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 
 import com.example.demo.common.constant.OrderType;
+import com.example.demo.common.constant.PaymentMethod;
 import com.example.demo.entity.TotalOrder;
 import org.springframework.stereotype.Component;
 
@@ -29,12 +30,22 @@ public interface TotalOrderService {
     // 根据类型和时间获取订单(用户自定义查询接口）
     List<TotalOrder> getOrdersByDateAndType(int userID, OrderType orderType, Timestamp startDate, Timestamp endDate);
 
+
+    List<TotalOrder> getOrdersByType(int userId, OrderType orderType);
+
     // 更新订单
     void updateOrder(TotalOrder order);
 
     // 删除订单
-    void deleteOrder(int id);
+    boolean deleteOrder(int id);
 
     // 取消订单
-    void cancelOrder(int reservationId);
+    boolean cancelOrder(int id);
+
+    boolean finishOrder(int id);
+
+    boolean setOrderPaymentMethod(int id, PaymentMethod paymentMethod);
+
+    boolean payOrder(int id);
+
 }

@@ -23,14 +23,26 @@ public class HotelController {
 
     @Autowired
     private HotelService hotelService;
-
+    @Autowired
+    private Hotel hotel;
 
     //测试通过
     @PostMapping("/createHotel")
-    public void createHotel(@RequestBody Map<String, String> hotelMap) {
+    public R createHotel(@RequestBody Map<String, String> hotelMap) {
         String name = hotelMap.get("name");
         String address = hotelMap.get("address");
         hotelService.createHotel(name, address);
+        return R.ok();
+    }
+
+    @PutMapping("/")
+    public R setHotelInfo(@RequestBody Map<String, String> hotelMap) {
+        String name = hotelMap.get("name") != null ? hotelMap.get("name") : "";
+        String address = hotelMap.get("address") != null ? hotelMap.get("address") : "";
+        String description = hotelMap.get("description") != null ? hotelMap.get("description") : "";
+        String score = hotelMap.get("score") != null ? hotelMap.get("score") : "";
+        hotelService.setHotelInfo(name, address, description, score);
+        return R.ok();
     }
 
     //测试通过
@@ -104,7 +116,7 @@ public class HotelController {
         }
     }
 
-
+    @PostMapping("/cancel/{reservationID}")
     public R cancelRoom(@PathVariable int reservationID) {
         try {
             hotelService.cancelRoom(reservationID);

@@ -17,10 +17,12 @@ import java.util.List;
 @Service
 public class HotelServiceImpl implements HotelService {
     private final HotelMapper hotelMapper;
+    private final Hotel hotel;
 
     @Autowired
-    public HotelServiceImpl(HotelMapper hotelMapper) {
+    public HotelServiceImpl(HotelMapper hotelMapper, Hotel hotel) {
         this.hotelMapper = hotelMapper;
+        this.hotel = hotel;
     }
 
     @Override
@@ -64,5 +66,10 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public void cancelRoom(int reservationID) {
         hotelMapper.cancelRoom(reservationID);
+    }
+
+    @Override
+    public void setHotelInfo(String name, String address, String description, String score) {
+        return hotelMapper.setHotelInfo(name, address, description, score);
     }
 }

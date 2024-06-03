@@ -17,6 +17,8 @@ public interface HotelService {
     boolean hasAvailableRoom(int hotelID, RoomType roomType, Date startdate, Date enddate);
     int bookRoom(int userId, int hotelID, RoomType roomType, Date startdate, Date enddate);
     void cancelRoom(int reservationID);
+
+    void setHotelInfo(String name, String address, String description, String score);
 }
 
 

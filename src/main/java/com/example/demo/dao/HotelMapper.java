@@ -54,4 +54,7 @@ public interface HotelMapper {
 
     @Delete("DELETE FROM hotel_reservation WHERE id = #{reservationId}")
     void cancelRoom(@Param("reservationId") int reservationId);
+
+    @Update("UPDATE ")
+    void setHotelInfo(String name, String address, String description, String score);
 }

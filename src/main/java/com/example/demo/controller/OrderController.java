@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -134,7 +136,7 @@ public class OrderController {
         } catch (Exception e) {
             return R.error("failed: " + e.toString());
         }
-            return R.ok("no seats");
+        return R.ok("no seats");
     }
 
     @RequestMapping(value = "/select/history/{userId}")
@@ -209,5 +211,4 @@ public class OrderController {
         }
         return list;
     }
-
 }

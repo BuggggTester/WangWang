@@ -10,7 +10,7 @@ import java.util.List;
 @Component
 public interface OrderService {
     void createOrder( Date orderTime, int userId, String type, String state, double payment,
-                     Integer tripId, int carriage, Integer row, Character seat, Timestamp payTime, String payway,String fromPlace, String toPlace);
+                      Integer tripId, int carriage, Integer row, Character seat, Timestamp payTime, String payway,String fromPlace, String toPlace);
     void deleteOrderByCustomer(int orderId, int userId);
     List<Order> selectOrdersByUser(int userId);
     List<Order> selectAllOrders();

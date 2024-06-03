@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
 import com.example.demo.common.constant.OrderType;
+import com.example.demo.common.constant.PaymentMethod;
 import com.example.demo.entity.R;
 import com.example.demo.entity.TotalOrder;
+import com.example.demo.entity.User;
 import com.example.demo.service.TotalOrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,8 @@ public class TotalOrderController {
 
     @Autowired
     private TotalOrderService totalOrderService;
+    @Autowired
+    private User user;
 
 
     @PostMapping("/create")
@@ -90,18 +94,59 @@ public class TotalOrderController {
         return totalOrderService.getOrdersByDateAndType(userId, orderType, startDate, endDate);
     }
 
+    @GetMapping("/getOrderByType")
+    public List<TotalOrder> getOrderByType(@RequestBody Map<String, String> orderMap) {
+        int userId = Integer.parseInt(orderMap.get("userId"));
+        OrderType orderType = OrderType.valueOf(orderMap.get("orderType").toUpperCase());
+        return totalOrderService.getOrdersByType(userId, orderType);
+    }
+
+    // 没用（先留着）
     @PutMapping("/update")
     public void updateOrder(@RequestBody TotalOrder order) {
         totalOrderService.updateOrder(order);
     }
 
+
     @DeleteMapping("/delete/{id}")
-    public void deleteOrder(@PathVariable int id) {
-        totalOrderService.deleteOrder(id);
+    public R deleteOrder(@PathVariable int id) {
+        if (totalOrderService.deleteOrder(id)) {
+            return R.ok("Order deleted successfully!");
+        }
+        return R.error("Failed to delete order: " + id);
     }
 
-    @DeleteMapping("/cancel/{reservationId}")
-    public void cancelOrder(@PathVariable int reservationId) {
-        totalOrderService.cancelOrder(reservationId);
+    @PutMapping("/cancel/{Id}")
+    public R cancelOrder(@PathVariable int Id) {
+        if (totalOrderService.cancelOrder(Id)) {
+            return R.ok("Order canceled successfully!");
+        }
+        return R.error("Failed to cancel order: " + Id);
+    }
+
+    @PutMapping("finish/{Id}")
+    public R finishOrder(@PathVariable int Id) {
+        if (totalOrderService.finishOrder(Id)) {
+            return R.ok("Order finished successfully!");
+        }
+        return R.error("Failed to finish order: " + Id);
+    }
+
+    @PutMapping("pay/{Id}")
+    public R payOrder(@PathVariable int Id) {
+        if (totalOrderService.payOrder(Id)) {
+            return R.ok("Order payed successfully!");
+        }
+        return R.error("Failed to pay order: " + Id);
+    }
+
+    @PutMapping("setPaymentMethod")
+    public R SetOrderPaymentMethod(@RequestBody Map<String, String> orderMap) {
+        int id = Integer.parseInt(orderMap.get("userId"));
+        PaymentMethod paymentMethod = PaymentMethod.valueOf(orderMap.get("paymentMethod").toUpperCase());
+        if (totalOrderService.setOrderPaymentMethod(id, paymentMethod)) {
+            return R.ok("Payment method set successfully!");
+        }
+        return R.error("Failed to payment method: " + paymentMethod);
     }
 }

@@ -3,7 +3,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.R;
 import com.example.demo.entity.Trip;
-import com.example.demo.service.OrderService;
+import com.example.demo.service.TicketService;
 import com.example.demo.service.TripService;
 import com.example.demo.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/test")
 public class TestController {
     @Autowired
-    private OrderService orderService;
+    private TicketService ticketService;
     @Autowired
     private TripService tripService;
     @RequestMapping("/login")
