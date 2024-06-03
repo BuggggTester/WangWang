@@ -70,6 +70,6 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public void setHotelInfo(String name, String address, String description, String score) {
-        return hotelMapper.setHotelInfo(name, address, description, score);
+        hotelMapper.setHotelInfo(name, address, description, score);
     }
 }
