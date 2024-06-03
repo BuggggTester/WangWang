@@ -15,13 +15,13 @@ public class OrderServiceImpl implements OrderService {
     @Resource
     private OrderMapper orderMapper;
     @Override
-    public void createOrder(String orderId, Date orderTime, int userId, String type, String state, double payment, Integer tripId, int carriage, Integer row, Character seat, Timestamp payTime, String payway,String fromPlace, String toPlace) {
-        orderMapper.createOrder(orderId, orderTime, userId, type, state, payment, tripId, carriage, row, seat, payTime, payway, fromPlace,toPlace);
+    public void createOrder(Date orderTime, int userId, String type, String state, double payment, Integer tripId, int carriage, Integer row, Character seat, Timestamp payTime, String payway,String fromPlace, String toPlace) {
+        orderMapper.createOrder(orderTime, userId, type, state, payment, tripId, carriage, row, seat, payTime, payway, fromPlace,toPlace);
     }
 
     @Override
-    public void deleteOrderByCustomer(int tripId, int userId) {
-        orderMapper.deleteOrderByCustomer(tripId, userId);
+    public void deleteOrderByCustomer(int orderId, int userId) {
+        orderMapper.deleteOrderByCustomer(orderId, userId);
     }
 
     @Override

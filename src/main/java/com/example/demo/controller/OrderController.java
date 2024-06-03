@@ -38,7 +38,6 @@ public class OrderController {
     @RequestMapping(value = "/create")
     public R createOrder(@RequestBody Map<String, String> orderMap) {
         try {
-            String orderId = getUUID();
             SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
             Date orderTime = ft.parse(orderMap.get("order_time"));
             int userId = Integer.parseInt(orderMap.get("userId"));
@@ -96,7 +95,7 @@ public class OrderController {
                     if (flag == 1) {
                         carriage = i;
                         row = j;
-                        orderService.createOrder(orderId, orderTime, userId, type, state, payment, tripId, carriage, row, seat, payTime, payway, fromPlace, toPlace);
+                        orderService.createOrder( orderTime, userId, type, state, payment, tripId, carriage, row, seat, payTime, payway, fromPlace, toPlace);
                         return R.ok("order create success!");
                     } else {
                         flag = 1;
@@ -121,7 +120,7 @@ public class OrderController {
                                 carriage = i;
                                 row = j;
                                 seat = (char) (q + 'A' -1);
-                                orderService.createOrder(orderId, orderTime, userId, type, state, payment, tripId, carriage, row, seat, payTime, payway, fromPlace, toPlace);
+                                orderService.createOrder(orderTime, userId, type, state, payment, tripId, carriage, row, seat, payTime, payway, fromPlace, toPlace);
                                 return R.ok("order create success!").put("carriage",carriage).put("row",row).put("seat", seat);
                             } else {
                                 flag = 1;
@@ -166,10 +165,10 @@ public class OrderController {
         }
     }
 
-    @GetMapping(value = "/delete/{tripId}/{userId}")
-    public R cancelOrderByCustomer(@PathVariable int tripId, @PathVariable int userId) {
+    @GetMapping(value = "/delete/{orderId}/{userId}")
+    public R cancelOrderByCustomer(@PathVariable int orderId, @PathVariable int userId) {
         try {
-            orderService.deleteOrderByCustomer(tripId, userId);
+            orderService.deleteOrderByCustomer(orderId, userId);
             return R.ok("删除成功！");
         } catch (Exception e) {
             return R.error(e.toString());
@@ -211,7 +210,4 @@ public class OrderController {
         return list;
     }
 
-    public static void main(String[] args) {
-
-    }
 }

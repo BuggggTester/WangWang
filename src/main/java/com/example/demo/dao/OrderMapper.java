@@ -9,10 +9,9 @@ import java.util.List;
 
 @Mapper
 public interface OrderMapper {
-    @Insert("INSERT INTO orders (order_id, order_time, user_id, type, state, payment, trip_id, carriage, `row`, seat, payTime, payway, from_place, to_place) " +
-            "VALUES (#{orderId}, #{orderTime}, #{userId}, #{type}, #{state}, #{payment}, #{tripId}, #{carriage}, #{row}, #{seat}, #{payTime}, #{payway}, #{fromPlace}, #{toPlace})")
+    @Insert("INSERT INTO orders (order_time, user_id, type, state, payment, trip_id, carriage, `row`, seat, payTime, payway, from_place, to_place) " +
+            "VALUES (#{orderTime}, #{userId}, #{type}, #{state}, #{payment}, #{tripId}, #{carriage}, #{row}, #{seat}, #{payTime}, #{payway}, #{fromPlace}, #{toPlace})")
     void createOrder(
-            @Param("orderId") String orderId,
             @Param("orderTime") Date orderTime,
             @Param("userId") int userId,
             @Param("type") String type,
@@ -29,8 +28,8 @@ public interface OrderMapper {
     );
     //    @Select("select * from orders where user_id = #{userId}")
     //    List<Order> selectOrdersByUser(int userId);
-    @Update("update orders set state = 'canceled' where trip_id = #{tripId} and user_id = #{userId}")
-    void deleteOrderByCustomer(int tripId, int userId);
+    @Update("update orders set state = 'canceled' where order_id = #{orderId} and user_id = #{userId}")
+    void deleteOrderByCustomer(int orderId, int userId);
     @Results({
             @Result(property = "trip", column = "trip_id",
                     one = @One(select = "com.example.demo.dao.TripMapper.selectTripById"))
