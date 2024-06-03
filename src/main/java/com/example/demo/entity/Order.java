@@ -29,6 +29,8 @@ public class Order {
     private char seat;
     private Timestamp payTime;
     private String payway;
+    private String from_place;
+    private String to_place;
     @ManyToOne
     @JoinColumn(name = "trip_id", referencedColumnName = "trip_id")
     private Trip trip;
