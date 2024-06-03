@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 @Component
 @Slf4j
 public class Order {
-    private String order_id;
+    private int order_id;
     private Date order_time;
     private int user_id;
     private String type;
