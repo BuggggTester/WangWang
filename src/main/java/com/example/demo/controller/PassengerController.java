@@ -31,17 +31,41 @@ public class PassengerController {
         }
     }
     @RequestMapping(value="/create")
-    public R createpassenger(@RequestBody HashMap<String, String> idMap) {
+    public R createPassenger(@RequestBody HashMap<String, String> idMap) {
         try {
             String identity = idMap.get("identity");
             String phoneNum = idMap.get("phoneNum");
             String name = idMap.get("name");
             int userId = Integer.parseInt(idMap.get("userId"));
+            Passenger passenger = passengerService.selectPassengerByIdentity(identity);
+            if(passenger != null) {
+                return R.error("passenger already exists");
+            }
             passengerService.createPassenger(identity, phoneNum, name, userId);
             return R.ok("create passenger success");
         }catch (Exception e){
             return R.error(e.toString());
         }
 
+    }
+    @RequestMapping(value="/modify")
+    public R updatePassenger(@RequestBody HashMap<String, String> idMap) {
+        try{
+            String identity = idMap.get("identity");
+            String phoneNum = idMap.get("phoneNum");
+            String name = idMap.get("name");
+            int pid = Integer.parseInt(idMap.get("pid"));
+            //TODO: 加入验证
+            if(phoneNum.length()!=18){
+                return R.error("illegal phone");
+            }
+            if(identity.length()!= 18) {
+                return R.error("illegal identity");
+            }
+            passengerService.updatePassenger(identity, phoneNum, name, pid);
+            return R.ok("modify passenger success");
+        }catch (Exception e) {
+            return R.error(e.toString());
+        }
     }
 }

@@ -26,4 +26,6 @@ public interface UserMapper {
     int validateIdentity(int userId, String userName, String password);
     @Update("update users set password = #{password} where user_id = #{userId}")
     void updatePassword(String password, int userId);
+    @Update("update users set money = money + #{payment} where user_id = #{userId}")
+    void updateMoneyById(double payment, int userId);
 }

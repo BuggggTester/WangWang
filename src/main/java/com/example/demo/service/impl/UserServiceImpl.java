@@ -50,4 +50,9 @@ public class UserServiceImpl implements UserService {
     public void updatePassword(String password, int userId) {
         userMapper.updatePassword(password, userId);
     }
+
+    @Override
+    public void updateMoneyById(double money, int userId) {
+        userMapper.updateMoneyById(money, userId);
+    }
 }

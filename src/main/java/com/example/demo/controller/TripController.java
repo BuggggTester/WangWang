@@ -50,6 +50,10 @@ public class TripController {
 
         return trips;
     }
+    @RequestMapping(value="/select/tripId")
+    public Trip selectTripById(@RequestParam("tripId")int tripId){
+        return tripService.selectTripById(tripId);
+    }
     @RequestMapping(value = "/sum")
     public R countRestSeatsAndTime(@RequestParam("tripId") int tripId,
                             @RequestParam("fromPlace")String fromPlace,

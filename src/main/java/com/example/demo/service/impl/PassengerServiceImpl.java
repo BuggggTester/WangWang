@@ -21,4 +21,14 @@ public class PassengerServiceImpl implements PassengerService {
     public void createPassenger(String identity, String phoneNum, String name, int userId) {
         passengerMapper.createPassenger(identity, phoneNum, name, userId);
     }
+
+    @Override
+    public void updatePassenger(String identity, String phone, String name, int pid) {
+        passengerMapper.updatePassenger(identity, phone, name, pid);
+    }
+
+    @Override
+    public Passenger selectPassengerByIdentity(String identity) {
+        return passengerMapper.selectPassengerByIdentity(identity);
+    }
 }

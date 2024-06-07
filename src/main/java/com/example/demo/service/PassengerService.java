@@ -10,4 +10,7 @@ public interface PassengerService {
     List<Passenger> selectPassengersById(int userId);
 
     void createPassenger(String identity,String phoneNum, String name, int userId);
+    void updatePassenger(String identity, String phone, String name, int pid);
+    Passenger selectPassengerByIdentity(String identity);
+
 }
