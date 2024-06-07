@@ -20,7 +20,7 @@ import java.util.Map;
 import static com.example.demo.utils.GenerateOrderId.getUUID;
 
 @RestController
-@RequestMapping(value = "/order")
+@RequestMapping(value = "/totalorder")
 @CrossOrigin
 @Slf4j
 public class TotalOrderController {
