@@ -12,20 +12,20 @@ import java.util.List;
 
 @Mapper
 public interface HotelMapper {
-    @Insert("INSERT INTO hotel (name, address, picture_path) VALUES (#{name}, #{address}, 'default.png')")
+    @Insert("INSERT INTO Hotel (name, address) VALUES (#{name}, #{address})")
     void createHotel(@Param("name") String name,
                      @Param("address") String address);
 
-    @Insert("INSERT INTO room (hotel_id, room_type, price) VALUES (#{hotel.id}, #{roomType}, #{price})")
+    @Insert("INSERT INTO Room (hotel_id, room_type, price) VALUES (#{hotel.id}, #{roomType}, #{price})")
     void setRoom(Room room);
 
-    @Select("select * from hotel where address = #{address}")
+    @Select("select * from Hotel where address = #{address}")
     List<Hotel> findHotelByAddress(String address);
 
-    @Select("select * from hotel where id = #{id}")
+    @Select("select * from Hotel where id = #{id}")
     Hotel findHotelById(int id);
 
-    @Select("SELECT COUNT(*) FROM room r " +
+    @Select("SELECT COUNT(*) FROM Room r " +
             "LEFT JOIN hotel_reservation res ON r.id = res.room_id " +
             "AND NOT ((res.check_in_date >= #{endDate} OR res.check_out_date <= #{startDate}))" +
             "WHERE r.hotel_id = #{hotelId} AND r.room_type = #{roomType} AND r.available = true ")
@@ -34,7 +34,7 @@ public interface HotelMapper {
                             @Param("startDate") Date startDate,
                             @Param("endDate") Date endDate);
 
-    @Select("SELECT r.id FROM room r " +
+    @Select("SELECT r.id FROM Room r " +
             "LEFT JOIN hotel_reservation res ON r.id = res.room_id " +
             "AND NOT ((res.check_in_date >= #{endDate} OR res.check_out_date <= #{startDate})) " +
             "WHERE r.hotel_id = #{hotelId} AND r.room_type = #{roomType} AND r.available = true " +
@@ -55,12 +55,10 @@ public interface HotelMapper {
     @Delete("DELETE FROM hotel_reservation WHERE id = #{reservationId}")
     void cancelRoom(@Param("reservationId") int reservationId);
 
-    @Update("UPDATE")
+    @Update("UPDATE ")
     void setHotelInfo(String name, String address, String description, String score);
 
 
-    @Select("SELECT MIN(r.price) FROM room r WHERE r.hotel.id = :hotelId")
+    @Select("SELECT MIN(r.price) FROM Room r WHERE r.hotel.id = :hotelId")
     Double getLowestPriceByHotelId(@Param("hotelId") int hotelId);
-    @Update("update hotel set picture_path = #{picture} where id = #{hotelId}")
-    void updatePictureById(String picture, int hotelId);
 }

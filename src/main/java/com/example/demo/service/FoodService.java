@@ -9,8 +9,8 @@ import java.util.List;
 public interface FoodService {
     List<Food> selectFoodsByTripId(int tripId);
 
-    void createFood(String foodName, double price, int tripId, String image);
-    void uploadFoodImage(String image, int foodId);
 
-    void buyFood(int foodId, int tripId, int userId, int quantity);
+    int buyFood(int foodId, int tripId, int userId, int quantity);
+
+    void cancelFood(int restaurantId);
 }
