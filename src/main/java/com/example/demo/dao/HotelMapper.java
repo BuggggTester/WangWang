@@ -57,4 +57,8 @@ public interface HotelMapper {
 
     @Update("UPDATE ")
     void setHotelInfo(String name, String address, String description, String score);
+
+
+    @Select("SELECT MIN(r.price) FROM Room r WHERE r.hotel.id = :hotelId")
+    Double getLowestPriceByHotelId(@Param("hotelId") int hotelId);
 }

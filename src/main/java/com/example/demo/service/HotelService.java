@@ -19,6 +19,7 @@ public interface HotelService {
     void cancelRoom(int reservationID);
 
     void setHotelInfo(String name, String address, String description, String score);
+    Double countLowestPrice(int hotelID);
 }
 
 

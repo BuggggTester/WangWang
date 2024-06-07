@@ -3,12 +3,9 @@ package com.example.demo.service.impl;
 import com.example.demo.common.constant.RoomType;
 import com.example.demo.dao.HotelMapper;
 import com.example.demo.entity.hotel.Hotel;
-import com.example.demo.entity.hotel.HotelReservation;
 import com.example.demo.entity.hotel.Room;
 import com.example.demo.service.HotelService;
-import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -71,5 +68,10 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public void setHotelInfo(String name, String address, String description, String score) {
         hotelMapper.setHotelInfo(name, address, description, score);
+    }
+
+    @Override
+    public Double countLowestPrice(int hotelID) {
+        return hotelMapper.getLowestPriceByHotelId(hotelID);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.utils;
 
-import org.apache.commons.codec.binary.Hex;
+
+import org.bouncycastle.util.encoders.Hex;
 
 import java.security.MessageDigest;
 import java.util.Random;

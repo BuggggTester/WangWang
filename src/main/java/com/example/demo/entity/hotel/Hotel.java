@@ -22,7 +22,8 @@ public class Hotel {
     @Column(nullable = false)
     private String address;
     // 图片路径
-    private String picturePath;
+    @Column(name = "picture_path", nullable = false)
+    private String picture_path;
 
     private String description;
 

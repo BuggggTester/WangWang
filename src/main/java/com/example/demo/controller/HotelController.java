@@ -56,8 +56,9 @@ public class HotelController {
     }
 
     //测试通过
-    @GetMapping
+    @GetMapping("/selectHotelByAddress")
     public List<Hotel> selectHotelByAddress(@RequestParam String address) {
+        System.out.println(hotelService.selectHotelByAddress(address));
         return hotelService.selectHotelByAddress(address);
     }
 
@@ -124,5 +125,10 @@ public class HotelController {
         } catch (Exception e) {
             return R.error("Failed to cancel reservation: " + e.toString());
         }
+    }
+
+    @GetMapping("/hotel/lowestPrice")
+    public int getLowestPrice(@RequestParam int hotelId) {
+        return (int) Math.floor(hotelService.countLowestPrice(hotelId));
     }
 }
