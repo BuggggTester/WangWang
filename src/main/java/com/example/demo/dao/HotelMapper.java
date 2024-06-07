@@ -62,5 +62,5 @@ public interface HotelMapper {
     @Select("SELECT MIN(r.price) FROM room r WHERE r.hotel.id = :hotelId")
     Double getLowestPriceByHotelId(@Param("hotelId") int hotelId);
     @Update("update hotel set picture_path = #{picture} where id = #{hotelId}")
-    void updatePictureById(String picture, int hoteId);
+    void updatePictureById(String picture, int hotelId);
 }
