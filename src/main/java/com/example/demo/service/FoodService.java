@@ -8,9 +8,11 @@ import java.util.List;
 @Component
 public interface FoodService {
     List<Food> selectFoodsByTripId(int tripId);
+    void uploadFoodImage(String image, int foodId);
 
 
-    int buyFood(int foodId, int tripId, int userId, int quantity);
+    void buyFood(int foodId, int tripId, int userId, int quantity);
+    void createFood(String foodName, double price, int tripId, String image);
 
-    void cancelFood(int restaurantId);
+//    void cancelFood(int restaurantId);
 }
