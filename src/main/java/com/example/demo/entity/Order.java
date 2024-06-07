@@ -23,7 +23,7 @@ public class Order {
     private String type;
     private String  state;
     private double payment;
-    private int tripId;
+    private int trip_id;
     private int carriage;
     private int row;
     private char seat;
@@ -31,6 +31,7 @@ public class Order {
     private String payway;
     private String from_place;
     private String to_place;
+    private String seat_type;
     @ManyToOne
     @JoinColumn(name = "trip_id", referencedColumnName = "trip_id")
     private Trip trip;
