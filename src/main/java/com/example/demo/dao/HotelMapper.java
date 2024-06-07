@@ -12,11 +12,11 @@ import java.util.List;
 
 @Mapper
 public interface HotelMapper {
-    @Insert("INSERT INTO Hotel (name, address) VALUES (#{name}, #{address})")
+    @Insert("INSERT INTO hotel (name, address, picture_path) VALUES (#{name}, #{address}, 'file/hotel/default.png')")
     void createHotel(@Param("name") String name,
                      @Param("address") String address);
 
-    @Insert("INSERT INTO Room (hotel_id, room_type, price) VALUES (#{hotel.id}, #{roomType}, #{price})")
+    @Insert("INSERT INTO room (hotel_id, room_type, price) VALUES (#{hotel.id}, #{roomType}, #{price})")
     void setRoom(Room room);
 
     @Select("select * from hotel where address = #{address}")
