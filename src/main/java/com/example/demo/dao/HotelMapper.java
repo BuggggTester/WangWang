@@ -19,7 +19,7 @@ public interface HotelMapper {
     @Insert("INSERT INTO Room (hotel_id, room_type, price) VALUES (#{hotel.id}, #{roomType}, #{price})")
     void setRoom(Room room);
 
-    @Select("select * from Hotel where address = #{address}")
+    @Select("SELECT * FROM Hotel WHERE address LIKE CONCAT('%', #{address}, '%')")
     List<Hotel> findHotelByAddress(String address);
 
     @Select("select * from Hotel where id = #{id}")

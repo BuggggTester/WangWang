@@ -17,18 +17,15 @@ public class FoodServiceImpl implements FoodService {
         return foodMapper.selectFoodsByTripId(tripId);
     }
 
+
+
     @Override
-    public void createFood(String foodName, double price, int tripId, String image) {
-        foodMapper.createFood(foodName, price, tripId, image);
+    public int buyFood(int foodId, int tripId, int userId, int quantity) {
+        return foodMapper.buyFood(foodId, tripId, userId, quantity);
     }
 
     @Override
-    public void uploadFoodImage(String image, int foodId) {
-        foodMapper.uploadFoodImage(image, foodId);
-    }
-
-    @Override
-    public void buyFood(int foodId, int tripId, int userId, int quantity) {
-        foodMapper.buyFood(foodId, tripId, userId, quantity);
+    public void cancelFood(int reservationID) {
+        foodMapper.cancelFood(reservationID);
     }
 }

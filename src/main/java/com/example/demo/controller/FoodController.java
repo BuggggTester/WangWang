@@ -11,7 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @CrossOrigin
@@ -25,51 +27,36 @@ public class FoodController {
 
     @RequestMapping(value="/select/tripId")
     public List<Food> selectFoodsByTripId(@RequestParam("tripId")int tripId) {
-        List<Food> foodList = foodService.selectFoodsByTripId(tripId);
-        return foodList;
+        return foodService.selectFoodsByTripId(tripId);
     }
-    @RequestMapping(value = "/create")
-    public R createFood(@RequestParam("File") MultipartFile file, @RequestParam("foodName") String foodName, @RequestParam("price")double price,@RequestParam("tripId")int tripId) {
-        String filePath = "./src/main/resources/static/images/foods/";
-        String dataPath = "images/foods/";
-        String fileName = file.getOriginalFilename();
-        String fileType = fileName.substring(fileName.lastIndexOf("."), fileName.length());
-        String fileNewName = UUID.randomUUID() + fileType;
-        File targetFile = new File(filePath);
-        if (!targetFile.exists()) {
-            targetFile.mkdirs();
-        }
-        FileOutputStream out = null;
+
+    @PostMapping("/buy")
+    public R buyFood(@RequestBody Map<String, String> requestParams) {
         try {
-            out = new FileOutputStream(filePath + fileNewName);
-            out.write(file.getBytes());
-            out.flush();
-            out.close();
-            foodService.createFood(foodName, price, tripId, dataPath+fileNewName);
-        }catch (Exception e) {
-            return R.error(e.toString());
-        }
-        return R.ok("创建成功！");
-    }
-    @PostMapping(value="/upload/image")
-    public R uploadFile(@RequestParam("File") MultipartFile file) {
-        String filePath = "./src/main/resources/static/images/foods";
-        String fileName = file.getOriginalFilename();
-        String fileType = fileName.substring(fileName.lastIndexOf("."), fileName.length());
-        String fileNewName = UUID.randomUUID() + fileType;
-        File targetFile = new File(filePath);
-        if (!targetFile.exists()) {
-            targetFile.mkdirs();
-        }
-        FileOutputStream out = null;
-        try {
-            out = new FileOutputStream(filePath + fileNewName);
-            out.write(file.getBytes());
-            out.flush();
-            out.close();
+            int foodId = Integer.parseInt(requestParams.get("foodId"));
+            int tripId = Integer.parseInt(requestParams.get("tripId"));
+            int userId = Integer.parseInt(requestParams.get("userId"));
+            int quantity = Integer.parseInt(requestParams.get("quantity"));
+
+            int result = foodService.buyFood(foodId, tripId, userId, quantity);
+            Map<String, Object> map = new HashMap<>();
+            map.put("result", result);
+            return R.ok(map);
+        } catch (NumberFormatException e) {
+            return R.error("Failed to parse number: " + e.getMessage());
         } catch (Exception e) {
-            return R.error(e.toString());
+            return R.error("Failed to buy food: " + e.toString());
         }
-        return R.ok("上传成功！");
     }
+
+    @PostMapping("/cancel/{restaurantId}")
+    public R cancelFood(@PathVariable int restaurantId) {
+        try {
+            foodService.cancelFood(restaurantId);
+            return R.ok("Food order cancelled successfully!");
+        } catch (Exception e) {
+            return R.error("Failed to cancel food order: " + e.toString());
+        }
+    }
+
 }
