@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Individual;
+import com.example.demo.entity.Passenger;
 import com.example.demo.entity.R;
-import com.example.demo.service.IndividualService;
+import com.example.demo.service.PassengerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,28 +17,28 @@ import static com.example.demo.utils.Md5Utils.agenerate;
 @Slf4j
 @Controller
 @RestController
-@RequestMapping(value ="/individual")
-public class IndividualController {
+@RequestMapping(value ="/passenger")
+public class PassengerController {
     @Autowired
-    private IndividualService individualService;
+    private PassengerService passengerService;
     @RequestMapping(value="/select/userId")
-    public List<Individual> selectIndividualsByUserId(@RequestParam("userId")int userId) {
+    public List<Passenger> selectPassengersByUserId(@RequestParam("userId")String userId) {
         try{
-            return individualService.selectIndividualsById(userId);
+            return passengerService.selectPassengersById(Integer.parseInt(userId));
         }catch (Exception e){
             System.out.println(e.toString());
             return null;
         }
     }
     @RequestMapping(value="/create")
-    public R createIndividual(@RequestBody HashMap<String, String> idMap) {
+    public R createpassenger(@RequestBody HashMap<String, String> idMap) {
         try {
-            String identity = agenerate(idMap.get("identity"));//对身份证加密
+            String identity = idMap.get("identity");
             String phoneNum = idMap.get("phoneNum");
             String name = idMap.get("name");
             int userId = Integer.parseInt(idMap.get("userId"));
-            individualService.createIndividual(identity, phoneNum, name, userId);
-            return R.ok("create individual success");
+            passengerService.createPassenger(identity, phoneNum, name, userId);
+            return R.ok("create passenger success");
         }catch (Exception e){
             return R.error(e.toString());
         }
