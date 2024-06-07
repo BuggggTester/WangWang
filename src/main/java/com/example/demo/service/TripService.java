@@ -12,5 +12,5 @@ public interface TripService {
     Trip selectTripById(int tripId);
     void createTrip(String trainId, Timestamp startTime, Timestamp endTime, String fromPlace, String toPlace, int numCar, int numRow);
     List<Trip> selectTripByPlaceAndTime(String fromPlace, String toPlace, Timestamp startTime);
-    int countSoldSeats(int tripId);
+    int countSoldSeats(int tripId, String fromPlace, String toPlace, String type);
 }

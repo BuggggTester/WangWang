@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @Data
-public class Individual {
-    private int iid;
+public class Passenger {
+    private int pid;
     private String identity;
     private String phone_number;
     private String name;
