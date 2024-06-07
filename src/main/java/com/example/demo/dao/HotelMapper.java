@@ -12,14 +12,14 @@ import java.util.List;
 
 @Mapper
 public interface HotelMapper {
-    @Insert("INSERT INTO Hotel (name, address) VALUES (#{name}, #{address})")
+    @Insert("INSERT INTO hotel (name, address) VALUES (#{name}, #{address})")
     void createHotel(@Param("name") String name,
                      @Param("address") String address);
 
-    @Insert("INSERT INTO Room (hotel_id, room_type, price) VALUES (#{hotel.id}, #{roomType}, #{price})")
+    @Insert("INSERT INTO room (hotel_id, room_type, price) VALUES (#{hotel.id}, #{roomType}, #{price})")
     void setRoom(Room room);
 
-    @Select("select * from hotel where address = #{address}")
+    @Select("SELECT * FROM hotel WHERE address LIKE CONCAT('%', #{address}, '%')")
     List<Hotel> findHotelByAddress(String address);
 
     @Select("select * from hotel where id = #{id}")
@@ -59,8 +59,9 @@ public interface HotelMapper {
     void setHotelInfo(String name, String address, String description, String score);
 
 
-    @Select("SELECT MIN(r.price) FROM room r WHERE r.hotel.id = :hotelId")
+    @Select("SELECT MIN(r.price) FROM Room r WHERE r.hotel.id = :hotelId")
     Double getLowestPriceByHotelId(@Param("hotelId") int hotelId);
+
     @Update("update hotel set picture_path = #{picture} where id = #{hotelId}")
-    void updatePictureById(String picture, int hoteId);
+    void updatePictureById(String picture, int hotelId);
 }

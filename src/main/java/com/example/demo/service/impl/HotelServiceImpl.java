@@ -77,6 +77,6 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public void updatePictureById(String picture, int hotelId) {
-        hotelMapper.updatePictureById(picture, hotelId);
+        //hotelMapper.updatePictureById(picture, hotelId);
     }
 }
