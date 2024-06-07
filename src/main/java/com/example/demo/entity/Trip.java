@@ -21,4 +21,7 @@ public class Trip {
     private int num_car;
     private int num_row;
     private String trip_chain;
+    private String first_price_chain;
+    private String second_price_chain;
+    private String time_chain;
 }

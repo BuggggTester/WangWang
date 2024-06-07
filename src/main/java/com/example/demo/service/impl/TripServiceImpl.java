@@ -33,7 +33,7 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public int countSoldSeats(int tripId) {
-        return tripMapper.countSoldSeats(tripId);
+    public int countSoldSeats(int tripId, String fromPlace, String toPlace, String type) {
+        return tripMapper.countSoldSeats(tripId, fromPlace, toPlace, type);
     }
 }

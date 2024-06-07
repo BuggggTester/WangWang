@@ -21,6 +21,8 @@ public interface TripMapper {
     @Select("select * from trips where trip_chain like CONCAT('%', #{fromPlace}, '%', #{toPlace}, '%') and start_time" +
             " >= #{startTime} order by start_time")
     List<Trip> selectTripByPlaceAndTime(String fromPlace, String toPlace, Timestamp startTime);
-    @Select("select count(*) from orders join trips t on t.trip_id = orders.trip_id where orders.trip_id = #{trip_id}")
-    int countSoldSeats(int tripId);
+    @Select("select count(*) from orders join trips t on t.trip_id = orders.trip_id where orders.trip_id = #{tripId} " +
+            "and seat_type = #{type} and trip_chain like CONCAT('%', #{fromPlace}, '%', #{toPlace}, '%')")
+    int countSoldSeats(int tripId, String fromPlace, String toPlace, String type);
+
 }
