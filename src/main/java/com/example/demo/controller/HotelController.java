@@ -62,7 +62,7 @@ public class HotelController {
 
     //测试通过
     @GetMapping("/selectHotelByAddress")
-    public List<Hotel> selectHotelByAddress(@RequestParam String address) {
+    public List<Hotel> selectHotelByAddress(@RequestParam("address") String address) {
         System.out.println(hotelService.selectHotelByAddress(address));
         return hotelService.selectHotelByAddress(address);
     }

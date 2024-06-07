@@ -14,6 +14,9 @@ import java.io.FileOutputStream;
 import java.util.List;
 import java.util.UUID;
 
+import static com.example.demo.config.PathConfig.food;
+import static com.example.demo.config.PathConfig.foodUrl;
+
 @CrossOrigin
 @Slf4j
 @Controller
@@ -52,12 +55,13 @@ public class FoodController {
         return R.ok("创建成功！");
     }
     @PostMapping(value="/upload/image")
-    public R uploadFile(@RequestParam("File") MultipartFile file) {
-        String filePath = "./src/main/resources/static/images/foods";
+    public R uploadFile(@RequestParam("File") MultipartFile file, @RequestParam("foodId") int foodId) {
+        String filePath = foodUrl;
         String fileName = file.getOriginalFilename();
         String fileType = fileName.substring(fileName.lastIndexOf("."), fileName.length());
         String fileNewName = UUID.randomUUID() + fileType;
         File targetFile = new File(filePath);
+        foodService.uploadFoodImage( food+ fileNewName, foodId);
         if (!targetFile.exists()) {
             targetFile.mkdirs();
         }

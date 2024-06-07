@@ -10,12 +10,12 @@ import java.util.List;
 
 @Mapper
 public interface FoodMapper {
-    @Select("select * from foods where trip_id = #{tripId}")
+    @Select("select * from food where trip_id = #{tripId}")
     List<Food> selectFoodsByTripId(int tripId);
-    @Insert("insert into foods (food_name, price, trip_id, image) VALUES (" +
+    @Insert("insert into food (name, price, trip_id, picture_path) VALUES (" +
             "#{foodName}, #{price}, #{tripId}, #{image})")
     void createFood(String foodName, double price, int tripId, String image);
-    @Update("update foods set image = #{image} where food_id = #{foodId}")
+    @Update("update food set picture_path = #{image} where id = #{foodId}")
     void uploadFoodImage(String image, int foodId);
 
     @Insert("INSERT INTO food_reservation (food_id, trip_id, user_id, quantity) " +
