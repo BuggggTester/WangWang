@@ -136,7 +136,7 @@ public class OrderController {
         } catch (Exception e) {
             return R.error("failed: " + e.toString());
         }
-            return R.ok("no seats");
+        return R.ok("no seats");
     }
 
     @RequestMapping(value = "/select/history/{userId}")
@@ -211,5 +211,4 @@ public class OrderController {
         }
         return list;
     }
-
 }

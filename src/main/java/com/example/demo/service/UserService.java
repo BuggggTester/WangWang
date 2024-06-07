@@ -15,4 +15,5 @@ public interface UserService {
     void setEmailById(int userId, String email);
     int validateIdentity(int userId, String userName, String password);
     void updatePassword(String password, int userId);
+    void updateMoneyById(double money, int userId);
 }

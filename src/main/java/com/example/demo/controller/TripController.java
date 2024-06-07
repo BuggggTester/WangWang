@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -49,6 +48,10 @@ public class TripController {
         trips.removeIf(trip -> (trip.getStart_time().getTime() - startTime.getTime()) > (1000 * 60 * 60 * 24));
 
         return trips;
+    }
+    @RequestMapping(value="/select/tripId")
+    public Trip selectTripById(@RequestParam("tripId")int tripId){
+        return tripService.selectTripById(tripId);
     }
     @RequestMapping(value = "/sum")
     public R countRestSeatsAndTime(@RequestParam("tripId") int tripId,

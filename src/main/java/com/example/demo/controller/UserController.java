@@ -108,6 +108,17 @@ public class UserController {
             return user;
         }
     }
+    @RequestMapping(value="/recharge")
+    public R updateMoneyById(@RequestParam("userId")int userId, @RequestParam("payment")String payment) {
+        double money = Double.parseDouble(payment);
+        User user = userService.selectUserById(userId);
+        try{
+            userService.updateMoneyById(money, userId);
+            return R.ok("recharge success");
+        }catch (Exception e){
+            return R.error("payment error");
+        }
+    }
     @GetMapping(value="/select/admin")
     public User selectAdmin(@RequestParam("userName") String userName) {
         return userService.selectAdmin(userName);
