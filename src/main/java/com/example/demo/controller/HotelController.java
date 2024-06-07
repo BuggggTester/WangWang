@@ -1,19 +1,24 @@
 package com.example.demo.controller;
 
 import com.example.demo.common.constant.RoomType;
+import com.example.demo.config.PathConfig;
 import com.example.demo.entity.R;
+import com.example.demo.entity.User;
 import com.example.demo.entity.hotel.Hotel;
 import com.example.demo.service.HotelService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
+
+import static com.example.demo.config.PathConfig.avatarUrl;
+import static com.example.demo.config.PathConfig.hotelUrl;
 
 //
 @Slf4j
@@ -35,7 +40,7 @@ public class HotelController {
         return R.ok();
     }
 
-    @PutMapping("/")
+    @RequestMapping("/")
     public R setHotelInfo(@RequestBody Map<String, String> hotelMap) {
         String name = hotelMap.get("name") != null ? hotelMap.get("name") : "";
         String address = hotelMap.get("address") != null ? hotelMap.get("address") : "";
@@ -130,5 +135,28 @@ public class HotelController {
     @GetMapping("/hotel/lowestPrice")
     public int getLowestPrice(@RequestParam int hotelId) {
         return (int) Math.floor(hotelService.countLowestPrice(hotelId));
+    }
+    @RequestMapping(value = "/upload/picture")
+    public R updateAvatar(@RequestParam("picture") MultipartFile file, @RequestParam("hotelId") int hotelId) {
+        Hotel hotel = hotelService.selectHotelById(hotelId);
+        String filePath = hotelUrl;
+        String fileName = file.getOriginalFilename();
+        String fileType = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+        String fileNewName = UUID.randomUUID() + fileType;
+        hotelService.updatePictureById(PathConfig.hotel + fileNewName, hotelId);
+        File targetFile = new File(filePath);
+        if (!targetFile.exists()) {
+            targetFile.mkdirs();
+        }
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(filePath+ fileNewName);
+            out.write(file.getBytes());
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            return R.error(e.toString());
+        }
+        return R.ok("上传成功！");
     }
 }

@@ -74,4 +74,9 @@ public class HotelServiceImpl implements HotelService {
     public Double countLowestPrice(int hotelID) {
         return hotelMapper.getLowestPriceByHotelId(hotelID);
     }
+
+    @Override
+    public void updatePictureById(String picture, int hotelId) {
+        hotelMapper.updatePictureById(picture, hotelId);
+    }
 }
