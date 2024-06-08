@@ -14,7 +14,8 @@ public interface FoodMapper {
     List<Food> selectFoodsByTripId(int tripId);
     @Update("update food set picture_path = #{image} where id = #{foodId}")
     void uploadFoodImage(String image, int foodId);
-
+    @Insert("insert into food (name, picture_path, price, trip_id) VALUES (#{foodName},#{image}, #{price},#{tripId})")
+    void createFood(String foodName, double price, int tripId, String image);
     @Insert("INSERT INTO food_reservation (food_id, trip_id, user_id, quantity) " +
             "VALUES (#{foodId}, #{tripId}, #{userId}, #{quantity})")
     void buyFood(int foodId, int tripId, int userId, int quantity);
