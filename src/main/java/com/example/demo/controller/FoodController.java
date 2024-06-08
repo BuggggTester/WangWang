@@ -36,23 +36,9 @@ public class FoodController {
         return foodList;
     }
     @RequestMapping(value = "/create")
-    public R createFood(@RequestParam("File") MultipartFile file, @RequestParam("foodName") String foodName, @RequestParam("price")double price,@RequestParam("tripId")int tripId) {
-        String filePath = "./src/main/resources/static/images/foods/";
-        String dataPath = "images/foods/";
-        String fileName = file.getOriginalFilename();
-        String fileType = fileName.substring(fileName.lastIndexOf("."), fileName.length());
-        String fileNewName = UUID.randomUUID() + fileType;
-        File targetFile = new File(filePath);
-        if (!targetFile.exists()) {
-            targetFile.mkdirs();
-        }
-        FileOutputStream out = null;
+    public R createFood(@RequestParam("foodName") String foodName, @RequestParam("price")double price,@RequestParam("tripId")int tripId) {
         try {
-            out = new FileOutputStream(filePath + fileNewName);
-            out.write(file.getBytes());
-            out.flush();
-            out.close();
-            foodService.createFood(foodName, price, tripId, dataPath+fileNewName);
+            foodService.createFood(foodName, price, tripId, "/file/foods/default.png");
         }catch (Exception e) {
             return R.error(e.toString());
         }
