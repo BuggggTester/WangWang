@@ -18,15 +18,9 @@ public class TotalOrderServiceImpl implements TotalOrderService {
     private TotalOrderMapper totalOrderMapper;
 
     @Override
-    public void createOrder(int userId, int reservationId, OrderType orderType, double payment) {
+    public void createOrder(TotalOrder totalOrder) {
         Timestamp now = new Timestamp(System.currentTimeMillis());
-        TotalOrder totalOrder = new TotalOrder();
-
         totalOrder.setOrder_create_time(now);
-        totalOrder.setPayment(payment);
-        totalOrder.setOrder_type(orderType);
-        totalOrder.setReservation_id(reservationId);
-        totalOrder.setUser_id(userId);
 
         totalOrderMapper.createOrder(totalOrder);
     }
@@ -69,6 +63,16 @@ public class TotalOrderServiceImpl implements TotalOrderService {
     @Override
     public List<TotalOrder> getOrdersByType(int userId, OrderType orderType) {
         return totalOrderMapper.getOrdersByType(userId, orderType);
+    }
+
+    @Override
+    public TotalOrder selectOrderById(int id) {
+        return totalOrderMapper.selectOrderById(id);
+    }
+
+    @Override
+    public int confirmOrder(int id) {
+        return totalOrderMapper.confirmOrder(id);
     }
 
     @Override

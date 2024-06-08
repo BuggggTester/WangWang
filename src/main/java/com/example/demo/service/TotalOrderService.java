@@ -4,6 +4,7 @@ package com.example.demo.service;
 import com.example.demo.common.constant.OrderType;
 import com.example.demo.common.constant.PaymentMethod;
 import com.example.demo.entity.TotalOrder;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
@@ -12,7 +13,7 @@ import java.util.List;
 @Component
 public interface TotalOrderService {
     // 生成订单
-    void createOrder(int userId, int reservationId, OrderType orderType, double payment);
+    void createOrder(TotalOrder totalOrder);
 
     // 根据订单ID获取订单
     TotalOrder getOrder(int id);
@@ -32,6 +33,8 @@ public interface TotalOrderService {
 
 
     List<TotalOrder> getOrdersByType(int userId, OrderType orderType);
+    TotalOrder selectOrderById(int id);
+    int confirmOrder(int id);
 
     // 更新订单
     void updateOrder(TotalOrder order);

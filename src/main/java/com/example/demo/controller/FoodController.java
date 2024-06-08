@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.food.Food;
 import com.example.demo.entity.R;
+import com.example.demo.entity.food.FoodReservation;
 import com.example.demo.service.FoodService;
 import com.example.demo.service.TripService;
 import lombok.extern.slf4j.Slf4j;
@@ -46,10 +47,10 @@ public class FoodController {
     }
 
     @RequestMapping(value="/create/reservation")
-    public R createFoodReservation(@RequestParam("foodId")int foodId, @RequestParam("quantity")int quantity, @RequestParam("userId")int userId) {
+    public R createFoodReservation(@RequestBody FoodReservation foodReservation) {
         try {
-            foodService.buyFood(foodId, userId, quantity);
-            return R.ok("create reservation success");
+            foodService.buyFood(foodReservation);
+            return R.ok("create reservation success").put("reservationId",foodReservation.getId());
         }catch (Exception e){
             return R.error(e.toString());
         }

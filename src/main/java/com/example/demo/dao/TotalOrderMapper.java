@@ -14,8 +14,8 @@ public interface TotalOrderMapper {
     //        以下是用户在购买界面需要调用的接口
     //  创建订单
     //  在创建reservation之前，如果reservation创建失败则不能创建订单。
-    @Insert("INSERT INTO total_order (user_id, reservation_id, order_type, payment, order_create_time) " +
-            "VALUES (#{userId}, #{reservationId}, #{orderType}, #{payment}, #{orderCreateTime})")
+    @Insert("INSERT INTO total_order (user_id, reservation_id, order_type, payment, order_create_time,state) " +
+            "VALUES (#{user_id}, #{reservation_id}, #{order_type}, #{payment}, #{order_create_time},'PENDING_PAYMENT')")
     void createOrder(TotalOrder totalOrder);
     // 支付时调用
     @Update("UPDATE total_order SET state = 'PAID', pay_time = NOW() WHERE id = #{id}")
@@ -61,8 +61,10 @@ public interface TotalOrderMapper {
     @Update("UPDATE total_order SET state = 'CANCELLED', finish_time = NOW() WHERE id = #{id}")
     int cancelOrder(@Param("id") int id);
 
-
-
+    @Update("UPDATE total_order SET state = 'PAID', finish_time = NOW() WHERE id = #{id}")
+    int confirmOrder(@Param("id") int id);
+    @Select("select * from total_order where id = #{id} limit 1")
+    TotalOrder selectOrderById(int id);
     // 在时间到达后自动调用（暂时不知道怎么用）
     @Update("UPDATE total_order SET state = 'FINISHED', finish_time = NOW() WHERE id = #{id}")
     int finishOrder(@Param("id") int id);

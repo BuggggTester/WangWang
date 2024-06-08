@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.common.constant.OrderStatus;
 import com.example.demo.common.constant.OrderType;
 import com.example.demo.common.constant.PaymentMethod;
 import com.example.demo.entity.R;
@@ -38,16 +39,16 @@ public class TotalOrderController {
 
 
     @PostMapping("/create")
-    public R createOrder(@RequestBody Map<String, String> orderMap) {
+    public R createOrder(@RequestBody TotalOrder totalOrder) {
         try {
-            int userId = Integer.parseInt(orderMap.get("userId"));
-            int reservationId = Integer.parseInt(orderMap.get("reservationId"));
-            OrderType orderType = OrderType.valueOf(orderMap.get("orderType").toUpperCase());
-            double payment = Double.parseDouble(orderMap.get("payment"));
+//            int userId = Integer.parseInt(orderMap.get("userId"));
+//            int reservationId = Integer.parseInt(orderMap.get("reservationId"));
+//            OrderType orderType = OrderType.valueOf(orderMap.get("orderType").toUpperCase());
+//            double payment = Double.parseDouble(orderMap.get("payment"));
 
-            totalOrderService.createOrder(userId, reservationId, orderType, payment);
+            totalOrderService.createOrder(totalOrder);
 
-            return R.ok("Order created successfully!");
+            return R.ok("Order created successfully!").put("id",totalOrder.getId());
         } catch (NumberFormatException e) {
             return R.error("Failed to parse number: " + e.getMessage());
         } catch (IllegalArgumentException e) {
@@ -56,7 +57,11 @@ public class TotalOrderController {
             return R.error("Failed to create order: " + e.toString());
         }
     }
-
+    @RequestMapping(value="/confirm")
+    public R confirmFoodOrder(@RequestParam("id")int id){
+        totalOrderService.confirmOrder(id);
+        return R.ok("confirm success");
+    }
     @GetMapping("/get/{id}")
     public TotalOrder getOrder(@PathVariable int id) {
         try {
@@ -128,8 +133,8 @@ public class TotalOrderController {
         return R.error("Failed to delete order: " + id);
     }
 
-    @PutMapping("/cancel/{Id}")
-    public R cancelOrder(@PathVariable int Id) {
+    @PutMapping("/cancel")
+    public R cancelOrder(@RequestParam("id") int Id) {
         if (totalOrderService.cancelOrder(Id)) {
             return R.ok("Order canceled successfully!");
         }

@@ -15,3 +15,6 @@ public enum PaymentMethod {
     }
 
 }
+//userid payment foodid
+//confirm: reservation_id
+//cancel: reservation_id

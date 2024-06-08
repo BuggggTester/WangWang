@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.food.Food;
+import com.example.demo.entity.food.FoodReservation;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface FoodService {
     void uploadFoodImage(String image, int foodId);
 
 
-    void buyFood(int foodId, int userId, int quantity);
+    void buyFood(FoodReservation foodReservation);
     void createFood(String foodName, double price, int tripId, String image);
     List<Food> selectFoodByTripId(int trip_id);
 
