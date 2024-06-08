@@ -68,29 +68,32 @@ public class HotelController {
     @GetMapping("/selectHotelByPriceASC")
     public List<Hotel> selectHotelByPriceASC(@RequestParam("address") String address) {
         List<Hotel> hotelList = hotelService.selectHotelByAddress(address);
-        return hotelList.stream()
+        List<Hotel> sortedList =  hotelList.stream()
                 .sorted((hotel1, hotel2) ->
                         Double.compare(hotelService.countLowestPrice(hotel1.getId())
                                 , hotelService.countLowestPrice(hotel2.getId())))
                 .toList();
+        return putPriceHelpFunction(sortedList);
     }
 
     @GetMapping("/selectHotelByPriceDESC")
     public List<Hotel> selectHotelByPriceDESC(@RequestParam("address") String address) {
         List<Hotel> hotelList = hotelService.selectHotelByAddress(address);
-        return hotelList.stream()
+        List<Hotel> sortedList = hotelList.stream()
                 .sorted((hotel1, hotel2) ->
                         Double.compare(hotelService.countLowestPrice(hotel2.getId())
                                 , hotelService.countLowestPrice(hotel1.getId())))
                 .toList();
+        return putPriceHelpFunction(sortedList);
     }
 
     @GetMapping("/selectHotelByScore")
     public List<Hotel> selectHotelByScore(@RequestParam("address") String address) {
         List<Hotel> hotelList = hotelService.selectHotelByAddress(address);
-        return hotelList.stream()
+        List<Hotel> sortedList = hotelList.stream()
                 .sorted(Comparator.comparingDouble(hotel -> Double.parseDouble(hotel.getScore())))
                 .toList();
+        return putPriceHelpFunction(sortedList).reversed();
     }
 
     //测试通过
