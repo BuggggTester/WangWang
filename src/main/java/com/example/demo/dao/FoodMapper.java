@@ -12,9 +12,6 @@ import java.util.List;
 public interface FoodMapper {
     @Select("select * from food where trip_id = #{tripId}")
     List<Food> selectFoodsByTripId(int tripId);
-    @Insert("insert into food (name, price, trip_id, picture_path) VALUES (" +
-            "#{foodName}, #{price}, #{tripId}, #{image})")
-    void createFood(String foodName, double price, int tripId, String image);
     @Update("update food set picture_path = #{image} where id = #{foodId}")
     void uploadFoodImage(String image, int foodId);
 

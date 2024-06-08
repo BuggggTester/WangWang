@@ -44,6 +44,15 @@ public class FoodController {
         }
         return R.ok("创建成功！");
     }
+    @RequestMapping(value="/create/reservation")
+    public R createFoodReservation(@RequestParam("foodId")int foodId, @RequestParam("quantity")int quantity, @RequestParam("tripId")int tripId, @RequestParam("userId")int userId) {
+        try {
+            foodService.buyFood(foodId, tripId, userId, quantity);
+            return R.ok("create reservation success");
+        }catch (Exception e){
+            return R.error(e.toString());
+        }
+    }
     @PostMapping(value="/upload/image")
     public R uploadFile(@RequestParam("File") MultipartFile file, @RequestParam("foodId") int foodId) {
         String filePath = foodUrl;
