@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.common.constant.RoomType;
 import com.example.demo.config.PathConfig;
 import com.example.demo.entity.R;
-import com.example.demo.entity.User;
 import com.example.demo.entity.hotel.Hotel;
 import com.example.demo.service.HotelService;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +15,7 @@ import java.io.FileOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
-import static com.example.demo.config.PathConfig.avatarUrl;
 import static com.example.demo.config.PathConfig.hotelUrl;
 
 //
@@ -81,6 +78,7 @@ public class HotelController {
     @GetMapping("/selectHotelByPriceDESC")
     public List<Hotel> selectHotelByPriceDESC(@RequestParam("address") String address) {
         List<Hotel> hotelList = hotelService.selectHotelByAddress(address);
+        System.out.println(hotelList);
         return hotelList.stream()
                 .sorted((hotel1, hotel2) ->
                         Double.compare(hotelService.countLowestPrice(hotel2.getId())
