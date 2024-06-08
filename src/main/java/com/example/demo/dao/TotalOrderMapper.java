@@ -16,6 +16,7 @@ public interface TotalOrderMapper {
     //  在创建reservation之前，如果reservation创建失败则不能创建订单。
     @Insert("INSERT INTO total_order (user_id, reservation_id, order_type, payment, order_create_time,state) " +
             "VALUES (#{user_id}, #{reservation_id}, #{order_type}, #{payment}, #{order_create_time},'PENDING_PAYMENT')")
+    @SelectKey(statement = "SELECT LAST_INSERT_ID() AS id", keyProperty = "id", before = false, resultType = int.class)
     void createOrder(TotalOrder totalOrder);
     // 支付时调用
     @Update("UPDATE total_order SET state = 'PAID', pay_time = NOW() WHERE id = #{id}")
