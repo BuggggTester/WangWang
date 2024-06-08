@@ -9,12 +9,11 @@ import java.util.List;
 
 @Mapper
 public interface OrderMapper {
-    @Insert("INSERT INTO orders (order_time, user_id, type, state, payment, trip_id, carriage, `row`, seat, payTime, payway, from_place, to_place) " +
-            "VALUES (#{orderTime}, #{userId}, #{type}, #{state}, #{payment}, #{tripId}, #{carriage}, #{row}, #{seat}, #{payTime}, #{payway}, #{fromPlace}, #{toPlace})")
+    @Insert("INSERT INTO orders (order_time, user_id, state, payment, trip_id, carriage, `row`, seat, payTime, payway, from_place, to_place) " +
+            "VALUES (#{orderTime}, #{userId}, #{state}, #{payment}, #{tripId}, #{carriage}, #{row}, #{seat}, #{payTime}, #{payway}, #{fromPlace}, #{toPlace})")
     void createOrder(
             @Param("orderTime") Date orderTime,
             @Param("userId") int userId,
-            @Param("type") String type,
             @Param("state") String state,
             @Param("payment") double payment,
             @Param("tripId") Integer tripId,
