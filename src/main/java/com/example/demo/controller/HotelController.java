@@ -90,13 +90,12 @@ public class HotelController {
     @GetMapping("/selectHotelByScore")
     public List<Hotel> selectHotelByScore(@RequestParam("address") String address) {
         List<Hotel> hotelList = hotelService.selectHotelByAddress(address);
-        List<Hotel> sortedList = hotelList.stream()
+        System.out.println(hotelList);
+        return hotelList.stream()
                 .sorted((hotel1, hotel2) ->
                         Double.compare(Double.parseDouble(hotel2.getScore()),
                                 Double.parseDouble(hotel1.getScore())))
                 .toList();
-        Collections.reverse(putPriceHelpFunction(sortedList));
-        return sortedList;
     }
 
     //测试通过
