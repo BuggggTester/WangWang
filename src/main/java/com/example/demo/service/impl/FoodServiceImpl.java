@@ -28,10 +28,10 @@ public class FoodServiceImpl implements FoodService {
         foodMapper.buyFood(foodId, tripId, userId, quantity);
     }
 
-    @Override
-    public void createFood(String foodName, double price, int tripId, String image) {
-        foodMapper.createFood(foodName, price, tripId, image);
-    }
+//    @Override
+//    public void createFood(String foodName, double price, int tripId, String image) {
+//        foodMapper.createFood(foodName, price, tripId, image);
+//    }
 
     @Override
     public List<Food> selectFoodByTripId(int trip_id) {
