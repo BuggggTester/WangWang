@@ -53,7 +53,6 @@ public class OrderController {
             Integer row;
             //TODO: row之后弃用：变为随机分配
             Character seat = orderMap.containsKey("seat") ? orderMap.get("seat").charAt(0) : null;
-            Timestamp payTime = orderMap.containsKey("payTime") ? Timestamp.valueOf(orderMap.get("payTime")) : null;
             String payway = orderMap.get("payway");
             //获取Map数据
             //TODO: 验证值合理性
@@ -96,7 +95,7 @@ public class OrderController {
                     if (flag == 1) {
                         carriage = i;
                         row = j;
-                        orderService.createOrder( orderTime, userId, state, payment, tripId, carriage, row, seat, payTime, payway, fromPlace, toPlace);
+                        orderService.createOrder( orderTime, userId, state, payment, tripId, carriage, row, seat, payway, fromPlace, toPlace);
                         return R.ok("order create success!");
                     } else {
                         flag = 1;
@@ -121,7 +120,7 @@ public class OrderController {
                                 carriage = i;
                                 row = j;
                                 seat = (char) (q + 'A' -1);
-                                orderService.createOrder(orderTime, userId, state, payment, tripId, carriage, row, seat, payTime, payway, fromPlace, toPlace);
+                                orderService.createOrder(orderTime, userId, state, payment, tripId, carriage, row, seat, payway, fromPlace, toPlace);
                                 return R.ok("order create success!").put("carriage",carriage).put("row",row).put("seat", seat);
                             } else {
                                 flag = 1;

@@ -9,8 +9,8 @@ import java.util.List;
 
 @Mapper
 public interface OrderMapper {
-    @Insert("INSERT INTO orders (order_time, user_id, state, payment, trip_id, carriage, `row`, seat, payTime, payway, from_place, to_place) " +
-            "VALUES (#{orderTime}, #{userId}, #{state}, #{payment}, #{tripId}, #{carriage}, #{row}, #{seat}, #{payTime}, #{payway}, #{fromPlace}, #{toPlace})")
+    @Insert("INSERT INTO orders (order_time, user_id, state, payment, trip_id, carriage, `row`, seat, payway, from_place, to_place) " +
+            "VALUES (#{orderTime}, #{userId}, #{state}, #{payment}, #{tripId}, #{carriage}, #{row}, #{seat}, #{payway}, #{fromPlace}, #{toPlace})")
     void createOrder(
             @Param("orderTime") Date orderTime,
             @Param("userId") int userId,
@@ -20,7 +20,6 @@ public interface OrderMapper {
             @Param("carriage") int carriage,
             @Param("row") Integer row,
             @Param("seat") Character seat,
-            @Param("payTime") Timestamp payTime,
             @Param("payway") String payway,
             @Param("fromPlace") String fromPlace,
             @Param("toPlace") String toPlace
@@ -58,7 +57,7 @@ public interface OrderMapper {
             )
     })
     @Select("select * from orders join trips t on t.trip_id = orders.trip_id where user_id = #{userId} " +
-            "and state='payed' and t.start_time > now()")
+            " and t.start_time > now()")
     List<Order> selectNotDepartureOrdersByUser(@Param("userId") int userId);
     @Results({
             @Result(property = "trip", column = "trip_id",

@@ -15,8 +15,8 @@ public class OrderServiceImpl implements OrderService {
     @Resource
     private OrderMapper orderMapper;
     @Override
-    public void createOrder(Date orderTime, int userId, String state, double payment, Integer tripId, int carriage, Integer row, Character seat, Timestamp payTime, String payway,String fromPlace, String toPlace) {
-        orderMapper.createOrder(orderTime, userId,  state, payment, tripId, carriage, row, seat, payTime, payway, fromPlace,toPlace);
+    public void createOrder(Date orderTime, int userId, String state, double payment, Integer tripId, int carriage, Integer row, Character seat, String payway,String fromPlace, String toPlace) {
+        orderMapper.createOrder(orderTime, userId,  state, payment, tripId, carriage, row, seat, payway, fromPlace,toPlace);
     }
 
     @Override
