@@ -59,6 +59,9 @@ public class OrderController {
             if (tripId == null) {
                 return R.error("tripId error");
             }
+            if(seat == null) {
+                return R.error("seat error");
+            }
             //TODO：选座算法
             //获取该车次信息
             Trip trip = tripService.selectTripById(tripId);
@@ -84,21 +87,23 @@ public class OrderController {
             int from = stationMap.get(fromPlace);
             int to = stationMap.get(toPlace);
             int flag = 1;
-            for (int i = 1; i <= trip.getNum_car(); i++) {
-                for (int j = 1; j <= trip.getNum_row(); j++) {
-                    for (int k = from; k <= to; k++) {
-                        if (p[k][i][j][seat - 'A' + 1] == 1) {
-                            flag = 0;
-                            break;
+            if(seat != 'E') {
+                for (int i = 1; i <= trip.getNum_car(); i++) {
+                    for (int j = 1; j <= trip.getNum_row(); j++) {
+                        for (int k = from; k <= to; k++) {
+                            if (p[k][i][j][seat - 'A' + 1] == 1) {
+                                flag = 0;
+                                break;
+                            }
                         }
-                    }
-                    if (flag == 1) {
-                        carriage = i;
-                        row = j;
-                        orderService.createOrder( orderTime, userId, state, payment, tripId, carriage, row, seat, payway, fromPlace, toPlace);
-                        return R.ok("order create success!");
-                    } else {
-                        flag = 1;
+                        if (flag == 1) {
+                            carriage = i;
+                            row = j;
+                            orderService.createOrder(orderTime, userId, state, payment, tripId, carriage, row, seat, payway, fromPlace, toPlace);
+                            return R.ok("order create success!");
+                        } else {
+                            flag = 1;
+                        }
                     }
                 }
             }
