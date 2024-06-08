@@ -16,6 +16,7 @@ import java.io.FileOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.example.demo.config.PathConfig.avatarUrl;
 import static com.example.demo.config.PathConfig.hotelUrl;
@@ -65,6 +66,34 @@ public class HotelController {
     public List<Hotel> selectHotelByAddress(@RequestParam("address") String address) {
         System.out.println(hotelService.selectHotelByAddress(address));
         return hotelService.selectHotelByAddress(address);
+    }
+
+    @GetMapping("/selectHotelByPriceASC")
+    public List<Hotel> selectHotelByPriceASC(@RequestParam("address") String address) {
+        List<Hotel> hotelList = hotelService.selectHotelByAddress(address);
+        return hotelList.stream()
+                .sorted((hotel1, hotel2) ->
+                        Double.compare(hotelService.countLowestPrice(hotel1.getId())
+                                , hotelService.countLowestPrice(hotel2.getId())))
+                .toList();
+    }
+
+    @GetMapping("/selectHotelByPriceDESC")
+    public List<Hotel> selectHotelByPriceDESC(@RequestParam("address") String address) {
+        List<Hotel> hotelList = hotelService.selectHotelByAddress(address);
+        return hotelList.stream()
+                .sorted((hotel1, hotel2) ->
+                        Double.compare(hotelService.countLowestPrice(hotel2.getId())
+                                , hotelService.countLowestPrice(hotel1.getId())))
+                .toList();
+    }
+
+    @GetMapping("/selectHotelByScore")
+    public List<Hotel> selectHotelByScore(@RequestParam("address") String address) {
+        List<Hotel> hotelList = hotelService.selectHotelByAddress(address);
+        return hotelList.stream()
+                .sorted(Comparator.comparingDouble(hotel -> Double.parseDouble(hotel.getScore())))
+                .toList();
     }
 
     //测试通过
