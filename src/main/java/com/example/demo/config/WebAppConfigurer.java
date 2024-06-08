@@ -22,6 +22,6 @@ public class WebAppConfigurer implements WebMvcConfigurer {
         registry.addResourceHandler("/file/avatar/**").addResourceLocations("file:" + System.getProperty("user.dir")+"/images/avatars/");
         registry.addResourceHandler("/api/avatar/**").addResourceLocations("");
         registry.addResourceHandler("/file/hotel/**").addResourceLocations("file:" + System.getProperty("user.dir")+ "/images/hotels/");
-        registry.addResourceHandler("/file/foods/**").addResourceLocations("file:" + System.getProperty("user.dir") + "/images/hotels");
+        registry.addResourceHandler("/file/foods/**").addResourceLocations("file:" + System.getProperty("user.dir") + "/images/foods/");
     }
 }

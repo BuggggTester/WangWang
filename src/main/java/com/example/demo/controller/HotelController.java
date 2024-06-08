@@ -5,6 +5,7 @@ import com.example.demo.config.PathConfig;
 import com.example.demo.entity.R;
 import com.example.demo.entity.User;
 import com.example.demo.entity.hotel.Hotel;
+import com.example.demo.entity.hotel.HotelReservation;
 import com.example.demo.service.HotelService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,10 @@ public class HotelController {
         hotelService.setHotelInfo(name, address, description, score);
         return R.ok();
     }
-
+    @RequestMapping("/hotelreservation")
+    public HotelReservation selectHotelReservationById(@RequestParam("hrId")String hrId) {
+        return hotelService.selectHotelReservationById(Integer.parseInt(hrId));
+    }
     //测试通过
     @PostMapping("/{hotelID}/rooms")
     public void setRoom(@PathVariable int hotelID,
@@ -63,7 +67,7 @@ public class HotelController {
     //测试通过
     @GetMapping("/selectHotelByAddress")
     public List<Hotel> selectHotelByAddress(@RequestParam("address") String address) {
-        System.out.println(hotelService.selectHotelByAddress(address));
+//        System.out.println(hotelService.selectHotelByAddress(address));
         return hotelService.selectHotelByAddress(address);
     }
 
@@ -133,8 +137,8 @@ public class HotelController {
     }
 
     @GetMapping("/hotel/lowestPrice")
-    public int getLowestPrice(@RequestParam int hotelId) {
-        return (int) Math.floor(hotelService.countLowestPrice(hotelId));
+    public R getLowestPrice(@RequestParam("hotelId") int hotelId) {
+        return R.ok().put("minPrice",Math.floor(hotelService.countLowestPrice(hotelId)));
     }
     @RequestMapping(value = "/upload/picture")
     public R updateAvatar(@RequestParam("picture") MultipartFile file, @RequestParam("hotelId") int hotelId) {

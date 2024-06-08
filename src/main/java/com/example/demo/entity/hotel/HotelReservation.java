@@ -1,5 +1,6 @@
 package com.example.demo.entity.hotel;
 
+import com.example.demo.entity.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -20,14 +21,14 @@ public class HotelReservation {
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
 
-    @Column(name = "user_id", nullable = false)
-    private int userID;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @Column(nullable = false)
-    private Date checkInDate;
+    @Column(name = "check_in_date", nullable = false)
+    private Date check_in_date;
 
-    @Column(nullable = false)
-    private Date checkOutDate;
-
+    @Column(name="check_out_date", nullable = false)
+    private Date check_out_date;
 }
 

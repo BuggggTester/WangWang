@@ -3,6 +3,7 @@ package com.example.demo.dao;
 
 import com.example.demo.common.constant.RoomType;
 import com.example.demo.entity.hotel.Hotel;
+import com.example.demo.entity.hotel.HotelReservation;
 import com.example.demo.entity.hotel.Room;
 import org.apache.ibatis.annotations.*;
 
@@ -12,13 +13,14 @@ import java.util.List;
 
 @Mapper
 public interface HotelMapper {
-    @Insert("INSERT INTO hotel (name, address) VALUES (#{name}, #{address})")
+    @Insert("INSERT INTO hotel (name, address, picture_path) VALUES (#{name}, #{address},'default.png')")
     void createHotel(@Param("name") String name,
                      @Param("address") String address);
 
     @Insert("INSERT INTO room (hotel_id, room_type, price) VALUES (#{hotel.id}, #{roomType}, #{price})")
     void setRoom(Room room);
-
+    @Select("select * from hotel where id = #{hotelId} limit 1")
+    Hotel selectHotelById(int hotelId);
     @Select("SELECT * FROM hotel WHERE address LIKE CONCAT('%', #{address}, '%')")
     List<Hotel> findHotelByAddress(String address);
 
@@ -59,9 +61,19 @@ public interface HotelMapper {
     void setHotelInfo(String name, String address, String description, String score);
 
 
-    @Select("SELECT MIN(r.price) FROM room r WHERE r.hotel.id = :hotelId")
+    @Select("SELECT MIN(r.price) FROM room r WHERE r.hotel_id = #{hotelId}")
     Double getLowestPriceByHotelId(@Param("hotelId") int hotelId);
-
+    @Results({
+            @Result(property = "hotel", column="hotel_id", one = @One(select="com.example.demo.dao.HotelMapper.selectHotelById")),
+    })
+    @Select("select * from room where id = #{roomId} limit 1")
+    Room selectRoomById(int roomId);
     @Update("update hotel set picture_path = #{picture} where id = #{hotelId}")
     void updatePictureById(String picture, int hotelId);
+    @Results({
+            @Result(property = "room", column = "room_id", one = @One(select = "com.example.demo.dao.HotelMapper.selectRoomById")),
+            @Result(property = "user", column = "user_id", one = @One(select = "com.example.demo.dao.UserMapper.selectUserById"))
+    })
+    @Select("select * from hotel_reservation where id = #{hrId} limit 1")
+    HotelReservation selectHotelReservationById(int hrId);
 }

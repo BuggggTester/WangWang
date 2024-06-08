@@ -27,6 +27,8 @@ public class Hotel {
 
     private String description;
 
+    private Double lowestPrice;
+
     private String score;
 
     //一个酒店对应多个房间，
