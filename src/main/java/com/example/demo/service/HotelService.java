@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.common.constant.RoomType;
 import com.example.demo.entity.hotel.Hotel;
+import com.example.demo.entity.hotel.HotelReservation;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -21,6 +22,8 @@ public interface HotelService {
     void setHotelInfo(String name, String address, String description, String score);
     Double countLowestPrice(int hotelID);
     void updatePictureById(String picture, int hotelId);
+    HotelReservation selectHotelReservationById(int hrId);
+
 }
 
 

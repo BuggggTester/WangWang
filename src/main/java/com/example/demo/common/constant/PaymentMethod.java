@@ -1,5 +1,8 @@
 package com.example.demo.common.constant;
 
+import lombok.Getter;
+
+@Getter
 public enum PaymentMethod {
     WECHAT_PAY("微信支付"),
     ALIPAY("支付宝支付"),
@@ -11,7 +14,4 @@ public enum PaymentMethod {
         this.description = description;
     }
 
-    public String getDescription() {
-        return description;
-    }
 }
