@@ -9,8 +9,9 @@ import java.util.List;
 
 @Component
 public interface OrderService {
-    void createOrder( Date orderTime, int userId, String state, double payment,
-                      Integer tripId, int carriage, Integer row, Character seat, String payway,String fromPlace, String toPlace);
+    void createOrder(Order order);
+//    void createOrder( Date orderTime, int userId, String state, double payment,
+//                      Integer tripId, int carriage, Integer row, Character seat, String payway,String fromPlace, String toPlace);
     void deleteOrderByCustomer(int orderId, int userId);
     List<Order> selectOrdersByUser(int userId);
     List<Order> selectAllOrders();
