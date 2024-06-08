@@ -33,31 +33,36 @@ public class OrderController {
     OrderService orderService;
     @Autowired
     TripService tripService;
-    @Autowired
-    Order order;
 
     @ResponseBody
     @RequestMapping(value = "/create")
-    public R createOrder(@RequestBody Map<String, String> orderMap) {
+    public R createOrder(@RequestBody Order order) {
         try {
-            SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-            Date orderTime = ft.parse(orderMap.get("order_time"));
-            int userId = Integer.parseInt(orderMap.get("userId"));
-            String state = orderMap.get("state");
-            String fromPlace = orderMap.get("fromPlace");
-            String toPlace = orderMap.get("toPlace");
-            double payment = Double.parseDouble(orderMap.get("payment"));
-            Integer tripId = orderMap.containsKey("tripId") ? Integer.parseInt(orderMap.get("tripId")) : null;
+//            SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+//            Date orderTime = ft.parse(orderMap.get("order_time"));
+//            int userId = Integer.parseInt(orderMap.get("userId"));
+//            String state = orderMap.get("state");
+//            String fromPlace = orderMap.get("fromPlace");
+//            String toPlace = orderMap.get("toPlace");
+//            double payment = Double.parseDouble(orderMap.get("payment"));
+//            Integer tripId = orderMap.containsKey("tripId") ? Integer.parseInt(orderMap.get("tripId")) : null;
             int carriage;
             //TODO: carriage之后弃用：变为随机分配
-            Integer row;
+            int row;
             //TODO: row之后弃用：变为随机分配
-            Character seat = orderMap.containsKey("seat") ? orderMap.get("seat").charAt(0) : null;
-            String payway = orderMap.get("payway");
+//            Character seat = orderMap.containsKey("seat") ? orderMap.get("seat").charAt(0) : null;
+//            String payway = orderMap.get("payway");
             //获取Map数据
             //TODO: 验证值合理性
-            if (tripId == null) {
+            int tripId = order.getTrip_id();
+            char seat = order.getSeat();
+            String fromPlace = order.getFrom_place();
+            String toPlace = order.getTo_place();
+            if (tripId == 0) {
                 return R.error("tripId error");
+            }
+            if(seat == 0) {
+                return R.error("seat error");
             }
             //TODO：选座算法
             //获取该车次信息
@@ -84,21 +89,23 @@ public class OrderController {
             int from = stationMap.get(fromPlace);
             int to = stationMap.get(toPlace);
             int flag = 1;
-            for (int i = 1; i <= trip.getNum_car(); i++) {
-                for (int j = 1; j <= trip.getNum_row(); j++) {
-                    for (int k = from; k <= to; k++) {
-                        if (p[k][i][j][seat - 'A' + 1] == 1) {
-                            flag = 0;
-                            break;
+            if(seat != 'E') {
+                for (int i = 1; i <= trip.getNum_car(); i++) {
+                    for (int j = 1; j <= trip.getNum_row(); j++) {
+                        for (int k = from; k <= to; k++) {
+                            if (p[k][i][j][seat - 'A' + 1] == 1) {
+                                flag = 0;
+                                break;
+                            }
                         }
-                    }
-                    if (flag == 1) {
-                        carriage = i;
-                        row = j;
-                        orderService.createOrder( orderTime, userId, state, payment, tripId, carriage, row, seat, payway, fromPlace, toPlace);
-                        return R.ok("order create success!");
-                    } else {
-                        flag = 1;
+                        if (flag == 1) {
+                            carriage = i;
+                            row = j;
+                            orderService.createOrder(order);
+                            return R.ok("order create success!");
+                        } else {
+                            flag = 1;
+                        }
                     }
                 }
             }
@@ -120,8 +127,8 @@ public class OrderController {
                                 carriage = i;
                                 row = j;
                                 seat = (char) (q + 'A' -1);
-                                orderService.createOrder(orderTime, userId, state, payment, tripId, carriage, row, seat, payway, fromPlace, toPlace);
-                                return R.ok("order create success!").put("carriage",carriage).put("row",row).put("seat", seat);
+                                orderService.createOrder(order);
+                                return R.ok("order create success!").put("carriage",carriage).put("row",row).put("seat", seat).put("orderId", order.getOrder_id());
                             } else {
                                 flag = 1;
                             }
@@ -129,7 +136,7 @@ public class OrderController {
                     }
                 }
             }
-        } catch (ParseException | NumberFormatException e) {
+        } catch ( NumberFormatException e) {
             return R.error("failed: " + e.getMessage());
         } catch (Exception e) {
             return R.error("failed: " + e.toString());
@@ -142,7 +149,15 @@ public class OrderController {
         List<Order> orders = orderService.selectOrdersByUser(userId);
         return orders;
     }
-
+    @RequestMapping(value="/confirm")
+    public R confirmOrderById(@RequestParam("orderId")int orderId) {
+        try{
+            orderService.confirmOrderById(orderId);
+            return R.ok("confirm success!");
+        }catch(Exception e){
+            return R.error(e.toString());
+        }
+    }
     @GetMapping(value = "/select/unfinished/{userId}")
     public List<Order> selectUnfinishedOrdersByUser(@PathVariable int userId) {
         return orderService.selectUnfinishedOrdersByUser(userId);
@@ -165,7 +180,7 @@ public class OrderController {
         }
     }
 
-    @GetMapping(value = "/delete/{orderId}/{userId}")
+    @GetMapping(value = "/cancel")
     public R cancelOrderByCustomer(@PathVariable int orderId, @PathVariable int userId) {
         try {
             orderService.deleteOrderByCustomer(orderId, userId);

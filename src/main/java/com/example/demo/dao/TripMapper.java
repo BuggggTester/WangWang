@@ -24,5 +24,6 @@ public interface TripMapper {
     @Select("select count(*) from orders join trips t on t.trip_id = orders.trip_id where orders.trip_id = #{tripId} " +
             "and seat_type = #{type} and trip_chain like CONCAT('%', #{fromPlace}, '%', #{toPlace}, '%')")
     int countSoldSeats(int tripId, String fromPlace, String toPlace, String type);
-
+    @Select("SELECT trip_id FROM trips WHERE train_id = #{train_id} AND DATE(start_time) = DATE(#{time}) LIMIT 1")
+    int selectIdByTrainAndTime(String train_id, Timestamp time);
 }

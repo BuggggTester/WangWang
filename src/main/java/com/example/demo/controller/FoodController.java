@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.entity.food.Food;
 import com.example.demo.entity.R;
 import com.example.demo.service.FoodService;
+import com.example.demo.service.TripService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,9 +27,11 @@ import static com.example.demo.config.PathConfig.foodUrl;
 public class FoodController {
     @Autowired
     private FoodService foodService;
-
+    @Autowired
+    private TripService tripService;
     @RequestMapping(value="/select/tripId")
-    public List<Food> selectFoodsByTripId(@RequestParam("tripId")int tripId) {
+    public List<Food> selectFoodsById(@RequestParam("trainId")String trainId, @RequestParam("time") Timestamp time) {
+        int tripId = tripService.selectIdByTrainAndTime(trainId, time);
         List<Food> foodList = foodService.selectFoodsByTripId(tripId);
         return foodList;
     }

@@ -31,6 +31,7 @@ public class Order {
     private String from_place;
     private String to_place;
     private String seat_type;
+    private int pid;
     @ManyToOne
     @JoinColumn(name = "trip_id", referencedColumnName = "trip_id")
     private Trip trip;

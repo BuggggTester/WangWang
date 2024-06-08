@@ -33,6 +33,11 @@ public class FoodServiceImpl implements FoodService {
         foodMapper.createFood(foodName, price, tripId, image);
     }
 
+    @Override
+    public List<Food> selectFoodByTripId(int trip_id) {
+        return foodMapper.selectFoodByTripId(trip_id);
+    }
+
 //    @Override
 //    public void cancelFood(int reservationID) {
 //        foodMapper.cancelFood(reservationID);
