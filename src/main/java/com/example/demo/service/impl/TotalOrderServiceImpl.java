@@ -22,11 +22,11 @@ public class TotalOrderServiceImpl implements TotalOrderService {
         Timestamp now = new Timestamp(System.currentTimeMillis());
         TotalOrder totalOrder = new TotalOrder();
 
-        totalOrder.setOrderCreateTime(now);
+        totalOrder.setOrder_create_time(now);
         totalOrder.setPayment(payment);
-        totalOrder.setOrderType(orderType);
-        totalOrder.setReservationId(reservationId);
-        totalOrder.setUserId(userId);
+        totalOrder.setOrder_type(orderType);
+        totalOrder.setReservation_id(reservationId);
+        totalOrder.setUser_id(userId);
 
         totalOrderMapper.createOrder(totalOrder);
     }

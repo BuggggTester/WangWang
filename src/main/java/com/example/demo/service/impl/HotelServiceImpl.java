@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.common.constant.RoomType;
 import com.example.demo.dao.HotelMapper;
 import com.example.demo.entity.hotel.Hotel;
+import com.example.demo.entity.hotel.HotelReservation;
 import com.example.demo.entity.hotel.Room;
 import com.example.demo.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class HotelServiceImpl implements HotelService {
 
         Room room = new Room();
         room.setHotel(hotel);
-        room.setRoomType(roomType);
+        room.setRoom_type(roomType);
         room.setPrice(price);
         hotelMapper.setRoom(room);
     }
@@ -80,5 +81,8 @@ public class HotelServiceImpl implements HotelService {
         //hotelMapper.updatePictureById(picture, hotelId);
     }
 
-
+    @Override
+    public HotelReservation selectHotelReservationById(int hrId) {
+        return hotelMapper.selectHotelReservationById(hrId);
+    }
 }

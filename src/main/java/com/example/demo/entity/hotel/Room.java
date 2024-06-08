@@ -24,11 +24,11 @@ public class Room {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "room_type", nullable = false)
-    private RoomType roomType;
+    private RoomType room_type;
 
     private Double price;
     private String description;
-    private String picturePath;
+    private String picture_path;
 
     @Column(name = "available", nullable = false, columnDefinition = "boolean default true")
     private boolean available = true;

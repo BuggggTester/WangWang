@@ -3,7 +3,9 @@ package com.example.demo.controller;
 import com.example.demo.common.constant.RoomType;
 import com.example.demo.config.PathConfig;
 import com.example.demo.entity.R;
+import com.example.demo.entity.User;
 import com.example.demo.entity.hotel.Hotel;
+import com.example.demo.entity.hotel.HotelReservation;
 import com.example.demo.service.HotelService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static com.example.demo.config.PathConfig.avatarUrl;
 import static com.example.demo.config.PathConfig.hotelUrl;
 
 //
@@ -47,7 +50,10 @@ public class HotelController {
         hotelService.setHotelInfo(name, address, description, score);
         return R.ok();
     }
-
+    @RequestMapping("/hotelreservation")
+    public HotelReservation selectHotelReservationById(@RequestParam("hrId")String hrId) {
+        return hotelService.selectHotelReservationById(Integer.parseInt(hrId));
+    }
     //测试通过
     @PostMapping("/{hotelID}/rooms")
     public void setRoom(@PathVariable int hotelID,
@@ -61,41 +67,8 @@ public class HotelController {
     //测试通过
     @GetMapping("/selectHotelByAddress")
     public List<Hotel> selectHotelByAddress(@RequestParam("address") String address) {
-        //System.out.println(hotelService.selectHotelByAddress(address));
-        return putPriceHelpFunction(hotelService.selectHotelByAddress(address));
-    }
-
-    @GetMapping("/selectHotelByPriceASC")
-    public List<Hotel> selectHotelByPriceASC(@RequestParam("address") String address) {
-        List<Hotel> hotelList = hotelService.selectHotelByAddress(address);
-        List<Hotel> sortedList =  hotelList.stream()
-                .sorted((hotel1, hotel2) ->
-                        Double.compare(hotelService.countLowestPrice(hotel1.getId())
-                                , hotelService.countLowestPrice(hotel2.getId())))
-                .toList();
-        return putPriceHelpFunction(sortedList);
-    }
-
-    @GetMapping("/selectHotelByPriceDESC")
-    public List<Hotel> selectHotelByPriceDESC(@RequestParam("address") String address) {
-        List<Hotel> hotelList = hotelService.selectHotelByAddress(address);
-        List<Hotel> sortedList = hotelList.stream()
-                .sorted((hotel1, hotel2) ->
-                        Double.compare(hotelService.countLowestPrice(hotel2.getId())
-                                , hotelService.countLowestPrice(hotel1.getId())))
-                .toList();
-        return putPriceHelpFunction(sortedList);
-    }
-
-    @GetMapping("/selectHotelByScore")
-    public List<Hotel> selectHotelByScore(@RequestParam("address") String address) {
-        List<Hotel> hotelList = hotelService.selectHotelByAddress(address);
-        hotelList = putPriceHelpFunction(hotelList);
-        return hotelList.stream()
-                .sorted((hotel1, hotel2) ->
-                        Double.compare(Double.parseDouble(hotel2.getScore()),
-                                Double.parseDouble(hotel1.getScore())))
-                .toList();
+//        System.out.println(hotelService.selectHotelByAddress(address));
+        return hotelService.selectHotelByAddress(address);
     }
 
     //测试通过
@@ -164,8 +137,8 @@ public class HotelController {
     }
 
     @GetMapping("/hotel/lowestPrice")
-    public int getLowestPrice(@RequestParam int hotelId) {
-        return (int) Math.floor(hotelService.countLowestPrice(hotelId));
+    public R getLowestPrice(@RequestParam("hotelId") int hotelId) {
+        return R.ok().put("minPrice",Math.floor(hotelService.countLowestPrice(hotelId)));
     }
     @RequestMapping(value = "/upload/picture")
     public R updateAvatar(@RequestParam("picture") MultipartFile file, @RequestParam("hotelId") int hotelId) {
@@ -189,12 +162,5 @@ public class HotelController {
             return R.error(e.toString());
         }
         return R.ok("上传成功！");
-    }
-
-    List<Hotel> putPriceHelpFunction(List<Hotel> hotelList) {
-        for (Hotel hotel : hotelList) {
-            hotel.setLowestPrice(hotelService.countLowestPrice(hotel.getId()));
-        }
-        return hotelList;
     }
 }

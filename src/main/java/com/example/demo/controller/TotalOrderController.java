@@ -5,7 +5,10 @@ import com.example.demo.common.constant.PaymentMethod;
 import com.example.demo.entity.R;
 import com.example.demo.entity.TotalOrder;
 import com.example.demo.entity.User;
+import com.example.demo.entity.hotel.HotelReservation;
+import com.example.demo.service.HotelService;
 import com.example.demo.service.TotalOrderService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +31,8 @@ public class TotalOrderController {
 
     @Autowired
     private TotalOrderService totalOrderService;
+    @Autowired
+    private HotelService hotelService;
     @Autowired
     private User user;
 
@@ -74,9 +80,15 @@ public class TotalOrderController {
         return totalOrderService.getAllTrainTicketOrders(userId);
     }
 
-    @GetMapping("/getAllHotels/{userId}")
-    public List<TotalOrder> getAllHotelOrders(@PathVariable int userId) {
-        return totalOrderService.getAllHotelOrders(userId);
+    @GetMapping("/getAllHotelReservations")
+    public List<HotelReservation> getAllHotelOrders(@RequestParam("userId") String userId) {
+        List<TotalOrder> totalOrders = totalOrderService.getAllHotelOrders(Integer.parseInt(userId));
+        List<HotelReservation> res = new ArrayList<>();
+        for(TotalOrder totalOrder: totalOrders) {
+            HotelReservation hotelReservation = hotelService.selectHotelReservationById(totalOrder.getReservation_id());
+            res.add(hotelReservation);
+        }
+        return res;
     }
 
     @GetMapping("/getAllTrainMeals/{userId}")

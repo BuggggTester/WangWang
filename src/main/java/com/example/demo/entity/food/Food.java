@@ -19,7 +19,7 @@ public class Food {
 
     private String name;
     private double price;
-    private int tripId;
-    private String picturePath;
+    private int trip_id;
+    private String picture_path;
     private String description;
 }
