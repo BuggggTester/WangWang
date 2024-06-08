@@ -93,7 +93,8 @@ public class HotelController {
         List<Hotel> sortedList = hotelList.stream()
                 .sorted(Comparator.comparingDouble(hotel -> Double.parseDouble(hotel.getScore())))
                 .toList();
-        return putPriceHelpFunction(sortedList).reversed();
+        Collections.reverse(putPriceHelpFunction(sortedList));
+        return sortedList;
     }
 
     //测试通过
