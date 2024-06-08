@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.common.constant.RoomType;
 import com.example.demo.config.PathConfig;
 import com.example.demo.entity.R;
-import com.example.demo.entity.User;
 import com.example.demo.entity.hotel.Hotel;
 import com.example.demo.service.HotelService;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +15,7 @@ import java.io.FileOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
-import static com.example.demo.config.PathConfig.avatarUrl;
 import static com.example.demo.config.PathConfig.hotelUrl;
 
 //
@@ -64,8 +61,8 @@ public class HotelController {
     //测试通过
     @GetMapping("/selectHotelByAddress")
     public List<Hotel> selectHotelByAddress(@RequestParam("address") String address) {
-        System.out.println(hotelService.selectHotelByAddress(address));
-        return hotelService.selectHotelByAddress(address);
+        //System.out.println(hotelService.selectHotelByAddress(address));
+        return putPriceHelpFunction(hotelService.selectHotelByAddress(address));
     }
 
     @GetMapping("/selectHotelByPriceASC")
@@ -187,5 +184,12 @@ public class HotelController {
             return R.error(e.toString());
         }
         return R.ok("上传成功！");
+    }
+
+    List<Hotel> putPriceHelpFunction(List<Hotel> hotelList) {
+        for (Hotel hotel : hotelList) {
+            hotel.setLowestPrice(hotelService.countLowestPrice(hotel.getId()));
+        }
+        return hotelList;
     }
 }

@@ -79,4 +79,6 @@ public class HotelServiceImpl implements HotelService {
     public void updatePictureById(String picture, int hotelId) {
         //hotelMapper.updatePictureById(picture, hotelId);
     }
+
+
 }
