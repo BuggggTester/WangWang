@@ -11,7 +11,7 @@ public interface FoodService {
     void uploadFoodImage(String image, int foodId);
 
 
-    void buyFood(int foodId, int tripId, int userId, int quantity);
+    void buyFood(int foodId, int userId, int quantity);
     void createFood(String foodName, double price, int tripId, String image);
     List<Food> selectFoodByTripId(int trip_id);
 

@@ -44,10 +44,11 @@ public class FoodController {
         }
         return R.ok("创建成功！");
     }
+
     @RequestMapping(value="/create/reservation")
-    public R createFoodReservation(@RequestParam("foodId")int foodId, @RequestParam("quantity")int quantity, @RequestParam("tripId")int tripId, @RequestParam("userId")int userId) {
+    public R createFoodReservation(@RequestParam("foodId")int foodId, @RequestParam("quantity")int quantity, @RequestParam("userId")int userId) {
         try {
-            foodService.buyFood(foodId, tripId, userId, quantity);
+            foodService.buyFood(foodId, userId, quantity);
             return R.ok("create reservation success");
         }catch (Exception e){
             return R.error(e.toString());

@@ -15,13 +15,11 @@ public class FoodReservation {
     private int id;
 
     @Column(name = "user_id", nullable = false)
-    private int userId;
+    private int user_id;
 
-    @Column(name = "trip_id", nullable = false)
-    private int tripId;
 
     @Column(name = "food_id", nullable = false)
-    private int foodId;
+    private int food_id;
 
     private int quantity = 0;
 }

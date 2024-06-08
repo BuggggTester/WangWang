@@ -24,8 +24,8 @@ public class FoodServiceImpl implements FoodService {
 
 
     @Override
-    public void buyFood(int foodId, int tripId, int userId, int quantity) {
-        foodMapper.buyFood(foodId, tripId, userId, quantity);
+    public void buyFood(int foodId,  int userId, int quantity) {
+        foodMapper.buyFood(foodId, userId, quantity);
     }
 
     @Override
