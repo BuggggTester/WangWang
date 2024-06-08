@@ -21,4 +21,6 @@ public interface FoodMapper {
     @Insert("INSERT INTO food_reservation (food_id, trip_id, user_id, quantity) " +
             "VALUES (#{foodId}, #{tripId}, #{userId}, #{quantity})")
     void buyFood(int foodId, int tripId, int userId, int quantity);
+    @Select("select * from food where trip_id = #{trip_id}")
+    List<Food> selectFoodByTripId(int trip_id);
 }

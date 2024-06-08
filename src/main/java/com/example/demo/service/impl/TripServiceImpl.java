@@ -36,4 +36,9 @@ public class TripServiceImpl implements TripService {
     public int countSoldSeats(int tripId, String fromPlace, String toPlace, String type) {
         return tripMapper.countSoldSeats(tripId, fromPlace, toPlace, type);
     }
+
+    @Override
+    public int selectIdByTrainAndTime(String train_id, Timestamp time) {
+        return tripMapper.selectIdByTrainAndTime(train_id, time);
+    }
 }
