@@ -149,7 +149,15 @@ public class OrderController {
         List<Order> orders = orderService.selectOrdersByUser(userId);
         return orders;
     }
-
+    @RequestMapping(value="/confirm")
+    public R confirmOrderById(@RequestParam("orderId")int orderId) {
+        try{
+            orderService.confirmOrderById(orderId);
+            return R.ok("confirm success!");
+        }catch(Exception e){
+            return R.error(e.toString());
+        }
+    }
     @GetMapping(value = "/select/unfinished/{userId}")
     public List<Order> selectUnfinishedOrdersByUser(@PathVariable int userId) {
         return orderService.selectUnfinishedOrdersByUser(userId);
@@ -172,7 +180,7 @@ public class OrderController {
         }
     }
 
-    @GetMapping(value = "/delete/{orderId}/{userId}")
+    @GetMapping(value = "/cancel")
     public R cancelOrderByCustomer(@PathVariable int orderId, @PathVariable int userId) {
         try {
             orderService.deleteOrderByCustomer(orderId, userId);

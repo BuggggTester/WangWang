@@ -40,6 +40,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public void confirmOrderById(int orderId) {
+        orderMapper.confirmOrderById(orderId);
+    }
+
+    @Override
     public List<Order> selectByDate(String date1, String date2) {
         return orderMapper.selectByDate(date1,date2);
     }

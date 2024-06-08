@@ -15,6 +15,8 @@ public interface OrderService {
     void deleteOrderByCustomer(int orderId, int userId);
     List<Order> selectOrdersByUser(int userId);
     List<Order> selectAllOrders();
+    void confirmOrderById(int orderId);
+
     List<Order> selectByDate(String date1, String date2);
 
     List<Order> selectByLocation(String from, String to);

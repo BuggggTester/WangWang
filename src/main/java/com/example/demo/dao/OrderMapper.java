@@ -30,7 +30,7 @@ public interface OrderMapper {
 //    );
     //    @Select("select * from orders where user_id = #{userId}")
     //    List<Order> selectOrdersByUser(int userId);
-    @Update("update orders set state = 'canceled' where order_id = #{orderId} and user_id = #{userId}")
+    @Update("update orders set state = 'canceled' where order_id = #{orderId}")
     void deleteOrderByCustomer(int orderId, int userId);
     @Results({
             @Result(property = "trip", column = "trip_id",
@@ -40,7 +40,6 @@ public interface OrderMapper {
     List<Order> selectOrdersByUser(@Param("userId") int userId);
     @Update("update orders set state = 'payed', payTime = current_timestamp where order_id = #{orderId}")
     void confirmOrderById(int orderId);
-    ///222
     @Select("select * from orders")
     List<Order> selectAllOrders();
 
