@@ -20,7 +20,6 @@ public class Order {
     private int order_id;
     private Date order_time;
     private int user_id;
-    private String type;
     private String  state;
     private double payment;
     private int trip_id;
