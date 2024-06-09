@@ -16,6 +16,7 @@ import java.io.FileOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.example.demo.config.PathConfig.hotelUrl;
 
@@ -207,6 +208,10 @@ public class HotelController {
             for (Room room : roomList) {
                 room.setAvailableQuantity(0);
             }
+            Set<RoomType> seenTypes = new HashSet<>();
+            roomList = roomList.stream()
+                    .filter(room -> seenTypes.add(room.getRoom_type()))
+                    .collect(Collectors.toList());
             return roomList;
         }
         roomList = hotelService.getAvailableRoom(hotelId, startDate, endDate);
@@ -224,6 +229,10 @@ public class HotelController {
                 room.setAvailableQuantity(suiteRoomQuantity);
             }
         }
+        Set<RoomType> seenTypes = new HashSet<>();
+        roomList = roomList.stream()
+                .filter(room -> seenTypes.add(room.getRoom_type()))
+                .collect(Collectors.toList());
         return roomList;
     }
 
