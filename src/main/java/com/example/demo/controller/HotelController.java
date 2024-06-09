@@ -109,7 +109,7 @@ public class HotelController {
     }
 
     //
-    @GetMapping("/checkAvailability")
+    @RequestMapping("/checkAvailability")
     public R hasAvailableRoom(@RequestBody Map<String, String> requestParams) {
         try {
             int hotelID = Integer.parseInt(requestParams.get("hotelID"));
