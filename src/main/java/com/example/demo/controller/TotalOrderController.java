@@ -6,7 +6,10 @@ import com.example.demo.common.constant.PaymentMethod;
 import com.example.demo.entity.R;
 import com.example.demo.entity.TotalOrder;
 import com.example.demo.entity.User;
+import com.example.demo.entity.food.Food;
+import com.example.demo.entity.food.FoodReservation;
 import com.example.demo.entity.hotel.HotelReservation;
+import com.example.demo.service.FoodService;
 import com.example.demo.service.HotelService;
 import com.example.demo.service.TotalOrderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,6 +37,8 @@ public class TotalOrderController {
     private TotalOrderService totalOrderService;
     @Autowired
     private HotelService hotelService;
+    @Autowired
+    private FoodService foodService;
     @Autowired
     private User user;
 
@@ -79,7 +84,16 @@ public class TotalOrderController {
             return null;
         }
     }
-
+    @RequestMapping(value="/getAllFoodReservations")
+    public List<FoodReservation> getAllFoodOrders(@RequestParam("userId")int userId) {
+        List<TotalOrder> totalOrders = totalOrderService.getOrdersByType(userId, OrderType.valueOf("TRAIN_MEAL"));
+        List<FoodReservation> res = new ArrayList<>();
+        for(TotalOrder totalOrder: totalOrders) {
+            FoodReservation foodReservation = foodService.selectFoodReservationById(totalOrder.getReservation_id());
+            res.add(foodReservation);
+        }
+        return res;
+    }
     @GetMapping("/getAllTrainTickets/{userId}")
     public List<TotalOrder> getAllTrainTicketOrders(@PathVariable int userId) {
         return totalOrderService.getAllTrainTicketOrders(userId);

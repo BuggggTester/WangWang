@@ -24,12 +24,6 @@ public interface TotalOrderMapper {
     // 支付前选择支付方式时调用
     @Update("UPDATE total_order SET payment_method = #{paymentMethod} WHERE id = #{id}")
     int setOrderPaymentMethod(int id, PaymentMethod paymentMethod);
-
-
-
-
-
-
     // 以下是查询接口（用于用户界面查询/管理员界面查询）
     @Select("SELECT * FROM total_order WHERE id = #{id}")
     TotalOrder getOrder(int id);

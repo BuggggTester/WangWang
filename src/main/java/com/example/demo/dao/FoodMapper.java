@@ -2,10 +2,7 @@ package com.example.demo.dao;
 
 import com.example.demo.entity.food.Food;
 import com.example.demo.entity.food.FoodReservation;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -19,7 +16,17 @@ public interface FoodMapper {
     void createFood(String foodName, double price, int tripId, String image);
     @Insert("INSERT INTO food_reservation (food_id, user_id, quantity) " +
             "VALUES (#{food_id}, #{user_id}, #{quantity})")
+    @SelectKey(statement = "SELECT LAST_INSERT_ID() AS id", keyProperty = "id", before = false, resultType = int.class)
     void buyFood(FoodReservation foodReservation);
+    @Select("select * from food_reservation where id = #{reservation_id} limit 1")
+    @Results({
+            @Result(property = "food", column = "food_id",
+                    one = @One(select = "com.example.demo.dao.FoodMapper.selectFoodById")),
+            @Result(property = "user", column = "user_id", one = @One(select = "com.example.demo.dao.UserMapper.selectUserById"))
+    })
+    FoodReservation selectFoodReservationById(int reservation_id);
     @Select("select * from food where trip_id = #{trip_id}")
     List<Food> selectFoodByTripId(int trip_id);
+    @Select("select * from food where id = #{food_id} limit 1")
+    Food selectFoodById(int food_id);
 }

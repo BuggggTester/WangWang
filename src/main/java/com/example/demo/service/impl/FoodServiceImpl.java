@@ -23,6 +23,11 @@ public class FoodServiceImpl implements FoodService {
         foodMapper.uploadFoodImage(image, foodId);
     }
 
+    @Override
+    public FoodReservation selectFoodReservationById(int reservation_id) {
+        return foodMapper.selectFoodReservationById(reservation_id);
+    }
+
 
     @Override
     public void buyFood(FoodReservation foodReservation) {

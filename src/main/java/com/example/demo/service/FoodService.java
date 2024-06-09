@@ -11,6 +11,7 @@ public interface FoodService {
     List<Food> selectFoodsByTripId(int tripId);
     void uploadFoodImage(String image, int foodId);
 
+    FoodReservation selectFoodReservationById(int reservation_id);
 
     void buyFood(FoodReservation foodReservation);
     void createFood(String foodName, double price, int tripId, String image);
