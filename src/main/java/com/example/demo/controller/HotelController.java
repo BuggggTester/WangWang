@@ -63,13 +63,13 @@ public class HotelController {
     }
 
     //测试通过
-    @GetMapping("/selectHotelByAddress")
+    @RequestMapping("/selectHotelByAddress")
     public List<Hotel> selectHotelByAddress(@RequestParam("address") String address) {
         //System.out.println(hotelService.selectHotelByAddress(address));
         return putPriceHelpFunction(hotelService.selectHotelByAddress(address));
     }
 
-    @GetMapping("/selectHotelByPriceASC")
+    @RequestMapping("/selectHotelByPriceASC")
     public List<Hotel> selectHotelByPriceASC(@RequestParam("address") String address) {
         List<Hotel> hotelList = hotelService.selectHotelByAddress(address);
         List<Hotel> sortedList =  hotelList.stream()
@@ -80,7 +80,7 @@ public class HotelController {
         return putPriceHelpFunction(sortedList);
     }
 
-    @GetMapping("/selectHotelByPriceDESC")
+    @RequestMapping("/selectHotelByPriceDESC")
     public List<Hotel> selectHotelByPriceDESC(@RequestParam("address") String address) {
         List<Hotel> hotelList = hotelService.selectHotelByAddress(address);
         List<Hotel> sortedList = hotelList.stream()
@@ -91,7 +91,7 @@ public class HotelController {
         return putPriceHelpFunction(sortedList);
     }
 
-    @GetMapping("/selectHotelByScore")
+    @RequestMapping("/selectHotelByScore")
     public List<Hotel> selectHotelByScore(@RequestParam("address") String address) {
         List<Hotel> hotelList = hotelService.selectHotelByAddress(address);
         hotelList = putPriceHelpFunction(hotelList);
@@ -103,13 +103,13 @@ public class HotelController {
     }
 
     //测试通过
-    @GetMapping("/{id}")
+    @RequestMapping("/{id}")
     public Hotel selectHotelById(@PathVariable int id) {
         return hotelService.selectHotelById(id);
     }
 
     //
-    @GetMapping("/checkAvailability")
+    @RequestMapping("/checkAvailability")
     public R hasAvailableRoom(@RequestBody Map<String, String> requestParams) {
         try {
             int hotelID = Integer.parseInt(requestParams.get("hotelID"));
@@ -167,7 +167,7 @@ public class HotelController {
         }
     }
 
-    @GetMapping("/hotel/lowestPrice")
+    @RequestMapping("/hotel/lowestPrice")
     public R getLowestPrice(@RequestParam("hotelId") int hotelId) {
         return R.ok().put("minPrice",Math.floor(hotelService.countLowestPrice(hotelId)));
     }
@@ -195,7 +195,7 @@ public class HotelController {
         return R.ok("上传成功！");
     }
 
-    @GetMapping("/hotel/getRoom")
+    @RequestMapping("/hotel/getRoom")
     List<Room> getRoomByHotelIdAndDate(@RequestBody Map<String, String> requestParams) throws ParseException {
         int hotelId = Integer.parseInt(requestParams.get("hotelId"));
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
