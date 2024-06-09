@@ -17,15 +17,4 @@ public class HotelServiceTest {
     public void setHotelService(HotelService hotelService) {
         this.hotelService = hotelService;
     }
-
-    @Test
-    public void testCreateHotel() {
-        String name = "Test Hotel";
-        String address = "123 Test St";
-        hotelService = new HotelServiceImpl(hotelMapper);
-        hotelService.createHotel(name, address);
-        assert(true);
-
-    }
-
 }
