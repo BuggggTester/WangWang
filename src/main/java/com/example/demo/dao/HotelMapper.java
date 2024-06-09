@@ -30,7 +30,7 @@ public interface HotelMapper {
     @Select("SELECT COUNT(*) FROM room r " +
             "LEFT JOIN hotel_reservation res ON r.id = res.room_id " +
             "AND NOT ((res.check_in_date >= #{endDate} OR res.check_out_date <= #{startDate}))" +
-            "WHERE r.hotel_id = #{hotelId} AND r.room_type = #{roomType} AND r.available = true ")
+            "WHERE r.hotel_id = #{hotelId} AND r.room_type = #{roomType} ")
     int countAvailableRooms(@Param("hotelId") int hotelId,
                             @Param("roomType") RoomType roomType,
                             @Param("startDate") Date startDate,
@@ -39,7 +39,7 @@ public interface HotelMapper {
     @Select("SELECT r.id FROM room r " +
             "LEFT JOIN hotel_reservation res ON r.id = res.room_id " +
             "AND NOT ((res.check_in_date >= #{endDate} OR res.check_out_date <= #{startDate})) " +
-            "WHERE r.hotel_id = #{hotelId} AND r.room_type = #{roomType} AND r.available = true " +
+            "WHERE r.hotel_id = #{hotelId} AND r.room_type = #{roomType} " +
             "ORDER BY r.id LIMIT 1")
     int getAvailableRoomId(@Param("hotelId") int hotelId,
                                 @Param("roomType") RoomType roomType,
@@ -63,19 +63,35 @@ public interface HotelMapper {
 
     @Insert("insert into food_reservation (food_id, quantity, trip_id, user_id) values (#{foodId}, #{quantity}, #{tripId}, #{userId})")
     void createFoodReservation(int foodId, int quantity,int tripId, int userId);
+
     @Select("SELECT MIN(r.price) FROM room r WHERE r.hotel_id = #{hotelId}")
     Double getLowestPriceByHotelId(@Param("hotelId") int hotelId);
     @Results({
             @Result(property = "hotel", column="hotel_id", one = @One(select="com.example.demo.dao.HotelMapper.selectHotelById")),
     })
+
     @Select("select * from room where id = #{roomId} limit 1")
     Room selectRoomById(int roomId);
+
     @Update("update hotel set picture_path = #{picture} where id = #{hotelId}")
     void updatePictureById(String picture, int hotelId);
     @Results({
             @Result(property = "room", column = "room_id", one = @One(select = "com.example.demo.dao.HotelMapper.selectRoomById")),
             @Result(property = "user", column = "user_id", one = @One(select = "com.example.demo.dao.UserMapper.selectUserById"))
     })
+
     @Select("select * from hotel_reservation where id = #{hrId} limit 1")
     HotelReservation selectHotelReservationById(int hrId);
+
+
+    @Select("SELECT * FROM room r " +
+            "LEFT JOIN hotel_reservation res ON r.id = res.room_id " +
+            "AND NOT ((res.check_in_date >= #{endDate} OR res.check_out_date <= #{startDate}))" +
+            "WHERE r.hotel_id = #{hotelId}")
+    List<Room> getAvailableRoomByHotelId (@Param("hotelId") int hotelId,
+                                          @Param("startDate") Date startDate,
+                                          @Param("endDate") Date endDate);
+
+    @Select("select * from room where hotel_id == #{hotelId}")
+    List<Room> getAvailableRoom(int hotelId);
 }

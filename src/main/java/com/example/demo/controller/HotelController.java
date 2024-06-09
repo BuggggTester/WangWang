@@ -3,7 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.common.constant.RoomType;
 import com.example.demo.config.PathConfig;
 import com.example.demo.entity.R;
-import com.example.demo.entity.hotel.Hotel;
+import com.example.demo.entity.hotel.*;
 import com.example.demo.entity.hotel.HotelReservation;
 import com.example.demo.service.HotelService;
 import lombok.extern.slf4j.Slf4j;
@@ -63,13 +63,13 @@ public class HotelController {
     }
 
     //测试通过
-    @GetMapping("/selectHotelByAddress")
+    @RequestMapping("/selectHotelByAddress")
     public List<Hotel> selectHotelByAddress(@RequestParam("address") String address) {
         //System.out.println(hotelService.selectHotelByAddress(address));
         return putPriceHelpFunction(hotelService.selectHotelByAddress(address));
     }
 
-    @GetMapping("/selectHotelByPriceASC")
+    @RequestMapping("/selectHotelByPriceASC")
     public List<Hotel> selectHotelByPriceASC(@RequestParam("address") String address) {
         List<Hotel> hotelList = hotelService.selectHotelByAddress(address);
         List<Hotel> sortedList =  hotelList.stream()
@@ -80,7 +80,7 @@ public class HotelController {
         return putPriceHelpFunction(sortedList);
     }
 
-    @GetMapping("/selectHotelByPriceDESC")
+    @RequestMapping("/selectHotelByPriceDESC")
     public List<Hotel> selectHotelByPriceDESC(@RequestParam("address") String address) {
         List<Hotel> hotelList = hotelService.selectHotelByAddress(address);
         List<Hotel> sortedList = hotelList.stream()
@@ -91,7 +91,7 @@ public class HotelController {
         return putPriceHelpFunction(sortedList);
     }
 
-    @GetMapping("/selectHotelByScore")
+    @RequestMapping("/selectHotelByScore")
     public List<Hotel> selectHotelByScore(@RequestParam("address") String address) {
         List<Hotel> hotelList = hotelService.selectHotelByAddress(address);
         hotelList = putPriceHelpFunction(hotelList);
@@ -103,13 +103,13 @@ public class HotelController {
     }
 
     //测试通过
-    @GetMapping("/{id}")
+    @RequestMapping("/{id}")
     public Hotel selectHotelById(@PathVariable int id) {
         return hotelService.selectHotelById(id);
     }
 
     //
-    @GetMapping("/checkAvailability")
+    @RequestMapping("/checkAvailability")
     public R hasAvailableRoom(@RequestBody Map<String, String> requestParams) {
         try {
             int hotelID = Integer.parseInt(requestParams.get("hotelID"));
@@ -167,7 +167,7 @@ public class HotelController {
         }
     }
 
-    @GetMapping("/hotel/lowestPrice")
+    @RequestMapping("/hotel/lowestPrice")
     public R getLowestPrice(@RequestParam("hotelId") int hotelId) {
         return R.ok().put("minPrice",Math.floor(hotelService.countLowestPrice(hotelId)));
     }
@@ -195,10 +195,44 @@ public class HotelController {
         return R.ok("上传成功！");
     }
 
+    @RequestMapping("/hotel/getRoom")
+    List<Room> getRoomByHotelIdAndDate(@RequestBody Map<String, String> requestParams) throws ParseException {
+        int hotelId = Integer.parseInt(requestParams.get("hotelId"));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate = dateFormat.parse(requestParams.get("startDate"));
+        Date endDate = dateFormat.parse(requestParams.get("endDate"));
+        List<Room> roomList;
+        if (startDate.after(endDate) || startDate.equals(endDate)) {
+            roomList = hotelService.getAvailableRoom(hotelId);
+            for (Room room : roomList) {
+                room.setAvailableQuantity(0);
+            }
+            return roomList;
+        }
+        roomList = hotelService.getAvailableRoom(hotelId, startDate, endDate);
+        int singleRoomQuantity = hotelService.countAvailableRooms(hotelId, RoomType.SINGLE, startDate, endDate);
+        int doubleRoomQuantity = hotelService.countAvailableRooms(hotelId, RoomType.DOUBLE, startDate, endDate);
+        int suiteRoomQuantity = hotelService.countAvailableRooms(hotelId, RoomType.SUITE, startDate, endDate);
+        for (Room room : roomList) {
+            if (room.getRoom_type().equals(RoomType.SINGLE)) {
+                room.setAvailableQuantity(singleRoomQuantity);
+            }
+            else if (room.getRoom_type().equals(RoomType.DOUBLE)) {
+                room.setAvailableQuantity(doubleRoomQuantity);
+            }
+            else if (room.getRoom_type().equals(RoomType.SUITE)) {
+                room.setAvailableQuantity(suiteRoomQuantity);
+            }
+        }
+        return roomList;
+    }
+
     List<Hotel> putPriceHelpFunction(List<Hotel> hotelList) {
         for (Hotel hotel : hotelList) {
             hotel.setLowestPrice(hotelService.countLowestPrice(hotel.getId()));
         }
         return hotelList;
     }
+
+
 }
