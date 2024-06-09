@@ -30,7 +30,7 @@ public interface HotelMapper {
     @Select("SELECT COUNT(*) FROM room r " +
             "LEFT JOIN hotel_reservation res ON r.id = res.room_id " +
             "AND NOT ((res.check_in_date >= #{endDate} OR res.check_out_date <= #{startDate}))" +
-            "WHERE r.hotel_id = #{hotelId} AND r.room_type = #{roomType} AND r.available = true ")
+            "WHERE r.hotel_id = #{hotelId} AND r.room_type = #{roomType} ")
     int countAvailableRooms(@Param("hotelId") int hotelId,
                             @Param("roomType") RoomType roomType,
                             @Param("startDate") Date startDate,
@@ -39,7 +39,7 @@ public interface HotelMapper {
     @Select("SELECT r.id FROM room r " +
             "LEFT JOIN hotel_reservation res ON r.id = res.room_id " +
             "AND NOT ((res.check_in_date >= #{endDate} OR res.check_out_date <= #{startDate})) " +
-            "WHERE r.hotel_id = #{hotelId} AND r.room_type = #{roomType} AND r.available = true " +
+            "WHERE r.hotel_id = #{hotelId} AND r.room_type = #{roomType} " +
             "ORDER BY r.id LIMIT 1")
     int getAvailableRoomId(@Param("hotelId") int hotelId,
                                 @Param("roomType") RoomType roomType,
@@ -78,4 +78,14 @@ public interface HotelMapper {
     })
     @Select("select * from hotel_reservation where id = #{hrId} limit 1")
     HotelReservation selectHotelReservationById(int hrId);
+
+
+    @Select("SELECT * FROM room r " +
+            "LEFT JOIN hotel_reservation res ON r.id = res.room_id " +
+            "AND NOT ((res.check_in_date >= #{endDate} OR res.check_out_date <= #{startDate}))" +
+            "WHERE r.hotel_id = #{hotelId}")
+    List<Room> getAvailableRoomByHotelId (@Param("hotelId") int hotelId,
+                                          @Param("startDate") Date startDate,
+                                          @Param("endDate") Date endDate);
+
 }

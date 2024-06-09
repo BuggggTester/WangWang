@@ -56,6 +56,11 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
+    public int countAvailableRooms(int hotelID, RoomType roomType, Date startdate, Date enddate) {
+        return hotelMapper.countAvailableRooms(hotelID, roomType, startdate, enddate);
+    }
+
+    @Override
     public int bookRoom(int userId, int hotelID, RoomType roomType, Date startdate, Date enddate) {
         int roomID = hotelMapper.getAvailableRoomId(hotelID, roomType, startdate, enddate);
         return hotelMapper.insertReservation(userId, roomID, startdate, enddate);
@@ -80,6 +85,12 @@ public class HotelServiceImpl implements HotelService {
     public void updatePictureById(String picture, int hotelId) {
         //hotelMapper.updatePictureById(picture, hotelId);
     }
+
+    @Override
+    public List<Room> getAvailableRoom(int hotelId, Date startDate, Date endDate) {
+        return hotelMapper.getAvailableRoomByHotelId(hotelId, startDate, endDate);
+    }
+
 
     @Override
     public HotelReservation selectHotelReservationById(int hrId) {

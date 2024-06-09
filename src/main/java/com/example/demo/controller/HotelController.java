@@ -3,7 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.common.constant.RoomType;
 import com.example.demo.config.PathConfig;
 import com.example.demo.entity.R;
-import com.example.demo.entity.hotel.Hotel;
+import com.example.demo.entity.hotel.*;
 import com.example.demo.entity.hotel.HotelReservation;
 import com.example.demo.service.HotelService;
 import lombok.extern.slf4j.Slf4j;
@@ -195,10 +195,36 @@ public class HotelController {
         return R.ok("上传成功！");
     }
 
+    @GetMapping("/hotel/getRoom")
+    List<Room> getRoomByHotelIdAndDate(@RequestBody Map<String, String> requestParams) throws ParseException {
+        int hotelId = Integer.parseInt(requestParams.get("hotelId"));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate = dateFormat.parse(requestParams.get("startDate"));
+        Date endDate = dateFormat.parse(requestParams.get("endDate"));
+        List<Room> roomList = hotelService.getAvailableRoom(hotelId, startDate, endDate);
+        int singleRoomQuantity = hotelService.countAvailableRooms(hotelId, RoomType.SINGLE, startDate, endDate);
+        int doubleRoomQuantity = hotelService.countAvailableRooms(hotelId, RoomType.DOUBLE, startDate, endDate);
+        int suiteRoomQuantity = hotelService.countAvailableRooms(hotelId, RoomType.SUITE, startDate, endDate);
+        for (Room room : roomList) {
+            if (room.getRoom_type().equals(RoomType.SINGLE)) {
+                room.setAvailableQuantity(singleRoomQuantity);
+            }
+            else if (room.getRoom_type().equals(RoomType.DOUBLE)) {
+                room.setAvailableQuantity(doubleRoomQuantity);
+            }
+            else if (room.getRoom_type().equals(RoomType.SUITE)) {
+                room.setAvailableQuantity(suiteRoomQuantity);
+            }
+        }
+        return roomList;
+    }
+
     List<Hotel> putPriceHelpFunction(List<Hotel> hotelList) {
         for (Hotel hotel : hotelList) {
             hotel.setLowestPrice(hotelService.countLowestPrice(hotel.getId()));
         }
         return hotelList;
     }
+
+
 }

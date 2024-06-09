@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.common.constant.RoomType;
 import com.example.demo.entity.hotel.Hotel;
 import com.example.demo.entity.hotel.HotelReservation;
+import com.example.demo.entity.hotel.Room;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -20,6 +21,8 @@ public interface HotelService {
 
     boolean hasAvailableRoom(int hotelID, RoomType roomType, Date startdate, Date enddate);
 
+    int countAvailableRooms(int hotelID, RoomType roomType, Date startdate, Date enddate);
+
     int bookRoom(int userId, int hotelID, RoomType roomType, Date startdate, Date enddate);
 
     void cancelRoom(int reservationID);
@@ -29,6 +32,9 @@ public interface HotelService {
     Double countLowestPrice(int hotelID);
 
     void updatePictureById(String picture, int hotelId);
+
+    List<Room> getAvailableRoom(int hotelId, Date startdate, Date enddate);
+
     HotelReservation selectHotelReservationById(int hrId);
 
 }
