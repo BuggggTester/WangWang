@@ -63,19 +63,23 @@ public interface HotelMapper {
 
     @Insert("insert into food_reservation (food_id, quantity, trip_id, user_id) values (#{foodId}, #{quantity}, #{tripId}, #{userId})")
     void createFoodReservation(int foodId, int quantity,int tripId, int userId);
+
     @Select("SELECT MIN(r.price) FROM room r WHERE r.hotel_id = #{hotelId}")
     Double getLowestPriceByHotelId(@Param("hotelId") int hotelId);
     @Results({
             @Result(property = "hotel", column="hotel_id", one = @One(select="com.example.demo.dao.HotelMapper.selectHotelById")),
     })
+
     @Select("select * from room where id = #{roomId} limit 1")
     Room selectRoomById(int roomId);
+
     @Update("update hotel set picture_path = #{picture} where id = #{hotelId}")
     void updatePictureById(String picture, int hotelId);
     @Results({
             @Result(property = "room", column = "room_id", one = @One(select = "com.example.demo.dao.HotelMapper.selectRoomById")),
             @Result(property = "user", column = "user_id", one = @One(select = "com.example.demo.dao.UserMapper.selectUserById"))
     })
+
     @Select("select * from hotel_reservation where id = #{hrId} limit 1")
     HotelReservation selectHotelReservationById(int hrId);
 
@@ -88,4 +92,6 @@ public interface HotelMapper {
                                           @Param("startDate") Date startDate,
                                           @Param("endDate") Date endDate);
 
+    @Select("select * from room where hotel_id == #{hotelId}")
+    List<Room> getAvailableRoom(int hotelId);
 }

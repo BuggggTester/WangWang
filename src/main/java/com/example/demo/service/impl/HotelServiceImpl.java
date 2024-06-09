@@ -96,4 +96,9 @@ public class HotelServiceImpl implements HotelService {
     public HotelReservation selectHotelReservationById(int hrId) {
         return hotelMapper.selectHotelReservationById(hrId);
     }
+
+    @Override
+    public List<Room> getAvailableRoom(int hotelId) {
+        return hotelMapper.getAvailableRoom(hotelId);
+    }
 }

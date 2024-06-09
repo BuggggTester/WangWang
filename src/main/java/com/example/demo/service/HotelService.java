@@ -37,6 +37,7 @@ public interface HotelService {
 
     HotelReservation selectHotelReservationById(int hrId);
 
+    List<Room> getAvailableRoom(int hotelId);
 }
 
 
