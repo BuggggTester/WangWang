@@ -1,9 +1,7 @@
 package com.example.demo.entity.food;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.demo.entity.Trip;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -19,7 +17,10 @@ public class Food {
 
     private String name;
     private double price;
+    @Transient
     private int trip_id;
     private String picture_path;
     private String description;
+    @ManyToOne
+    private Trip trip;
 }

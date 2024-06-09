@@ -33,6 +33,9 @@ public class Order {
     private String seat_type;
     private int pid;
     @ManyToOne
+    @JoinColumn(name = "pid", referencedColumnName = "pid") // Assuming "pid" is the foreign key in the orders table
+    private Passenger passenger; // Assuming Passenger is the entity representing passengers
+    @ManyToOne
     @JoinColumn(name = "trip_id", referencedColumnName = "trip_id")
     private Trip trip;
 

@@ -13,7 +13,7 @@ import java.util.List;
 public interface TripMapper {
     @Select("select * from trips")
     List<Trip> selectAllTrips();
-    @Select("SELECT * FROM trips WHERE trip_id = #{tripId}")
+    @Select("SELECT * FROM trips WHERE trip_id = #{tripId} limit 1")
     Trip selectTripById(@Param("tripId") int tripId);
     @Insert("Insert into trips (train_id, start_time, end_time, from_place, to_place, num_car, num_row, trip_chain)" +
             "values ( #{trainId}, #{startTime}, #{endTime}, #{fromPlace}, #{toPlace}, #{numCar}, #{numRow}, #{trip_chain})")

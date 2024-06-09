@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.dao.FoodMapper;
 import com.example.demo.entity.food.Food;
+import com.example.demo.entity.food.FoodReservation;
 import com.example.demo.service.FoodService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -22,10 +23,15 @@ public class FoodServiceImpl implements FoodService {
         foodMapper.uploadFoodImage(image, foodId);
     }
 
+    @Override
+    public FoodReservation selectFoodReservationById(int reservation_id) {
+        return foodMapper.selectFoodReservationById(reservation_id);
+    }
+
 
     @Override
-    public void buyFood(int foodId, int tripId, int userId, int quantity) {
-        foodMapper.buyFood(foodId, tripId, userId, quantity);
+    public void buyFood(FoodReservation foodReservation) {
+        foodMapper.buyFood(foodReservation);
     }
 
     @Override

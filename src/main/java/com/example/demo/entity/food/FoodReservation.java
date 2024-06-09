@@ -1,5 +1,6 @@
 package com.example.demo.entity.food;
 
+import com.example.demo.entity.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -13,15 +14,15 @@ public class FoodReservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @Column(name = "user_id", nullable = false)
-    private int userId;
-
-    @Column(name = "trip_id", nullable = false)
-    private int tripId;
-
-    @Column(name = "food_id", nullable = false)
-    private int foodId;
-
+    @Transient
+    private int user_id;
+    @Transient
+    private int food_id;
     private int quantity = 0;
+    @ManyToOne
+    @JoinColumn(name = "food_id", referencedColumnName = "id")
+    private Food food;
+    @ManyToOne
+    @JoinColumn(name="user_id", referencedColumnName = "user_id")
+    private User user;
 }

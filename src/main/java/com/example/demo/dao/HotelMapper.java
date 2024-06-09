@@ -61,6 +61,8 @@ public interface HotelMapper {
     void setHotelInfo(String name, String address, String description, String score);
 
 
+    @Insert("insert into food_reservation (food_id, quantity, trip_id, user_id) values (#{foodId}, #{quantity}, #{tripId}, #{userId})")
+    void createFoodReservation(int foodId, int quantity,int tripId, int userId);
     @Select("SELECT MIN(r.price) FROM room r WHERE r.hotel_id = #{hotelId}")
     Double getLowestPriceByHotelId(@Param("hotelId") int hotelId);
     @Results({

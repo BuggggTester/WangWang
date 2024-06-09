@@ -19,3 +19,11 @@ public class Passenger {
     @JoinColumn(name="user_id",referencedColumnName = "user_id")
     private User user;
 }
+//"failed: org.springframework.dao.DataIntegrityViolationException:
+//### Error updating database.  Cause: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`wangwang`.`orders`, CONSTRAINT `orders_passengers_pid_fk` FOREIGN KEY (`pid`) REFERENCES `passengers` (`pid`))
+//### The error may exist in com/example/demo/dao/OrderMapper.java (best guess)
+//### The error may involve com.example.demo.dao.OrderMapper.createOrder-Inline
+//### The error occurred while setting parameters
+//### SQL: INSERT INTO orders (order_time, user_id, state, payment, trip_id, carriage, `row`, seat, payway, from_place, to_place, pid, seat_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+//### Cause: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`wangwang`.`orders`, CONSTRAINT `orders_passengers_pid_fk` FOREIGN KEY (`pid`) REFERENCES `passengers` (`pid`))
+//; Cannot add or update a child row: a foreign key constraint fails (`wangwang`.`orders`, CONSTRAINT `orders_passengers_pid_fk` FOREIGN KEY (`pid`) REFERENCES `passengers` (`pid`))"

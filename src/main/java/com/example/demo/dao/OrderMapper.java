@@ -9,8 +9,8 @@ import java.util.List;
 
 @Mapper
 public interface OrderMapper {
-    @Insert("INSERT INTO orders (order_time, user_id, state, payment, trip_id, carriage, `row`, seat, payway, from_place, to_place, pid) " +
-            "VALUES (#{order_time}, #{user_id}, #{state}, #{payment}, #{trip_id}, #{carriage}, #{row}, #{seat}, #{payway}, #{from_place}, #{to_place}, #{pid})")
+    @Insert("INSERT INTO orders (order_time, user_id, state, payment, trip_id, carriage, `row`, seat, payway, from_place, to_place, pid, seat_type) " +
+            "VALUES (#{order_time}, #{user_id}, #{state}, #{payment}, #{trip_id}, #{carriage}, #{row}, #{seat}, #{payway}, #{from_place}, #{to_place}, #{pid}, #{seat_type})")
     @SelectKey(statement = "SELECT LAST_INSERT_ID() AS order_id", keyProperty = "order_id", before = false, resultType = int.class)
     void createOrder(Order order);
 //    @Insert("INSERT INTO orders (order_time, user_id, state, payment, trip_id, carriage, `row`, seat, payway, from_place, to_place) " +
@@ -34,7 +34,8 @@ public interface OrderMapper {
     void deleteOrderByCustomer(int orderId, int userId);
     @Results({
             @Result(property = "trip", column = "trip_id",
-                    one = @One(select = "com.example.demo.dao.TripMapper.selectTripById"))
+                    one = @One(select = "com.example.demo.dao.TripMapper.selectTripById")),
+            @Result(property = "passenger", column="pid", one =@One(select = "com.example.demo.dao.PassengerMapper.selectPassengerById"))
     })
     @Select("select * from orders where user_id = #{userId}")
     List<Order> selectOrdersByUser(@Param("userId") int userId);

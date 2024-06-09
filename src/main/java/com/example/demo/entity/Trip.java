@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -7,9 +9,11 @@ import org.springframework.stereotype.Component;
 import java.sql.Timestamp;
 
 @Slf4j
+@Entity
 @Data
 @Component
 public class Trip {
+    @Id
     private int trip_id;
     private String train_id;
     private Timestamp start_time;

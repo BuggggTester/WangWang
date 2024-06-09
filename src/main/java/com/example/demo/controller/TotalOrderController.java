@@ -1,11 +1,15 @@
 package com.example.demo.controller;
 
+import com.example.demo.common.constant.OrderStatus;
 import com.example.demo.common.constant.OrderType;
 import com.example.demo.common.constant.PaymentMethod;
 import com.example.demo.entity.R;
 import com.example.demo.entity.TotalOrder;
 import com.example.demo.entity.User;
+import com.example.demo.entity.food.Food;
+import com.example.demo.entity.food.FoodReservation;
 import com.example.demo.entity.hotel.HotelReservation;
+import com.example.demo.service.FoodService;
 import com.example.demo.service.HotelService;
 import com.example.demo.service.TotalOrderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,20 +38,22 @@ public class TotalOrderController {
     @Autowired
     private HotelService hotelService;
     @Autowired
+    private FoodService foodService;
+    @Autowired
     private User user;
 
 
     @PostMapping("/create")
-    public R createOrder(@RequestBody Map<String, String> orderMap) {
+    public R createOrder(@RequestBody TotalOrder totalOrder) {
         try {
-            int userId = Integer.parseInt(orderMap.get("userId"));
-            int reservationId = Integer.parseInt(orderMap.get("reservationId"));
-            OrderType orderType = OrderType.valueOf(orderMap.get("orderType").toUpperCase());
-            double payment = Double.parseDouble(orderMap.get("payment"));
+//            int userId = Integer.parseInt(orderMap.get("userId"));
+//            int reservationId = Integer.parseInt(orderMap.get("reservationId"));
+//            OrderType orderType = OrderType.valueOf(orderMap.get("orderType").toUpperCase());
+//            double payment = Double.parseDouble(orderMap.get("payment"));
 
-            totalOrderService.createOrder(userId, reservationId, orderType, payment);
+            totalOrderService.createOrder(totalOrder);
 
-            return R.ok("Order created successfully!");
+            return R.ok("Order created successfully!").put("id",totalOrder.getId());
         } catch (NumberFormatException e) {
             return R.error("Failed to parse number: " + e.getMessage());
         } catch (IllegalArgumentException e) {
@@ -56,7 +62,11 @@ public class TotalOrderController {
             return R.error("Failed to create order: " + e.toString());
         }
     }
-
+    @RequestMapping(value="/confirm")
+    public R confirmFoodOrder(@RequestParam("id")int id){
+        totalOrderService.confirmOrder(id);
+        return R.ok("confirm success");
+    }
     @GetMapping("/get/{id}")
     public TotalOrder getOrder(@PathVariable int id) {
         try {
@@ -74,7 +84,16 @@ public class TotalOrderController {
             return null;
         }
     }
-
+    @RequestMapping(value="/getAllFoodReservations")
+    public List<FoodReservation> getAllFoodOrders(@RequestParam("userId")int userId) {
+        List<TotalOrder> totalOrders = totalOrderService.getOrdersByType(userId, OrderType.valueOf("TRAIN_MEAL"));
+        List<FoodReservation> res = new ArrayList<>();
+        for(TotalOrder totalOrder: totalOrders) {
+            FoodReservation foodReservation = foodService.selectFoodReservationById(totalOrder.getReservation_id());
+            res.add(foodReservation);
+        }
+        return res;
+    }
     @GetMapping("/getAllTrainTickets/{userId}")
     public List<TotalOrder> getAllTrainTicketOrders(@PathVariable int userId) {
         return totalOrderService.getAllTrainTicketOrders(userId);
@@ -128,8 +147,8 @@ public class TotalOrderController {
         return R.error("Failed to delete order: " + id);
     }
 
-    @PutMapping("/cancel/{Id}")
-    public R cancelOrder(@PathVariable int Id) {
+    @PutMapping("/cancel")
+    public R cancelOrder(@RequestParam("id") int Id) {
         if (totalOrderService.cancelOrder(Id)) {
             return R.ok("Order canceled successfully!");
         }
