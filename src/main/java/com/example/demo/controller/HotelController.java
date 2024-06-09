@@ -202,7 +202,7 @@ public class HotelController {
         Date startDate = dateFormat.parse(requestParams.get("startDate"));
         Date endDate = dateFormat.parse(requestParams.get("endDate"));
         List<Room> roomList;
-        if (startDate.after(endDate)) {
+        if (startDate.after(endDate) || startDate.equals(endDate)) {
             roomList = hotelService.getAvailableRoom(hotelId);
             for (Room room : roomList) {
                 room.setAvailableQuantity(0);
