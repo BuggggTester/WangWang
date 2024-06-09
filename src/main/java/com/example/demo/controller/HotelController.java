@@ -201,7 +201,15 @@ public class HotelController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date startDate = dateFormat.parse(requestParams.get("startDate"));
         Date endDate = dateFormat.parse(requestParams.get("endDate"));
-        List<Room> roomList = hotelService.getAvailableRoom(hotelId, startDate, endDate);
+        List<Room> roomList;
+        if (startDate.after(endDate)) {
+            roomList = hotelService.getAvailableRoom(hotelId);
+            for (Room room : roomList) {
+                room.setAvailableQuantity(0);
+            }
+            return roomList;
+        }
+        roomList = hotelService.getAvailableRoom(hotelId, startDate, endDate);
         int singleRoomQuantity = hotelService.countAvailableRooms(hotelId, RoomType.SINGLE, startDate, endDate);
         int doubleRoomQuantity = hotelService.countAvailableRooms(hotelId, RoomType.DOUBLE, startDate, endDate);
         int suiteRoomQuantity = hotelService.countAvailableRooms(hotelId, RoomType.SUITE, startDate, endDate);
