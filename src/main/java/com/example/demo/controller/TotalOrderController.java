@@ -90,6 +90,9 @@ public class TotalOrderController {
         List<FoodReservation> res = new ArrayList<>();
         for(TotalOrder totalOrder: totalOrders) {
             FoodReservation foodReservation = foodService.selectFoodReservationById(totalOrder.getReservation_id());
+            foodReservation.setOrder_time(totalOrder.getOrder_create_time());
+            foodReservation.setState(totalOrder.getState());
+            foodReservation.setTid(totalOrder.getId());
             res.add(foodReservation);
         }
         return res;
@@ -147,7 +150,7 @@ public class TotalOrderController {
         return R.error("Failed to delete order: " + id);
     }
 
-    @PutMapping("/cancel")
+    @RequestMapping("/cancel")
     public R cancelOrder(@RequestParam("id") int Id) {
         if (totalOrderService.cancelOrder(Id)) {
             return R.ok("Order canceled successfully!");
@@ -163,12 +166,12 @@ public class TotalOrderController {
         return R.error("Failed to finish order: " + Id);
     }
 
-    @PutMapping("pay/{Id}")
-    public R payOrder(@PathVariable int Id) {
-        if (totalOrderService.payOrder(Id)) {
+    @RequestMapping("/pay")
+    public R payOrder(@RequestParam("id")int id) {
+        if (totalOrderService.payOrder(id)) {
             return R.ok("Order payed successfully!");
         }
-        return R.error("Failed to pay order: " + Id);
+        return R.error("Failed to pay order: " + id);
     }
 
     @PutMapping("setPaymentMethod")

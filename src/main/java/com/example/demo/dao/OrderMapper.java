@@ -13,23 +13,6 @@ public interface OrderMapper {
             "VALUES (#{order_time}, #{user_id}, #{state}, #{payment}, #{trip_id}, #{carriage}, #{row}, #{seat}, #{payway}, #{from_place}, #{to_place}, #{pid}, #{seat_type})")
     @SelectKey(statement = "SELECT LAST_INSERT_ID() AS order_id", keyProperty = "order_id", before = false, resultType = int.class)
     void createOrder(Order order);
-//    @Insert("INSERT INTO orders (order_time, user_id, state, payment, trip_id, carriage, `row`, seat, payway, from_place, to_place) " +
-//            "VALUES (#{orderTime}, #{userId}, #{state}, #{payment}, #{tripId}, #{carriage}, #{row}, #{seat}, #{payway}, #{fromPlace}, #{toPlace})")
-//    void createOrder(
-//            @Param("orderTime") Date orderTime,
-//            @Param("userId") int userId,
-//            @Param("state") String state,
-//            @Param("payment") double payment,
-//            @Param("tripId") Integer tripId,
-//            @Param("carriage") int carriage,
-//            @Param("row") Integer row,
-//            @Param("seat") Character seat,
-//            @Param("payway") String payway,
-//            @Param("fromPlace") String fromPlace,
-//            @Param("toPlace") String toPlace
-//    );
-    //    @Select("select * from orders where user_id = #{userId}")
-    //    List<Order> selectOrdersByUser(int userId);
     @Update("update orders set state = 'canceled' where order_id = #{orderId}")
     void deleteOrderByCustomer(int orderId, int userId);
     @Results({
