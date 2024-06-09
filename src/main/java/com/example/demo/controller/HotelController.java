@@ -195,7 +195,7 @@ public class HotelController {
         return R.ok("上传成功！");
     }
 
-    @GetMapping("/hotel/getRoom")
+    @RequestMapping("/hotel/getRoom")
     List<Room> getRoomByHotelIdAndDate(@RequestBody Map<String, String> requestParams) throws ParseException {
         int hotelId = Integer.parseInt(requestParams.get("hotelId"));
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
