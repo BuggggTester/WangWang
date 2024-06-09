@@ -34,7 +34,8 @@ public interface OrderMapper {
     void deleteOrderByCustomer(int orderId, int userId);
     @Results({
             @Result(property = "trip", column = "trip_id",
-                    one = @One(select = "com.example.demo.dao.TripMapper.selectTripById"))
+                    one = @One(select = "com.example.demo.dao.TripMapper.selectTripById")),
+            @Result(property = "passenger", column="pid", one =@One(select = "com.example.demo.dao.PassengerMapper.selectPassengerById"))
     })
     @Select("select * from orders where user_id = #{userId}")
     List<Order> selectOrdersByUser(@Param("userId") int userId);

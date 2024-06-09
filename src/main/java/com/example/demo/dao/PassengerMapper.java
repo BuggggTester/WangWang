@@ -18,4 +18,6 @@ public interface PassengerMapper {
     void updatePassenger(String identity, String phone, String name, int pid);
     @Select("select * from passengers where identity = #{identity} limit 1")
     Passenger selectPassengerByIdentity(String identity);
+    @Select("select * from passengers where pid = #{pid} limit 1")
+    Passenger selectPassengerById(int pid);
 }

@@ -28,5 +28,8 @@ public interface FoodMapper {
     @Select("select * from food where trip_id = #{trip_id}")
     List<Food> selectFoodByTripId(int trip_id);
     @Select("select * from food where id = #{food_id} limit 1")
+    @Results({
+            @Result(property = "trip", column = "trip_id", one = @One(select = "com.example.demo.dao.TripMapper.selectTripById"))
+    })
     Food selectFoodById(int food_id);
 }
