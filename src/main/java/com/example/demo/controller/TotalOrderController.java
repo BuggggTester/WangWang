@@ -90,6 +90,9 @@ public class TotalOrderController {
         List<FoodReservation> res = new ArrayList<>();
         for(TotalOrder totalOrder: totalOrders) {
             FoodReservation foodReservation = foodService.selectFoodReservationById(totalOrder.getReservation_id());
+            if(foodReservation == null) {
+                continue;
+            }
             foodReservation.setOrder_time(totalOrder.getOrder_create_time());
             foodReservation.setState(totalOrder.getState());
             foodReservation.setTid(totalOrder.getId());
