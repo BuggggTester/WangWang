@@ -28,7 +28,7 @@ public class Room {
 
     private Double price;
     private String description;
-    private String picturePath;
+    private String picture_path;
     private int availableQuantity;
 
     @Column(name = "available", nullable = false, columnDefinition = "boolean default true")

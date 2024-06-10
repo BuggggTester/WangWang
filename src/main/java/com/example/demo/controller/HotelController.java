@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.example.demo.config.PathConfig.hotelUrl;
+import static com.example.demo.config.PathConfig.*;
 
 //
 @Slf4j
@@ -195,7 +195,36 @@ public class HotelController {
         }
         return R.ok("上传成功！");
     }
+    @GetMapping("/update-pictures")
+    public String updatePictures() {
+        hotelService.updatePicturePaths();
+        return "Pictures updated successfully!";
+    }
+    public static void renameImagesInFolder(String folderPath) {
+        File folder = new File(folderPath);
+        if (folder.exists() && folder.isDirectory()) {
+            File[] files = folder.listFiles();
+            int count = 1;
+            for (File file : files) {
+                if (file.isFile() && isImageFile(file)) {
+                    String newPath = folderPath + File.separator + count + ".jpg";
+                    file.renameTo(new File(newPath));
+                    count++;
+                }
+            }
+        }
+    }
 
+    private static boolean isImageFile(File file) {
+        String name = file.getName().toLowerCase();
+        return name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".png") || name.endsWith(".gif");
+    }
+
+    public static void main(String[] args) {
+        String folderPath = System.getProperty("user.dir") + "/images/hotels/"; // 替换为你的文件夹路径
+        renameImagesInFolder(folderPath);
+        System.out.println("Images renamed successfully!");
+    }
     @RequestMapping("/hotel/getRoom")
     List<Room> getRoomByHotelIdAndDate(@RequestBody Map<String, String> requestParams) throws ParseException {
         int hotelId = Integer.parseInt(requestParams.get("hotelId"));

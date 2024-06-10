@@ -30,6 +30,7 @@ public interface HotelService {
     void setHotelInfo(String name, String address, String description, String score);
 
     Double countLowestPrice(int hotelID);
+    void updatePicturePaths();
 
     void updatePictureById(String picture, int hotelId);
 

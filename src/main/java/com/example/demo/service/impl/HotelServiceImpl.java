@@ -63,7 +63,13 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public int bookRoom(int userId, int hotelID, RoomType roomType, Date startdate, Date enddate) {
         int roomID = hotelMapper.getAvailableRoomId(hotelID, roomType, startdate, enddate);
-        return hotelMapper.insertReservation(userId, roomID, startdate, enddate);
+        HotelReservation hotelReservation = new HotelReservation();
+        hotelReservation.setCheck_in_date(startdate);
+        hotelReservation.setCheck_out_date(enddate);
+        hotelReservation.setRoom_id(roomID);
+        hotelReservation.setUser_id(userId);
+        hotelMapper.insertReservation(hotelReservation);
+        return hotelReservation.getId();
     }
 
     @Override
@@ -79,6 +85,20 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public Double countLowestPrice(int hotelID) {
         return hotelMapper.getLowestPriceByHotelId(hotelID);
+    }
+
+    @Override
+    public void updatePicturePaths() {
+        List<Room> rooms = hotelMapper.selectAllRooms();
+        int count = 1;
+        for (Room room: rooms) {
+            room.setPicture_path("file/rooms/a" + count + ".jpg");
+            hotelMapper.update(room);
+            count++;
+            if (count > 30) { // 如果超过了30张图片，则重新开始循环
+                count = 1;
+            }
+        }
     }
 
     @Override
