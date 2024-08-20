@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkvue"]=self["webpackChunkvue"]||[]).push([[818],{1241:function(n,t){t.A=(n,t)=>{const c=n.__vccOpts||n;for(const[e,u]of t)c[e]=u;return c}},3818:function(n,t,c){c.r(t),c.d(t,{default:function(){return f}});var e=c(6768);const u={class:"component"};function r(n,t){return(0,e.uX)(),(0,e.CE)("div",u,"创建订单")}var o=c(1241);const s={},a=(0,o.A)(s,[["render",r],["__scopeId","data-v-452354b1"]]);var f=a}}]);
+//# sourceMappingURL=818.0816fc0a.js.map

@@ -180,7 +180,7 @@ public class OrderController {
         }
     }
 
-    @GetMapping(value = "/cancel")
+    @GetMapping(value = "/cancel/{orderId}/{userId}")
     public R cancelOrderByCustomer(@PathVariable int orderId, @PathVariable int userId) {
         try {
             orderService.deleteOrderByCustomer(orderId, userId);

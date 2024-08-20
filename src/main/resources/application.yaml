@@ -48,8 +48,8 @@ mybatis:
   mapper-locations: classpath:dao/*.xml
   type-aliases-package: com.example.demo.entity
 server:
-  port: 1145
-  address: 127.0.0.1
+  port: 80
+  address: localhost
   tomcat:
     max-swallow-size: 100MB
 
